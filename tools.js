@@ -1,11 +1,12 @@
 var $ = {
     getJSON: function(url, params, callbackFuncName, callback){
+        var _url = decodeURI(url)
         var paramsUrl ="",
-            jsonp = this.getQueryString(url)[callbackFuncName];
+            jsonp = this.getQueryString(_url)[callbackFuncName];
         for(var key in params){
             paramsUrl+="&"+key+"="+encodeURIComponent(params[key]);
         }
-        url+=paramsUrl;
+        _url+=paramsUrl;
         window[jsonp] = function(data) {
             window[jsonp] = undefined;
             try {
@@ -20,8 +21,9 @@ var $ = {
 
         var head = document.getElementsByTagName('head')[0];
         var script = document.createElement('script');
-        script.charset = "UTF-8";
         script.src = url;
+        console.log(script)
+
         head.appendChild(script);
         return true;
     },

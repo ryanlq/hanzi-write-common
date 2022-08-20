@@ -35,9 +35,13 @@
       <div id="quiz"> quiz </div>
       <div id="cancel_quiz"> cancle quiz </div>
 -->
+
+
     <script src="./commonwords.js"></script>
+    <script src="./Speaker.js"></script>
     <script src="./tools.js"></script>
     <script>
+        let speak = Speaker()
         const main =  document.getElementById('main')
         const wordTemplate = document.getElementById('word_template')
         function create(word){
@@ -53,7 +57,7 @@
                 strokeAnimationSpeed: 2,
                 radicalColor: '#168F16', // green
                 // charDataLoader: function(char, onComplete) {
-                //     $.getJSON("./data/" + char + ".json", function(charData) {
+                //     $.getJSON("./data/" + encodeURI(char) + ".json", function(charData) {
                 //     onComplete(charData);
                 //     });
                 // }
@@ -76,12 +80,12 @@
             const writer = el.writer;
             const cover =  el.querySelector('.cover')
             cover.addEventListener('click',e=>{
+                speak(word.id)
                 writer.animateCharacter({
                     showOutline: false,
                     strokeAnimationSpeed: 5, // 5x normal speed
                     delayBetweenStrokes: 10 // milliseconds
                 })
-
             })
         }
 
