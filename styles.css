@@ -1,0 +1,21 @@
+.layout {
+  width: 100%;
+
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+#word_template{
+  display: none;
+}
+.item_container{
+  position: relative;
+}
+.item_container .cover{
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 0;
+  left: 0;
+  padding: 1px; /*svg border 1px宽度*/
+}
