@@ -2,7 +2,30 @@
 function hanzi(){
     const main =  document.getElementById('main')
     const wordTemplate = document.getElementById('word_template')
+    let SIZE = options['hanzi_origin_size'] || 100
+
+    /*
+            <line x1="0" y1="0" x2="100" y2="100" stroke="#DDD" />
+            <line x1="100" y1="0" x2="0" y2="100" stroke="#DDD" />
+            <line x1="50" y1="0" x2="50" y2="100" stroke="#DDD" />
+            <line x1="0" y1="50" x2="100" y2="50" stroke="#DDD" />
+    */
+
+    function build_underline_html(size){
+        const halfsize = size/2
+        let html = `
+        <line x1="0" y1="0" x2="${size}" y2="${size}" stroke="#DDD" />
+        <line x1="${size}" y1="0" x2="0" y2="${size}" stroke="#DDD" />
+        <line x1="${halfsize}" y1="0" x2="${halfsize}" y2="${size}" stroke="#DDD" />
+        <line x1="0" y1="${halfsize}" x2="${size}" y2="${halfsize}" stroke="#DDD" />
+        `
+        return html;
+    }
     function _init(){
+        let svgNode = wordTemplate.querySelector('svg')
+        svgNode.innerHTML = build_underline_html(SIZE)
+        svgNode.setAttribute("width",SIZE) 
+        svgNode.setAttribute("height",SIZE) 
         const words = commonwords[options['current_chapter']||0]
         const len = words.length;
         for( let i=0; i<len;i++){
@@ -16,8 +39,8 @@ function hanzi(){
         svg.id = word
         main.appendChild(template)
         let writer = HanziWriter.create(word, word, {
-            width: 100,
-            height: 100,
+            width: SIZE,
+            height: SIZE,
             padding: 5,
             strokeAnimationSpeed: 4,
             drawingWidth :22,
@@ -33,6 +56,8 @@ function hanzi(){
         const word = el.querySelector('svg')
         const writer = el.writer;
         const cover =  el.querySelector('.cover')
+        cover.style.height = SIZE + "px"
+        cover.style.width = SIZE + "px"
         cover.addEventListener('click',e=>{
             speak(word.id)
             if(options.is_auto_write == "on"){

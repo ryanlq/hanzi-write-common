@@ -9,7 +9,15 @@ function storeDB(){
         const options = await get_options_db()
         if(options) return ;
         await database.configs.bulkPut([
-            { id: 1, options:{is_show: "on", is_auto_write: "on", has_outline: "on", is_quizing: "off", current_chapter: 0 ,current_speaker: 0}},
+            { id: 1, options:{
+                is_show: "on",
+                is_auto_write: "on", 
+                has_outline: "on", 
+                is_quizing: "off", 
+                current_chapter: 0 ,
+                current_speaker: 0,
+                hanzi_origin_size: 200
+            }},
           ]).catch(err => {
       
             alert("Ouch... " + err);

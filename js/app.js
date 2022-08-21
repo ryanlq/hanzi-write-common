@@ -1,5 +1,5 @@
 function app(){
-    async function init(){
+    async function init(){ //从indexdb中取得初始配置
         options = await db.get_options()
         if(!options){
             await db.init_options()
@@ -9,7 +9,7 @@ function app(){
     
     }
     
-    function initChapters(){
+    function initChapters(){ //初始化章节列表
         const chaptersNode = document.querySelector('#chapters')
         const chapterbtn = chaptersNode.querySelector('#chapters_btn')
         const chapter_lists = chaptersNode.querySelector('#chapter_lists')
@@ -40,7 +40,7 @@ function app(){
         })
     }
 
-    function initSpeakerLists(){
+    function initSpeakerLists(){ //设置speaker列表
         const speaker_select = document.querySelector('#speaker_select')
         const ul = speaker_select.querySelector('.lists')
         const lists = ul.querySelectorAll('li')
@@ -69,7 +69,7 @@ function app(){
             },{passive:false})
         })
     }
-    function setCheckboxStatus(is_set ,el){
+    function setCheckboxStatus(is_set ,el){ //滑动按钮状态更改
         if(is_set == "on"){
             el.setAttribute('checked','checked')
             el.value = "on"
@@ -78,7 +78,7 @@ function app(){
             el.value = "off"
         }
     }
-    function attachChangeEvent(el){
+    function attachChangeEvent(el){ //滑动按钮事件绑定
         el.addEventListener('change',e=>{
             const id = el.id
             const key = id.replace("_btn","")
@@ -92,11 +92,42 @@ function app(){
         })
     }
     
-    async function main(){
+    function hanzi_size_set_event(){
+        const size = options['hanzi_origin_size']
+        const hanzi_tie = document.querySelector("#tie")
+        const tie_btn = document.querySelector("#tie_btn")
+        const hanzi_tie_lists = document.querySelector("#tie_sizes")
+        const lists = hanzi_tie_lists.querySelectorAll('li')
+        tie_btn.addEventListener("click",(e)=>{
+            hanzi_tie_lists.classList.toggle("hide")
+            e.preventDefault()
+        },{passive:false})
+        lists.forEach(li=>{
+            const size = Number(li.id.replace("tie",""))
+            if(size == options["hanzi_origin_size"]){
+                li.classList.add("selected")
+                tie_btn.innerText = "字帖尺寸[" + li.innerText +"]"
+            }
+            li.addEventListener("click",e=>{
+                const target = e.target
+                options["hanzi_origin_size"] = size
+                tie_btn.innerText = "字帖尺寸[" + target.innerText +"]"
+                const selectedNodes = hanzi_tie_lists.querySelectorAll("selected")
+                selectedNodes.forEach(node=>node.classList.remove("selected"))
+                target.classList.add("selected")
+                db.update_options(options).then(()=>{
+                    window.location.reload(true);
+                })
+            },{passive:false})
+        })
+    }
+
+    async function main(){ 
     
         await init()
         initChapters()
         initSpeakerLists()
+        hanzi_size_set_event()
         const showbtn = document.querySelector('#showbtn'),
         auto_write_btn = document.querySelector('#auto_write_btn'),
         has_outline_btn = document.querySelector('#has_outline_btn'),

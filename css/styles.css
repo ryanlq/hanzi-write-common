@@ -22,8 +22,6 @@ html,body,ul,li{
 }
 .item_container .cover{
   position: absolute;
-  width: 100px;
-  height: 100px;
   top: 0;
   left: 0;
   padding: 1px; /*svg border 1px宽度*/
@@ -49,7 +47,7 @@ footer .item{
 }
 footer .item-btn:hover{
   color: #fff;
-  cursor: pointer;
+  background: #a52a2a96;
 }
 
 .switch-box {
@@ -143,20 +141,21 @@ footer .item-btn:hover{
     border: 1px solid #171717;
     
 }
-#chapters ul:hover,#speaker_select .lists:hover{
+#chapters ul:hover,#speaker_select .lists:hover,#tie .lists:hover{
   color:#171717 !important;
   background: #fb7676;
 }
-#chapters ul li,#speaker_select .lists{
+#chapters ul li,#speaker_select .lists,#tie .lists{
   cursor: pointer;
   flex-grow: 1;
   border-bottom: 1px solid #171717;
+  color: #171717;
 }
-#chapters ul li:last-child,#speaker_select .lists:last-child{
+#chapters ul li:last-child,#speaker_select li:last-child, #tie li:last-child{
   border-bottom: 0px;
 }
-#chapters ul li:hover,#speaker_select li:hover{
-  background: #5e905e;
+#chapters ul li:hover,#speaker_select li:hover,#tie li:hover{
+  background: #ff0000;
   color:#fff
 }
 #chapters_btn {
@@ -176,14 +175,25 @@ footer .item-btn:hover{
   align-items: center;
 }
 
-#speaker_select .lists{
+#speaker_select .lists,#tie ul.lists{
   position: absolute;
   background: #d16060;
   bottom: 30px;
   list-style: none;
 }
 
-#speaker_select li{
+#speaker_select li,#tie li{
 
   padding:5px
+}
+
+.item .selected,#chapter_lists .selected{
+  background: #972f2f !important;
+  color:#fff !important;
+}
+
+.item-btn{
+  color:#ffe6bf !important;
+  padding: 3px;
+  cursor: pointer;
 }
