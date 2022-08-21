@@ -5,21 +5,11 @@ function app(){
             await db.init_options()
             options = await db.get_options()
         } 
-        console.log("app/init",options)
         return options
     
     }
     
-    function fullscreen(){
-        if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen();
-        }
-        // else {
-        //     if (document.exitFullscreen) {
-        //         document.exitFullscreen();
-        //     }
-        // }
-    }
+
     
     function initChapters(){
         const chaptersNode = document.querySelector('#chapters')
@@ -52,7 +42,6 @@ function app(){
         })
     }
     function setCheckboxStatus(is_set ,el){
-        console.log(is_set,el)
         if(is_set == "on"){
             el.setAttribute('checked','checked')
             el.value = "on"
@@ -91,7 +80,6 @@ function app(){
         attachChangeEvent(auto_write_btn)
         //attachChangeEvent(has_outline_btn)
         attachChangeEvent(is_quizing_btn)
-        fullscreen()
     }
     return {start : async ()=>await main() }
 }

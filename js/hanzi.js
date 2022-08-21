@@ -3,7 +3,6 @@ function hanzi(){
     const main =  document.getElementById('main')
     const wordTemplate = document.getElementById('word_template')
     function _init(){
-        console.log(options['current_chapter'])
         const words = commonwords[options['current_chapter']||0]
         const len = words.length;
         for( let i=0; i<len;i++){

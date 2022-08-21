@@ -33,6 +33,7 @@
         </div>
     </div>
     <footer>
+        <div id="fullscreen">全屏</div>
         <!-- <div id="is_show" class="item"> 
             隐藏
             <div class="switch-box">
@@ -86,6 +87,23 @@
         App.start().then(()=>{
             hanzi()
         })
+        const fullscreenbtn = document.getElementById("fullscreen")
+        fullscreenbtn.addEventListener("click",()=>{
+            if (!document.fullscreenElement) {
+                fullscreenbtn.innerText = "窗口"
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                    
+                    fullscreenbtn.innerText = "全屏"
+                }
+            }
+        })
+
+        window.onload = function(){
+            fullscreenbtn.click()
+        }
     </script>
 </body>
 </html>

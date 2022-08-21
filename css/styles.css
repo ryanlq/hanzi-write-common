@@ -113,8 +113,9 @@ footer .item:hover{
 .hide{
   display: none !important;
 }
-#chapters:hover{
+#chapters:hover,#fullscreen:hover{
   background: #e1e1e1;
+  cursor: pointer;
 }
 #chapters {
   position: absolute;
@@ -128,7 +129,7 @@ footer .item:hover{
   align-items: center;
 }
 #chapters ul{
-  position: absolute;
+    position: absolute;
     top: -108px;
     height: 100px;
     width: 80px;
@@ -160,4 +161,16 @@ footer .item:hover{
   cursor: pointer;
   font-weight: bolder;
 
+}
+
+#fullscreen{
+  position: absolute;
+  left: 10px;
+  margin-top: 5px;
+  border-radius: 17px;
+  background: #a29e9e;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
