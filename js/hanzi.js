@@ -19,7 +19,7 @@ function hanzi(){
             width: 100,
             height: 100,
             padding: 5,
-            strokeAnimationSpeed: 2,
+            strokeAnimationSpeed: 4,
             drawingWidth :22,
             radicalColor: '#168F16', // green
     

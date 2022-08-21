@@ -47,7 +47,7 @@ footer .item{
   flex-direction: row;
   align-items: center;
 }
-footer .item:hover{
+footer .item-btn:hover{
   color: #fff;
   cursor: pointer;
 }
@@ -143,24 +143,25 @@ footer .item:hover{
     border: 1px solid #171717;
     
 }
-#chapters ul:hover{
-  background-color: #a52a2aed;
+#chapters ul:hover,#speaker_select .lists:hover{
+  color:#171717 !important;
+  background: #fb7676;
 }
-#chapters ul li{
+#chapters ul li,#speaker_select .lists{
   cursor: pointer;
   flex-grow: 1;
   border-bottom: 1px solid #171717;
 }
-#chapters ul li:last-child{
+#chapters ul li:last-child,#speaker_select .lists:last-child{
   border-bottom: 0px;
 }
-#chapters ul li:hover{
+#chapters ul li:hover,#speaker_select li:hover{
   background: #5e905e;
+  color:#fff
 }
 #chapters_btn {
   cursor: pointer;
   font-weight: bolder;
-
 }
 
 #fullscreen{
@@ -173,4 +174,15 @@ footer .item:hover{
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+#speaker_select .lists{
+  position: absolute;
+  background: #d16060;
+  bottom: 30px;
+}
+
+#speaker_select li{
+
+  padding:5px
 }

@@ -9,8 +9,6 @@ function app(){
     
     }
     
-
-    
     function initChapters(){
         const chaptersNode = document.querySelector('#chapters')
         const chapterbtn = chaptersNode.querySelector('#chapters_btn')
@@ -36,6 +34,36 @@ function app(){
                 chapter_lists.classList.remove("hide")
                 db.update_options(options).then(()=>{
                     window.location.reload(true);
+                })
+                // elem.dispatchEvent(chapterChangeEvent);
+            },{passive:false})
+        })
+    }
+
+    function initSpeakerLists(){
+        const speaker_select = document.querySelector('#speaker_select')
+        const ul = speaker_select.querySelector('.lists')
+        const lists = ul.querySelectorAll('li')
+        speaker_select.addEventListener("click",(e)=>{
+            ul.classList.toggle("hide")
+            e.preventDefault()
+        },{passive:false})
+        lists.forEach((chapter,i)=>{
+            if(options['current_speaker'] == i){
+                chapter.classList.add('selected')
+            }
+            chapter.addEventListener("click",function(e){
+                const selectedNum = Number(e.target.id.replace("speaker",""))
+                if(options['current_speaker'] == selectedNum){
+                    return false;
+                }
+                const selectedNodes = ul.querySelectorAll("selected")
+                selectedNodes.forEach(node=>node.classList.remove("selected"))
+                options['current_speaker'] = selectedNum
+                e.target.classList.add("selected")
+                ul.classList.remove("hide")
+                db.update_options(options).then(()=>{
+                    console.log("speaker 设置成功！")
                 })
                 // elem.dispatchEvent(chapterChangeEvent);
             },{passive:false})
@@ -68,16 +96,18 @@ function app(){
     
         await init()
         initChapters()
+        initSpeakerLists()
         const showbtn = document.querySelector('#showbtn'),
         auto_write_btn = document.querySelector('#auto_write_btn'),
         has_outline_btn = document.querySelector('#has_outline_btn'),
-        is_quizing_btn = document.querySelector('#is_quizing_btn');
+        is_quizing_btn = document.querySelector('#is_quizing_btn'),
+        speaker_select_btn = document.querySelector('#speaker_select');
         //setCheckboxStatus(options.is_show,showbtn)
-        setCheckboxStatus(options.is_auto_write,auto_write_btn)
+        //setCheckboxStatus(options.is_auto_write,auto_write_btn)
         //setCheckboxStatus(options.has_outline,has_outline_btn)
         setCheckboxStatus(options.is_quizing,is_quizing_btn)
         //attachChangeEvent(showbtn)
-        attachChangeEvent(auto_write_btn)
+        //attachChangeEvent(auto_write_btn)
         //attachChangeEvent(has_outline_btn)
         attachChangeEvent(is_quizing_btn)
     }

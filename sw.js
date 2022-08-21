@@ -6,7 +6,7 @@ var URLS = [                            // Add URL you want to cache in this lis
 './libs/hanzi-writer.js',                  
 './libs/default-passive-events.js',                  
 './js/db.js', 
-'./js/commonwords.js'                  
+'./js/commonwords.js' ,
 ]
 
 // Respond with cached resources

@@ -3,6 +3,7 @@ function Speaker(){
     const edge_nature_voices = ["MicrosofSt Xiaoxiao Online (Natural) - Chinese (Mainland)","Microsoft Yunxi Online (Natural) - Chinese (Mainland)"]
     let synth,voicelists,zh_voices,supported_natural,usedVoice;
     synth = window.speechSynthesis;
+    let utterThis = new SpeechSynthesisUtterance()
     function setSpeech() {
         return new Promise(
             function (resolve, reject) {
@@ -20,8 +21,11 @@ function Speaker(){
     }
     
     function setVoice(){
+        const speakerlistNode = document.querySelector("#speaker_select .lists")
+        const li = document.createElement("li")
         voicelists = setSpeech();
         voicelists.then((voices) =>{
+            
             zh_voices = voices.filter(function (voice) {
                 return voice.lang == "zh-CN"
              });
@@ -29,6 +33,16 @@ function Speaker(){
                 return edge_nature_voices.includes(voice.name)
             }) 
             usedVoice = zh_voices[0] 
+            zh_voices.forEach( (voice,i) => {
+                let newli = li.cloneNode(true)
+                newli.innerText = voice.name;
+                newli.voice = voice
+                newli.id = "speaker"+i
+                newli.addEventListener("click",(e)=>{
+                    usedVoice = newli.voice;
+                })
+                speakerlistNode.appendChild(newli)
+            });
             //usedVoice = supported_natural.length ?supported_natural[0] :zh_voices[0]
         }); 
     }
@@ -62,7 +76,8 @@ function Speaker(){
         }
       
         if (text !== "") {
-          const utterThis = new SpeechSynthesisUtterance(get_extra(text));
+          //const utterThis = new SpeechSynthesisUtterance(get_extra(text));
+          utterThis.text = get_extra(text)
       
           utterThis.onend = function (event) {
             //console.log("SpeechSynthesisUtterance.onend");
@@ -74,7 +89,6 @@ function Speaker(){
           utterThis.voice = usedVoice;
           utterThis.pitch = 1;
           utterThis.rate = 1;
-          console.log(utterThis)
           synth.speak(utterThis);
         }
       }
