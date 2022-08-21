@@ -53,7 +53,7 @@ function Speaker(){
         if(EXTRADATAS.hasOwnProperty(word)){
             let extrastr = EXTRADATAS[word]["relative"]
             let extrarr = extrastr.split(',')
-            const len = extrarr.length;
+            const len = extrarr.length-1;
             const decoration = "的"+word
             if(len > 3){
                 let r1 = Math.round(Math.random()*len),r2=Math.round(Math.random()*len);
