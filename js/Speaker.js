@@ -56,8 +56,13 @@ function Speaker(){
             const len = extrarr.length-1;
             const decoration = "的"+word
             if(len > 3){
-                let r1 = Math.round(Math.random()*len),r2=Math.round(Math.random()*len);
-                if(r1>len || r2>len || r1 == r2) r1 = 0;r2=1
+                let r1 = Math.round(Math.random()*len);
+                let r2=Math.round(Math.random()*len);
+                console.log(r1,r2)
+                if(r1>len || r2>len || r1 == r2) {
+                    r1 = 0;
+                    r2=1;
+                }
                 return word +"," + extrarr[r1] +decoration +","+extrarr[r2] +decoration
             } else if(len == 1){
                 return word +"," + extrarr[0] +decoration 
