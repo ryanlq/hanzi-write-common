@@ -13,11 +13,12 @@ function app(){
     function fullscreen(){
         if (!document.fullscreenElement) {
             document.documentElement.requestFullscreen();
-        } else {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            }
         }
+        // else {
+        //     if (document.exitFullscreen) {
+        //         document.exitFullscreen();
+        //     }
+        // }
     }
     
     function initChapters(){
@@ -90,6 +91,7 @@ function app(){
         attachChangeEvent(auto_write_btn)
         //attachChangeEvent(has_outline_btn)
         attachChangeEvent(is_quizing_btn)
+        fullscreen()
     }
     return {start : async ()=>await main() }
 }
