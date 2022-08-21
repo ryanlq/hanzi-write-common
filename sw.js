@@ -2,11 +2,19 @@ var APP_PREFIX = 'hanzi_study'     // Identifier for this app (this needs to be 
 var VERSION = 'version_01'              // Version of the off-line cache (change this value everytime you want to update cache)
 var CACHE_NAME = APP_PREFIX + VERSION
 var URLS = [                            // Add URL you want to cache in this list.
+'./index.html',
 './libs/dexie.js',                  
 './libs/hanzi-writer.js',                  
 './libs/default-passive-events.js',                  
 './js/db.js', 
 './js/commonwords.js' ,
+'./js/Speaker.js' ,
+'./js/tools.js' ,
+'./js/global.js' ,
+'./js/hanzi.js' ,
+'./js/app.js' ,
+'./favicon.ico',
+'./css/styles.css',
 ]
 
 // Respond with cached resources

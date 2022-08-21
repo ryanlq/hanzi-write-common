@@ -180,6 +180,7 @@ footer .item-btn:hover{
   position: absolute;
   background: #d16060;
   bottom: 30px;
+  list-style: none;
 }
 
 #speaker_select li{
