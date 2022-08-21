@@ -35,7 +35,25 @@ function Speaker(){
     
     setVoice()
     
-    
+    function get_extra(word){
+        if(EXTRADATAS.hasOwnProperty(word)){
+            let extrastr = EXTRADATAS[word]["relative"]
+            let extrarr = extrastr.split(',')
+            const len = extrarr.length;
+            const decoration = "的"+word
+            if(len > 3){
+                let r1 = Math.round(Math.random()*len),r2=Math.round(Math.random()*len);
+                if(r1 == r2) r2=Math.round(Math.random()*len);
+                return word +"," + extrarr[r1] +decoration +","+extrarr[r2] +decoration
+            } else if(len == 1){
+                return word +"," + extrarr[0] +decoration 
+            } else {
+                return word +"," + extrarr[0] +decoration +","+extrarr[1] +decoration
+            }
+
+        }
+        return word
+    }
     function speak(text) {
         synth.cancel()
         if (synth.speaking) {
@@ -44,7 +62,7 @@ function Speaker(){
         }
       
         if (text !== "") {
-          const utterThis = new SpeechSynthesisUtterance(text);
+          const utterThis = new SpeechSynthesisUtterance(get_extra(text));
       
           utterThis.onend = function (event) {
             //console.log("SpeechSynthesisUtterance.onend");

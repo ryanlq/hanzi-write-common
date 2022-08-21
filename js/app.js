@@ -27,16 +27,22 @@ function app(){
         const chapters = chaptersNode.querySelectorAll('li')
         chapterbtn.addEventListener("click",(e)=>{
             chapter_lists.classList.toggle("hide")
-        })
+            e.preventDefault()
+        },{passive:false})
         chapters.forEach((chapter,i)=>{
             if(options['current_chapter'] == i){
                 chapter.classList.add('selected')
             }
             chapter.addEventListener("click",function(e){
+                const selectedNum = Number(e.target.id.replace("chapter",""))
+                if(options['current_chapter'] == selectedNum){
+                    return false;
+                }
                 const selectedNodes = chaptersNode.querySelectorAll("selected")
                 selectedNodes.forEach(node=>node.classList.remove("selected"))
-                options['current_chapter'] = Number(e.target.id.replace("chapter",""))
+                options['current_chapter'] = selectedNum
                 e.target.classList.add("selected")
+                chapter_lists.classList.remove("hide")
                 db.update_options(options).then(()=>{
                     window.location.reload(true);
                 })
