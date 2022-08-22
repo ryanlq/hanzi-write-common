@@ -10,6 +10,7 @@
     <script src="./libs/default-passive-events.js"></script>
     <script src="./js/db.js"></script>
     <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/fontello.css">
     <link rel="icon" href="./favicon.ico">
 
     <style>
@@ -20,6 +21,7 @@
     <title>汉字</title>
 </head>
 <body>
+    
     <section id="main" class="layout"></section>
     <div  id="word_template" class="item_container">
         <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" class="word-background">
@@ -33,27 +35,7 @@
         </div>
     </div>
     <footer>
-        <div id="fullscreen">全屏</div>
-        <!-- <div id="is_show" class="item"> 
-            隐藏
-            <div class="switch-box">
-                <input id="showbtn" type="checkbox" class="switch" />
-                <label for="showbtn"></label>
-            </div>
-         </div> -->
-        <!-- <div id="is_auto_write" class="item"> 
-            自动书写
-            <div class="switch-box">
-                <input id="auto_write_btn" type="checkbox" class="switch" />
-                <label for="auto_write_btn"></label>
-            </div>
-        </div> -->
-        <!-- <div id="has_outline" class="item"> 显示底纹
-            <div class="switch-box">
-                <input id="has_outline_btn" type="checkbox" class="switch" />
-                <label for="has_outline_btn"></label>
-            </div>
-        </div> -->
+        <span id="respeak" class="icon-volume-up"></span>
         <div id="tie" class="item">
             <div id="tie_btn" class="item-btn">字帖大小</div>
             <ul id="tie_sizes" class="lists hide">
@@ -62,12 +44,32 @@
                 <li id="tie200">超大</li>
             </ul>
         </div>
+        <div id="show_character" class="item item-btn"> 字符
+            
+            <div class="switch-box">
+                <input id="show_character_btn" type="checkbox" class="switch" />
+                <label for="show_character_btn"></label>
+            </div>
+         </div>
+        <!-- <div id="is_auto_write" class="item"> 
+            自动书写
+            <div class="switch-box">
+                <input id="auto_write_btn" type="checkbox" class="switch" />
+                <label for="auto_write_btn"></label>
+            </div>
+        </div> -->
+        <div id="show_outline" class="item item-btn"> 底纹
+            <div class="switch-box">
+                <input id="show_outline_btn" type="checkbox" class="switch" />
+                <label for="show_outline_btn"></label>
+            </div>
+        </div>
         <div id="speaker_select" class="item">
-            <div id="speaker_select_btn" class="item-btn">声音选择</div>
+            <div id="speaker_select_btn" class="item-btn">声音</div>
             <ul id="speaker_select_lists" class="lists hide">
             </ul>
         </div>
-        <div id="is_quizing" class="item item-btn"> 测试模式
+        <div id="is_quizing" class="item item-btn"> 测试
             <div class="switch-box">
                 <input id="is_quizing_btn" type="checkbox" class="switch" />
                 <label for="is_quizing_btn"></label>
@@ -100,23 +102,7 @@
         App.start().then(()=>{
             hanzi()
         })
-        const fullscreenbtn = document.getElementById("fullscreen")
-        fullscreenbtn.addEventListener("click",()=>{
-            if (!document.fullscreenElement) {
-                fullscreenbtn.innerText = "窗口"
-                document.documentElement.requestFullscreen();
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                    
-                    fullscreenbtn.innerText = "全屏"
-                }
-            }
-        })
 
-        window.onload = function(){
-            fullscreenbtn.click()
-        }
     </script>
 </body>
 </html>

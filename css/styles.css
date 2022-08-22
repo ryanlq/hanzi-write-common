@@ -1,3 +1,4 @@
+
 html,body,ul,li{
   padding: 0;
   margin: 0;
@@ -196,4 +197,21 @@ footer .item-btn:hover{
   color:#ffe6bf !important;
   padding: 3px;
   cursor: pointer;
+}
+
+#respeak{
+  cursor: pointer;
+  background: #009688;
+  color: #2e3434;
+  position: absolute;
+  left: 10px;
+  height: 100%;
+  display: flex;
+  /* margin: 0 auto; */
+  align-items: center;
+  width: 30px;
+  justify-content: center;
+}
+#respeak:hover{
+  background: #8bc34a;
 }

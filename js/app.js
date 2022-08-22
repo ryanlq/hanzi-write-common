@@ -89,7 +89,14 @@ function app(){
                 el.value ="on"
                 options[key] = "on"
             }
-        })
+            db.update_options(options).then(()=>{
+                console.log("设置成功！")
+                if(["show_outline","show_character"].includes(key)){
+                    window.location.reload(true);
+
+                }
+            })
+        },{passive:false})
     }
     
     function hanzi_size_set_event(){
@@ -122,25 +129,37 @@ function app(){
         })
     }
 
+    function set_respeak_event(){
+        const respeak = document.getElementById("respeak")
+        respeak.addEventListener("click",e=>{
+            if(respeak.word){
+                speak(respeak.word)
+            }
+        },{passive:false})
+        
+    }
     async function main(){ 
     
         await init()
         initChapters()
         initSpeakerLists()
         hanzi_size_set_event()
-        const showbtn = document.querySelector('#showbtn'),
-        auto_write_btn = document.querySelector('#auto_write_btn'),
-        has_outline_btn = document.querySelector('#has_outline_btn'),
-        is_quizing_btn = document.querySelector('#is_quizing_btn'),
-        speaker_select_btn = document.querySelector('#speaker_select');
-        //setCheckboxStatus(options.is_show,showbtn)
-        //setCheckboxStatus(options.is_auto_write,auto_write_btn)
-        //setCheckboxStatus(options.has_outline,has_outline_btn)
+        set_respeak_event()
+        let show_outline_btn = document.querySelector('#show_outline_btn'),
+        // auto_write_btn = document.querySelector('#auto_write_btn'),
+        show_character_btn = document.querySelector('#show_character_btn'),
+        is_quizing_btn = document.querySelector('#is_quizing_btn');
+        // speaker_select_btn = document.querySelector('#speaker_select');
+        setCheckboxStatus(options.show_character,show_character_btn)
+        // setCheckboxStatus(options.is_auto_write,auto_write_btn)
+        setCheckboxStatus(options.show_outline,show_outline_btn)
         setCheckboxStatus(options.is_quizing,is_quizing_btn)
         //attachChangeEvent(showbtn)
         //attachChangeEvent(auto_write_btn)
         //attachChangeEvent(has_outline_btn)
         attachChangeEvent(is_quizing_btn)
+        attachChangeEvent(show_outline_btn)
+        attachChangeEvent(show_character_btn)
     }
     return {start : async ()=>await main() }
 }

@@ -15,6 +15,12 @@ var URLS = [                            // Add URL you want to cache in this lis
 './js/app.js' ,
 './favicon.ico',
 './css/styles.css',
+'./css/fontello.css',
+'./font/fontello.eot',
+'./font/fontello.svg',
+'./font/fontello.ttf',
+'./font/fontello.woff',
+'./font/fontello.woff2',
 ]
 
 // Respond with cached resources

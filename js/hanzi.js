@@ -2,6 +2,7 @@
 function hanzi(){
     const main =  document.getElementById('main')
     const wordTemplate = document.getElementById('word_template')
+    const respeak = document.getElementById('respeak')
     let SIZE = options['hanzi_origin_size'] || 100
 
     /*
@@ -45,6 +46,8 @@ function hanzi(){
             strokeAnimationSpeed: 4,
             drawingWidth :22,
             radicalColor: '#168F16', // green
+            showOutline:options['show_outline']=="on"?true:false,
+            showCharacter:options['show_character']=="on"?true:false,
     
         })
         template.writer = writer
@@ -59,12 +62,13 @@ function hanzi(){
         cover.style.height = SIZE + "px"
         cover.style.width = SIZE + "px"
         cover.addEventListener('click',e=>{
+            respeak.word = word.id
             speak(word.id)
-            if(options.is_auto_write == "on"){
-                writer.animateCharacter()
-            } else {
-                writer.pauseAnimation()
-            }
+            // if(options.is_auto_write == "on"){
+            //     writer.animateCharacter()
+            // } else {
+            //     writer.pauseAnimation()
+            // }
             // if(options.is_show== "on"){
             //     writer.showCharacter()
             // } else {
@@ -76,7 +80,7 @@ function hanzi(){
             //     writer.hideOutline()
             // }
             
-            if(options.is_quizing== "on"){
+            if(options.is_quizing== "on" || (options.show_character == "off" && options.show_outline )){
                 const hidenCovers = document.querySelectorAll('.cover.hide')
                 hidenCovers.forEach(node=>{
                     node.parentNode.writer.showCharacter()

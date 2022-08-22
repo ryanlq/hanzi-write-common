@@ -16,7 +16,10 @@ function storeDB(){
                 is_quizing: "off", 
                 current_chapter: 0 ,
                 current_speaker: 0,
-                hanzi_origin_size: 200
+                hanzi_origin_size: 200,
+                show_outline:"on",
+                show_character:"on"
+
             }},
           ]).catch(err => {
       
