@@ -4,6 +4,7 @@ function Speaker(){
     let synth,voicelists,zh_voices,supported_natural,usedVoice;
     synth = window.speechSynthesis;
     let utterThis = new SpeechSynthesisUtterance()
+    const TipNode = document.getElementById("tooltip")
     function setSpeech() {
         return new Promise(
             function (resolve, reject) {
@@ -54,25 +55,31 @@ function Speaker(){
             let extrastr = EXTRADATAS[word]["relative"]
             let extrarr = extrastr.split(',')
             const len = extrarr.length-1;
-            const decoration = "的"+word
+            let r1, r2;
             if(len > 3){
-                let r1 = Math.round(Math.random()*len);
-                let r2=Math.round(Math.random()*len);
+                r1 = Math.round(Math.random()*len);
+                r2=Math.round(Math.random()*len);
                 if(r1>len || r2>len || r1 == r2) {
                     r1 = 0;
                     r2=1;
                 }
-                return word +"," + extrarr[r1] +decoration +","+extrarr[r2] +decoration
+                // return word +"," + extrarr[r1] +decoration +","+extrarr[r2] +decoration
             } else if(len == 1){
-                return word +"," + extrarr[0] +decoration 
+                r1 = 0
+                // return word +"," + extrarr[0] +decoration 
             } else {
-                return word +"," + extrarr[0] +decoration +","+extrarr[1] +decoration
+                r1 = 0
+                r2 = 1
+                // return word +"," + extrarr[0] +decoration +","+extrarr[1] +decoration
             }
+            
+            return [r1?extrarr[r1]:false,r2?extrarr[r2]:false]
 
         }
         return word
     }
     function speak(text) {
+        const decoration = "的"+text
         synth.cancel()
         if (synth.speaking) {
           //console.error("speechSynthesis.speaking");
@@ -81,7 +88,20 @@ function Speaker(){
       
         if (text !== "") {
           //const utterThis = new SpeechSynthesisUtterance(get_extra(text));
-          utterThis.text = get_extra(text)
+          const texts = get_extra(text)
+          let speaktext = text
+          speak_word = text + ":"
+          texts.forEach(t=>{
+            if(t){
+                speaktext += ","+t +decoration
+                speak_word += "【"+t +"】"
+            }
+          })
+          
+          TipNode.dispatchEvent(tooltipEvent)
+        //   const speaktext = texts.reduce((a,b)=> text +(a?","+a +decoration:"") +(b?","+b +decoration:""))
+            
+          utterThis.text = speaktext
       
           utterThis.onend = function (event) {
             //console.log("SpeechSynthesisUtterance.onend");

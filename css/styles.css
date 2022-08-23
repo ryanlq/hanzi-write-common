@@ -211,7 +211,21 @@ footer .item-btn:hover{
   align-items: center;
   width: 30px;
   justify-content: center;
+  z-index: 99;
 }
 #respeak:hover{
   background: #8bc34a;
+}
+
+#tooltip{
+  display: none;    
+  background: #ff9800;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 98;
+  padding-left: 20%;
+  /* padding: 0; */
+  align-items: center;
+  
 }

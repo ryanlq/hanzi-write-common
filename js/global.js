@@ -1,6 +1,7 @@
-var db = storeDB()
+let db = storeDB()
 let speak = Speaker()
-var options ;
+let options ;
+let speak_word;
 
 document.body.addEventListener("click",(e)=>{
     if(!["chapters","chapters_btn"].includes(e.target.id) ){
@@ -16,3 +17,6 @@ document.body.addEventListener("click",(e)=>{
         tie_sizes.classList.add("hide")
     }
 },{passive:true})
+
+const tooltipEvent = new CustomEvent("tip-event",{detail:()=>speak_word})
+let tooltipTimeoutHandle ;

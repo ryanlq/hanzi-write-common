@@ -134,9 +134,21 @@ function app(){
         respeak.addEventListener("click",e=>{
             if(respeak.word){
                 speak(respeak.word)
+
             }
         },{passive:false})
         
+    }
+    function set_tooltip_event(){
+        let tooltip = document.getElementById("tooltip")
+        tooltip.addEventListener("tip-event",event=>{
+            const text = typeof(event.detail)=='function' ? event.detail() :false;
+            if(!text) return
+            clearTimeout(tooltipTimeoutHandle)
+            tooltip.innerText = text
+            tooltip.style.display="flex"
+            tooltipTimeoutHandle = setTimeout(()=>tooltip.style.display="none",4000)
+        },{passive:false})
     }
     async function main(){ 
     
@@ -145,6 +157,9 @@ function app(){
         initSpeakerLists()
         hanzi_size_set_event()
         set_respeak_event()
+        if(options["show_character"] == "on" || options["show_outline"] =="on" ){
+            set_tooltip_event()
+        }
         let show_outline_btn = document.querySelector('#show_outline_btn'),
         // auto_write_btn = document.querySelector('#auto_write_btn'),
         show_character_btn = document.querySelector('#show_character_btn'),
