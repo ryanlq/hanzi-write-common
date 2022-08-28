@@ -79,9 +79,8 @@
             let i=0
             async function read(j){
                 console.log(spans[j])
-                let cur = speak(spans[j++].textContent,false)
-                await cur.
-                read(j)
+                let cur = speak(spans[j++].textContent,false,read(j))
+                
             }
             read(0)
         }
