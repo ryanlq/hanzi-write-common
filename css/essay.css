@@ -13,6 +13,7 @@ ul li:hover{
 span:hover{
     background:#ffbcbc;
     font-size: 48px;
+    letter-spacing:1px;
 }
 
 .layout {
