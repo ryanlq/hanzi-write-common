@@ -79,6 +79,13 @@ span:hover,.current{
 .menuicon.open{
     left: 300px;
 }
-.readbtns{
-    
+#readall{
+    background: #4caf50;
+}
+#readallbyseg{
+    background: #9c27b0;
+
+}
+.play{
+    background: red !important;
 }
