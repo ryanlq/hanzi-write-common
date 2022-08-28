@@ -133,7 +133,7 @@ function app(){
         const respeak = document.getElementById("respeak")
         respeak.addEventListener("click",e=>{
             if(respeak.word){
-                speak(respeak.word)
+                speak(respeak.word,true)
 
             }
         },{passive:false})

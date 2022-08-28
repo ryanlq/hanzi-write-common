@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/essay.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="layout">
+        <ul id="list" class="hide" ></ul>
+        <section id="main"></section>
+        <div id="speaker_select" class="lists"></div>
+    </div>
+    <div class="menuicon close">
+        <img src="./essay/imgs/menu.png" alt="">
+    </div>
+    <script src="./js/Speaker.js"></script>
+    <script src="./essay/all_eassy.js"></script>
+    <script>
+        let speak = Speaker()
+
+        const symbols = "：,.!;。？?,“”，"
+        function generate_essay(key){
+            let container = document.createElement("div")
+            container.classList.add("text")
+            container.innerHTML = "<h1>"+key+"</h1>"
+            let br = document.createElement("br")
+            const span = document.createElement("span")
+            span.classList.add("seg")
+            all_essay[key].forEach(line=>{
+                line.forEach(seg=>{
+                        let _span = span.cloneNode(true)
+                        _span.innerText = seg
+                    if(symbols.includes(seg)){
+                        _t =  _span.innerText
+                        _span.classList.remove("seg")
+                    } else{
+                        _span.addEventListener("click",e=>{
+                        speak(e.target.innerText,false)
+                    })
+                    }
+                    container.appendChild(_span)
+                    
+                    
+                })
+                
+                container.appendChild(br.cloneNode(true))
+            })
+            return container;
+        }
+
+        function list_toggle(){
+            const ul = document.querySelector("#list")
+            ul.classList.toggle("hide")
+        }
+
+        function menu_button(){
+            const menu = document.querySelector('.menuicon')
+            if(!menu) return
+            menu.addEventListener("click",e=>{
+                if(menu.classList.contains("close")){
+                    menu.classList.remove("close")
+                    menu.classList.add("open")
+                    menu.querySelector("img").src = "./essay/imgs/menuclose.png"
+                    list_toggle()
+                } else{
+                    menu.classList.remove("open")
+                    menu.classList.add("close")
+                    menu.querySelector("img").src  = "./essay/imgs/menu.png"
+                    list_toggle()
+                }
+            })
+        }
+        window.onload = function () {
+            const ul = document.querySelector("#list")
+            const main = document.querySelector("#main")
+            const li = document.createElement("li")
+            const keys = Object.keys(all_essay)
+            const menu = document.querySelector('.menuicon')
+            keys.forEach(key=>{
+                let _li = li.cloneNode(true)
+                _li.name = key
+                _li.innerText = key
+                _li.addEventListener("click",e=>{
+                    const selecteds = ul.querySelectorAll(".selected")
+                    selecteds.forEach(selected => selected.classList.remove('selected'))
+                    e.target.classList.add("selected")
+                    main.innerHTML = ""
+                    main.appendChild(generate_essay(e.target.name))
+                    menu.click()
+                    // list_toggle()
+                })
+                ul.appendChild(_li)
+            })
+
+            spans = document.querySelectorAll("span")
+            menu_button()
+
+            main.appendChild(generate_essay(keys[0]))
+        }
+    </script>
+</body>
+</html>

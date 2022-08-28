@@ -63,7 +63,7 @@ function hanzi(){
         cover.style.width = SIZE + "px"
         cover.addEventListener('click',e=>{
             respeak.word = word.id
-            speak(word.id)
+            speak(word.id,true)
             // if(options.is_auto_write == "on"){
             //     writer.animateCharacter()
             // } else {

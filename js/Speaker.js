@@ -42,7 +42,7 @@ function Speaker(){
                 newli.addEventListener("click",(e)=>{
                     usedVoice = newli.voice;
                 })
-                speakerlistNode.appendChild(newli)
+                speakerlistNode && speakerlistNode.appendChild(newli)
             });
             //usedVoice = supported_natural.length ?supported_natural[0] :zh_voices[0]
         }); 
@@ -51,7 +51,8 @@ function Speaker(){
     setVoice()
     
     function get_extra(word){
-        if(EXTRADATAS.hasOwnProperty(word)){
+        if( !window.hasOwnProperty('EXTRADATAS') ) return [word];
+        if( EXTRADATAS.hasOwnProperty(word)){
             let extrastr = EXTRADATAS[word]["relative"]
             let extrarr = extrastr.split(',')
             const len = extrarr.length-1;
@@ -78,7 +79,7 @@ function Speaker(){
         }
         return word
     }
-    function speak(text) {
+    function speak(text, is_extra) {
         const decoration = "的"+text
         synth.cancel()
         if (synth.speaking) {
@@ -88,17 +89,21 @@ function Speaker(){
       
         if (text !== "") {
           //const utterThis = new SpeechSynthesisUtterance(get_extra(text));
-          const texts = get_extra(text)
+          let texts,speak_word;
           let speaktext = text
-          speak_word = text + ":"
-          texts.forEach(t=>{
-            if(t){
-                speaktext += ","+t +decoration
-                speak_word += "【"+t +"】"
-            }
-          })
+          if(is_extra ){
+            console.log("extra@@@")
+            texts = get_extra(text)
+            speak_word = text + ":"
+            texts.forEach(t=>{
+                if(t){
+                    speaktext += ","+t +decoration
+                    speak_word += "【"+t +"】"
+                }
+              })
+          } 
           
-          TipNode.dispatchEvent(tooltipEvent)
+          TipNode && ipNode.dispatchEvent(tooltipEvent)
         //   const speaktext = texts.reduce((a,b)=> text +(a?","+a +decoration:"") +(b?","+b +decoration:""))
             
           utterThis.text = speaktext

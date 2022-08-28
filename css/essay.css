@@ -1,0 +1,68 @@
+html,body{
+    font-size: 28px;
+}
+
+ul li{
+    list-style: none;
+    cursor: pointer;
+    padding: 7px;
+}
+ul li:hover{
+    background: rgb(213, 213, 213);
+}
+span:hover{
+    background:red
+}
+
+.layout {
+    display: grid;
+    grid:
+      "sidebar body" 1fr
+      / auto 1fr;
+    gap: 8px;
+  }
+
+  
+#list { 
+    grid-area: sidebar; 
+    margin: 0%;
+    padding: 0;
+    width: 300px;
+    position: fixed;
+    left: 0;
+    background: #d2d2d2;
+    height: 100%;
+    padding-top: 30px;
+}
+#main { 
+    grid-area: body;
+    display: flex;
+    justify-content: center;
+    line-height: 60px;
+}
+#main .text{
+    width: 75%;
+    padding-top: 50px;
+}
+
+.hide{
+    display: none !important;
+}
+.menuicon{
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    top: 10px;
+    background-color: #f1d1a7;
+}
+.menuicon img{
+    width: 50px;
+    height: 50px;
+
+}
+.menuicon.close{
+    left: 10px;
+}
+.menuicon.open{
+    left: 250px;
+}
