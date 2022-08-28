@@ -1,11 +1,16 @@
 html,body{
     font-size: 28px;
+    background: #edba85;
+    color: #000000;
+    font-weight: bolder;
 }
 
 ul li{
     list-style: none;
     cursor: pointer;
     padding: 7px;
+    list-style: inside;
+    list-style-type: auto;
 }
 ul li:hover{
     background: rgb(213, 213, 213);
@@ -32,9 +37,10 @@ span:hover,.current{
     width: 300px;
     position: fixed;
     left: 0;
-    background: #d2d2d2;
     height: 100%;
     padding-top: 30px;
+    background: #f4f4f4;
+    top: 0;
 }
 #main { 
     grid-area: body;
@@ -55,9 +61,8 @@ span:hover,.current{
     width: 50px;
     height: 200px;
     position: fixed;
-    top: 10px;
-    background-color: #00000026;
-    border: 3px solid #eee;
+    top: 0;
+    background-color: #f4f4f48f;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -69,10 +74,10 @@ span:hover,.current{
 
 }
 .menuicon.close{
-    left: 10px;
+    left: 0;
 }
 .menuicon.open{
-    left: 250px;
+    left: 300px;
 }
 .readbtns{
     
