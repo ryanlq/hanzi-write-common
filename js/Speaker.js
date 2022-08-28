@@ -51,7 +51,6 @@ function Speaker(){
     setVoice()
     
     function get_extra(word){
-        if( !window.hasOwnProperty('EXTRADATAS') ) return [word];
         if( EXTRADATAS.hasOwnProperty(word)){
             let extrastr = EXTRADATAS[word]["relative"]
             let extrarr = extrastr.split(',')

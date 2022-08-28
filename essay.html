@@ -77,9 +77,10 @@
         function readall(){
             const spans = document.querySelectorAll("span")
             let i=0
-            function read(j){
+            async function read(j){
                 console.log(spans[j])
-                speak(spans[j++].textContent,false)
+                let cur = speak(spans[j++].textContent,false)
+                await cur.
                 read(j)
             }
             read(0)
