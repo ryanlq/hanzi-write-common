@@ -11,7 +11,8 @@ ul li:hover{
     background: rgb(213, 213, 213);
 }
 span:hover{
-    background:red
+    background:#ffbcbc;
+    font-size: 48px;
 }
 
 .layout {
@@ -39,6 +40,7 @@ span:hover{
     display: flex;
     justify-content: center;
     line-height: 60px;
+    letter-spacing: 13px;
 }
 #main .text{
     width: 75%;
