@@ -31,7 +31,7 @@
             const span = document.createElement("span")
             span.classList.add("seg")
             all_essay[key].forEach(line=>{
-                line.forEach(seg=>{
+                line.forEach( seg=>{
                         let _span = span.cloneNode(true)
                         _span.innerText = seg
                     if(symbols.includes(seg)){
@@ -74,6 +74,17 @@
                 }
             })
         }
+        function readall(){
+            const spans = document.querySelectorAll("span")
+            let i=0
+            function read(j){
+                console.log(spans[j])
+                speak(spans[j++].textContent,false)
+                read(j)
+            }
+            read(0)
+        }
+
         window.onload = function () {
             const ul = document.querySelector("#list")
             const main = document.querySelector("#main")

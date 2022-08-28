@@ -79,7 +79,7 @@ function Speaker(){
         }
         return word
     }
-    function speak(text, is_extra) {
+    function speak(text, is_extra,end_callback) {
         const decoration = "的"+text
         synth.cancel()
         if (synth.speaking) {
@@ -103,25 +103,29 @@ function Speaker(){
               })
           } 
           
-          TipNode && ipNode.dispatchEvent(tooltipEvent)
+          TipNode && TipNode.dispatchEvent(tooltipEvent)
         //   const speaktext = texts.reduce((a,b)=> text +(a?","+a +decoration:"") +(b?","+b +decoration:""))
             
           utterThis.text = speaktext
       
           utterThis.onend = function (event) {
             //console.log("SpeechSynthesisUtterance.onend");
+            console.log(end_callback)
+            end_callback&&end_callback()
           };
       
           utterThis.onerror = function (event) {
+            console.log(event)
             //console.error("SpeechSynthesisUtterance.onerror");
           };
           utterThis.voice = usedVoice;
           utterThis.pitch = 1;
           utterThis.rate = 1;
           synth.speak(utterThis);
+          return utterThis
         }
       }
-      return (text)=>speak(text)
+      return (text, is_extra=true,end_callback=null)=> speak(text, is_extra,end_callback)
 }
 
 
