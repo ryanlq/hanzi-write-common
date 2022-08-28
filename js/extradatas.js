@@ -1,4 +1,4 @@
-const EXTRADATAS = {
+let EXTRADATAS = {
     "一":{
         "pinyin":"yī",
         "relative":"专一,一向,万一,一百,一同,一样,一半,一点,一篇,一条,一些,一共,一直,一起"

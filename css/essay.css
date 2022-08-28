@@ -10,7 +10,7 @@ ul li{
 ul li:hover{
     background: rgb(213, 213, 213);
 }
-span:hover{
+span:hover,.current{
     background:#ffbcbc;
     font-size: 48px;
     letter-spacing:1px;
@@ -53,10 +53,15 @@ span:hover{
 }
 .menuicon{
     width: 50px;
-    height: 50px;
+    height: 200px;
     position: fixed;
     top: 10px;
-    background-color: #f1d1a7;
+    background-color: #00000026;
+    border: 3px solid #eee;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 10px;
 }
 .menuicon img{
     width: 50px;
@@ -68,4 +73,7 @@ span:hover{
 }
 .menuicon.open{
     left: 250px;
+}
+.readbtns{
+    
 }

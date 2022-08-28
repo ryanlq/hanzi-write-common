@@ -109,7 +109,6 @@ function Speaker(){
       
           utterThis.onend = function (event) {
             //console.log("SpeechSynthesisUtterance.onend");
-            console.log(end_callback)
             end_callback&&end_callback()
           };
       

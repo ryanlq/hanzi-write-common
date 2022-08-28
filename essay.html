@@ -8,19 +8,30 @@
     <title>Document</title>
 </head>
 <body>
-    <button id="read">听</button>
     <div class="layout">
         <ul id="list" class="hide" ></ul>
         <section id="main"></section>
         <div id="speaker_select" class="lists"></div>
     </div>
     <div class="menuicon close">
-        <img src="./essay/imgs/menu.png" alt="">
+        <div id="contentbtn">
+            <img src="./essay/imgs/menu.png" alt="">
+        </div>
+    
+        <div id="readall">
+            <img src="./essay/imgs/play.png" alt="">
+        </div>
+        
+        <div id="readallbyseg">
+            <img src="./essay/imgs/play_seg.png" alt="">
+        </div>
     </div>
     <script src="./js/Speaker.js"></script>
     <script src="./essay/all_eassy.js"></script>
     <script>
         let speak = Speaker()
+        let EXTRADATAS = {}
+        let stop_playing=false;
 
         const symbols = "：,.!;。？?,“”，"
         function generate_essay(key){
@@ -57,40 +68,87 @@
             ul.classList.toggle("hide")
         }
 
-        function menu_button(){
-            const menu = document.querySelector('.menuicon')
-            if(!menu) return
-            menu.addEventListener("click",e=>{
-                if(menu.classList.contains("close")){
-                    menu.classList.remove("close")
-                    menu.classList.add("open")
-                    menu.querySelector("img").src = "./essay/imgs/menuclose.png"
+        function readall(){
+            const main = document.querySelector("#main")
+            const h1 = main.querySelector("h1")
+            const title = h1.textContent
+            var re = new RegExp("^"+title);
+            const content = main.textContent.replace(re,"")
+            speak(content,false)
+        }
+        function readall_byseg(){
+            const main = document.querySelector("#main")
+            const spans = main.querySelectorAll("span")
+            const span_last_index = spans.length-1
+            const title = main.querySelector("h1")
+            let i=0
+            
+            async function read(j){
+                let currents = main.querySelectorAll("span.current")
+                if(currents.length > 0)  currents.forEach(cur=>cur.classList.remove("current"))
+                spans[j].classList.add("current")
+                if(stop_playing ||  j == span_last_index){
+                    return;
+                }
+                speak(spans[j++].textContent,false,()=>read(j))
+                
+            }
+            speak(title.textContent,false,()=>read(0))
+            
+        }
+
+        function menu_buttons(){
+            const menus = document.querySelector('.menuicon')
+            const contentbtn = menus.querySelector("#contentbtn")
+            const readall = menus.querySelector("#readall")
+            const readallbyseg = menus.querySelector("#readallbyseg")
+            if(!menus) return
+            contentbtn.addEventListener("click",e=>{
+                if(menus.classList.contains("close")){
+                    menus.classList.remove("close")
+                    menus.classList.add("open")
+                    contentbtn.querySelector("img").src = "./essay/imgs/menuclose.png"
                     list_toggle()
                 } else{
-                    menu.classList.remove("open")
-                    menu.classList.add("close")
-                    menu.querySelector("img").src  = "./essay/imgs/menu.png"
+                    menus.classList.remove("open")
+                    menus.classList.add("close")
+                    contentbtn.querySelector("img").src  = "./essay/imgs/menu.png"
                     list_toggle()
                 }
             })
-        }
-        function readall(){
-            const spans = document.querySelectorAll("span")
-            let i=0
-            async function read(j){
-                console.log(spans[j])
-                let cur = speak(spans[j++].textContent,false,read(j))
-                
-            }
-            read(0)
-        }
+            readall.addEventListener("click",e=>{
+                if(readall.classList.contains("play")){
+                    window.speechSynthesis.pause()
+                    readall.classList.remove("play")
+                    readall.querySelector("img").src  = "./essay/imgs/play.png"
 
+                } else {
+                    this.readall()
+                    readall.classList.add("play")
+                    readall.querySelector("img").src  = "./essay/imgs/stop.png"
+                }
+            })
+            readallbyseg.addEventListener("click",e=>{
+                
+                if(readallbyseg.classList.contains("play")){
+                    window.speechSynthesis.pause()
+                    stop_playing = true;
+                    readallbyseg.classList.remove("play")
+                    readallbyseg.querySelector("img").src  = "./essay/imgs/play_seg.png"
+                } else {
+                    stop_playing = false
+                    this.readall_byseg()
+                    readallbyseg.classList.add("play")
+                    readallbyseg.querySelector("img").src  = "./essay/imgs/stop_seg.png"
+                }
+            })
+        }
         window.onload = function () {
             const ul = document.querySelector("#list")
             const main = document.querySelector("#main")
             const li = document.createElement("li")
             const keys = Object.keys(all_essay)
-            const menu = document.querySelector('.menuicon')
+            const contentbtn = document.querySelector('#contentbtn')
             keys.forEach(key=>{
                 let _li = li.cloneNode(true)
                 _li.name = key
@@ -101,14 +159,14 @@
                     e.target.classList.add("selected")
                     main.innerHTML = ""
                     main.appendChild(generate_essay(e.target.name))
-                    menu.click()
+                    contentbtn.click()
                     // list_toggle()
                 })
                 ul.appendChild(_li)
             })
 
             spans = document.querySelectorAll("span")
-            menu_button()
+            menu_buttons()
 
             main.appendChild(generate_essay(keys[0]))
         }
