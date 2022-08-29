@@ -10,7 +10,7 @@ ul li{
     cursor: pointer;
     padding: 7px;
     list-style: inside;
-    list-style-type: auto;
+    list-style-type: decimal;
 }
 ul li:hover{
     background: rgb(213, 213, 213);
@@ -48,6 +48,7 @@ span:hover,.current{
     justify-content: center;
     line-height: 60px;
     letter-spacing: 13px;
+    padding-bottom: 80px;
 }
 #main .text{
     width: 75%;
@@ -88,4 +89,8 @@ span:hover,.current{
 }
 .play{
     background: red !important;
+}
+.selected{
+    text-decoration: underline;
+    color: #607d8b;
 }
