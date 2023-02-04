@@ -5,10 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/essay.css">
-    <title>Document</title>
+    <title>文章</title>
 </head>
 <body>
     <div class="layout">
+        
         <ul id="list" class="hide" ></ul>
         <section id="main"></section>
         <div id="speaker_select" class="lists"></div>
@@ -25,30 +26,56 @@
         <div id="readallbyseg">
             <img src="./essay/imgs/play_seg.png" alt="">
         </div>
+        <div id="pinyin-switcher">
+            <span class="pinyin-icon">
+                P
+            </span>
+            <span class="pinyin-panel">
+                pinyin
+                <label class="switch">
+                
+                    <input type="checkbox" id="pinyin-chbox" checked>
+                    <span class="slider round"></span>
+                </label>
+            </span>
+        </div>
     </div>
+    <script src="libs/tiny-pinyin.js"></script>
     <script src="./js/Speaker.js"></script>
     <script src="./essay/all_eassy.js"></script>
+    <script src="./js/essay_page.js"></script>
     <script>
         let speak = Speaker()
         let EXTRADATAS = {}
         let stop_playing=false;
+        let pinyin_chk = document.querySelector('#pinyin-chbox') 
+        let main = document.querySelector('#main') 
+        if(pinyin_chk.checked) main.classList.add('pinyin')
+        pinyin_chk.addEventListener("change",e=>{
+            if(pinyin_chk.checked){
+                main.classList.add('pinyin')
+            } else {
+                main.classList.remove('pinyin')
+            }
+        })
 
         const symbols = "：,.!;。？?,“”，"
         function generate_essay(key){
+            console.log(key)
             let container = document.createElement("div")
             container.classList.add("text")
-            container.innerHTML = "<h1>"+key+"</h1>"
+            container.innerHTML = "<h1><ruby>"+key+generate_pinyin(key)+"</ruby></h1>"
             let br = document.createElement("br")
             const span = document.createElement("span")
             span.classList.add("seg")
             all_essay[key].forEach(line=>{
                 line.forEach( seg=>{
                         let _span = span.cloneNode(true)
-                        _span.innerText = seg
                     if(symbols.includes(seg)){
-                        _t =  _span.innerText
+                        _span.innerText =  seg 
                         _span.classList.remove("seg")
                     } else{
+                        _span.innerHTML = "<ruby>"+seg + generate_pinyin(seg)+"</ruby>"
                         _span.addEventListener("click",e=>{
                         speak(e.target.innerText,false)
                     })
