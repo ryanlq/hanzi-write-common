@@ -1,4 +1,4 @@
-var GHPATH = '/github-page-pwa';
+var GHPATH = '/hanzi-write-common';
 var APP_PREFIX = 'hanzi_study'     // Identifier for this app (this needs to be consistent across every cache update)
 var VERSION = 'version_01'              // Version of the off-line cache (change this value everytime you want to update cache)
 var CACHE_NAME = APP_PREFIX + VERSION
