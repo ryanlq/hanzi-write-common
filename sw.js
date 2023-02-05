@@ -17,6 +17,7 @@ var URLS = [                            // Add URL you want to cache in this lis
 `${GHPATH}/js/global.js`,
 `${GHPATH}/js/hanzi.js`,
 `${GHPATH}/js/app.js`,
+`${GHPATH}/js/extradatas.js `,
 `${GHPATH}/js/pinyin.data.js`,
 `${GHPATH}/js/essay_page.js`,
 `${GHPATH}/favicon.ico`,
