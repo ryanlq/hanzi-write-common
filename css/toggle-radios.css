@@ -76,7 +76,7 @@ CORE STYLES ABOVE - NO TOUCHY
 .toggle-radio[data-color='gray'] > input:checked + label	{background:#080808;}
 
 /* Color: Gray */
-.toggle-radio[data-color='brown'] > input + label			{background:#302424;}
+.toggle-radio[data-color='brown'] > input + label			{background:#424242;}
 .toggle-radio[data-color='brown'] > input:checked + label	{background:#510000;}
 
 

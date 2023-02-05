@@ -33,6 +33,7 @@
             margin-bottom: 40px;
             padding: 10px;
             width: 80%;
+            background-color: #424242;
         }
         thead{
             position: relative;
@@ -59,10 +60,18 @@
             visibility: hidden;
         }
         .readallbtn{
-            background: antiquewhite;
+            background: #da92ff;
         }
         .th_readallbtn{
             text-align: right;
+        }
+        .th_title{
+            color: #e2c7f0;
+            text-align: left;
+        }
+        .tips{
+            height: 100px;
+            background-color: #ac8a5c;
         }
     </style>
 </head>
@@ -111,11 +120,10 @@
 
         let n_table = document.createElement("table");
         let n_tr = document.createElement("tr");
-        n_table.innerHTML = "<thead class='header'><tr><th colSpan='6'  class='th_title'></th><th colSpan='2'  class='th_readallbtn'></th></tr><tr></tr></thead><tbody class='body'></tbody>"
+        n_table.innerHTML = "<thead class='header'><tr><th colSpan='8' class='tips'></th></tr><tr><th colSpan='6'  class='th_title'></th><th colSpan='2'  class='th_readallbtn'></th></tr></thead><tbody class='body'></tbody>"
 
         function playend_handle(dataid){
-            const playing = document.querySelector("td.playing")
-            playing&&playing.classList.remove("playing")
+
             if(is_readall){
                 const nextid = jump_queueid?jump_queueid:dataid
                 jump_queueid = 0
@@ -127,6 +135,9 @@
                     _readall.classList.remove("playing")
                     _readall.innerText="连续播放"
                 }
+            } else{
+                // const playing = document.querySelector("td.playing")
+                //             playing&&playing.classList.remove("playing")
             }
         }
 
@@ -197,6 +208,8 @@
                         audio = new Audio
                         c.addEventListener("click",e=>{
                             // let _c = c.querySelector('.low').innerText
+                            const playing = document.querySelector("td.playing")
+                            playing&&playing.classList.remove("playing")
                             e.target.classList.add('playing')
                             c.querySelector("audio").play()
                             // let w = onsets_voices[onsets.indexOf(_c)]
