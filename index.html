@@ -57,5 +57,17 @@
             box.addEventListener("click",e=>window.location.href=box.getAttribute('href'))
         })
     </script>
+    
+    <script>
+        if (navigator.serviceWorker) {
+            navigator.serviceWorker.register('/sw.js?v=3', {scope: '/hanzi-write-common'})
+        }
+
+        let App = app();
+        App.start().then(()=>{
+            hanzi()
+        })
+
+    </script>
 </body>
 </html>
