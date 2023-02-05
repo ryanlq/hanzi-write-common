@@ -3,7 +3,10 @@ var VERSION = 'version_01'              // Version of the off-line cache (change
 var CACHE_NAME = APP_PREFIX + VERSION
 var URLS = [                            // Add URL you want to cache in this list.
 './index.html',
-'./libs/dexie.js',                  
+'./libs/dexie.js', 
+'./write.html',
+'./pinyin.html',  
+'./essay.html',                 
 './libs/hanzi-writer.js',                  
 './libs/default-passive-events.js',                  
 './js/db.js', 
@@ -13,6 +16,8 @@ var URLS = [                            // Add URL you want to cache in this lis
 './js/global.js' ,
 './js/hanzi.js' ,
 './js/app.js' ,
+'./js/pinyin.data.js',
+'./js/essay_page.js',
 './favicon.ico',
 './css/styles.css',
 './css/fontello.css',
