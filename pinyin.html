@@ -7,6 +7,7 @@
     <title>拼音学习</title>
     <link rel="stylesheet" href="css/toggle-radios.css">
     <script src="./js/Speaker.js"></script>
+    <script src="libs/tiny-pinyin.js"></script>
 
     <style>
         body{
@@ -72,6 +73,20 @@
         .tips{
             height: 100px;
             background-color: #ac8a5c;
+            font-size: 32px;
+            position: relative;
+        }
+        .speak_icon{
+            height: 50px;
+            width: 50px;
+            position: absolute;
+            right: 0;
+            top: 0;
+            border-radius: 6px;
+            background-color: #f5e4fe;
+        }
+        .speak_icon:hover{
+            background: chartreuse;
         }
     </style>
 </head>
@@ -89,6 +104,9 @@
     </div>
 
     <audio src="" style="visibility: hidden;"></audio>
+    <script src="./js/pinyin.data.js"></script>
+    
+    <script src="./js/essay_page.js"></script>
     <script>
         let speak = Speaker()
         let is_readall = false,jump_queueid = 0
@@ -120,7 +138,7 @@
 
         let n_table = document.createElement("table");
         let n_tr = document.createElement("tr");
-        n_table.innerHTML = "<thead class='header'><tr><th colSpan='8' class='tips'></th></tr><tr><th colSpan='6'  class='th_title'></th><th colSpan='2'  class='th_readallbtn'></th></tr></thead><tbody class='body'></tbody>"
+        n_table.innerHTML = "<thead class='header'><tr><th colSpan='8' class='tips'><img class='speak_icon' src='./imgs/speak.jpg'/><div class='text'></div></th></tr><tr><th colSpan='6'  class='th_title'></th><th colSpan='2'  class='th_readallbtn'></th></tr></thead><tbody class='body'></tbody>"
 
         function playend_handle(dataid){
 
@@ -147,6 +165,8 @@
             let datas = text.split(' ')
             let th_title = table.querySelector('.th_title')
             let th_readallbtn = table.querySelector('.th_readallbtn')
+            let n_tips = table.querySelector('.tips')
+            n_tips.querySelector('.speak_icon').addEventListener("click",e=>speak(n_tips.querySelector('.text').innerText.replace(/[a-z].*/g,''),false))
             let tbody = table.querySelector('tbody')
             table.id = id
             // th.colSpan = column_limit
@@ -203,29 +223,20 @@
 
         char_tables.forEach(t=>{
             const chars = t.querySelectorAll(".char")
+            const n_tips = t.querySelector(".tips")
             
             chars.forEach(c=>{
-                        audio = new Audio
+                        // let audio = new Audio()
+                        let char = c.querySelector(".low")
                         c.addEventListener("click",e=>{
                             // let _c = c.querySelector('.low').innerText
                             const playing = document.querySelector("td.playing")
                             playing&&playing.classList.remove("playing")
                             e.target.classList.add('playing')
                             c.querySelector("audio").play()
-                            // let w = onsets_voices[onsets.indexOf(_c)]
-                            // console.log(w)
-                            // speak(w,false)
-                            switch (t.id) {
-                                case "onsets":
-                                    
-                                    break;
-                                case "vowel":
-                                    
-                                    break;
-                            
-                                default:
-                                    break;
-                            }
+                            zi = pinyin_extadatas[c.querySelector(".low").innerText]["zi"]
+                            t.querySelector('.tips .text').innerHTML = "<ruby>"+zi + generate_pinyin(zi)+"</ruby>"
+
                         })
             })
             
