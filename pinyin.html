@@ -1,18 +1,222 @@
 <!DOCTYPE html>
-<html lang="en">
+<html  style="width: 100%;">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>拼音学习</title>
+    <link rel="stylesheet" href="css/toggle-radios.css">
+    <script src="./js/Speaker.js"></script>
+
+    <style>
+        body{
+            background: #83603c;
+        }
+        td{ 
+            width: 80px;
+            height: 40px;
+            background-color: #302424;
+            color:#c3c3c3;
+            text-align: center;
+            cursor: pointer;
+        }
+        button.playing{
+            background: red;
+        }
+        td.playing{
+            background: #600c0c;
+            color: #fff;
+            font-weight: bold;
+        }
+        table{
+            border: 1px solid #070a0338;
+            margin-bottom: 40px;
+            padding: 10px;
+            width: 80%;
+        }
+        thead{
+            position: relative;
+        }
+        body.up .low{
+            display: none;
+        }
+        body.low .up{
+            display: none;
+        }
+        .sep{
+            display: none;
+        }
+        body.all .sep{
+            display: inline;
+        }
+        .toggle-radio{
+            display: flex;
+        }
+        #forms{
+            margin-bottom: 10px;
+        }
+        audio{
+            visibility: hidden;
+        }
+        .readallbtn{
+            position: absolute;
+            right: 0;
+            background: antiquewhite;
+        }
+    </style>
 </head>
-<body>
-    <h1>汉语拼音字母表</h1>
-    <ruby>拼音<rt>pinyin</rt></ruby>
-    <ruby>
-        漢 <rp>(</rp><rt>han</rt><rp>)</rp>
-        字 <rp>(</rp><rt>zi</rt><rp>)</rp>
-      </ruby>
-      
+<body class="low" style="width: 100%;display: flex;flex-direction: column;align-items: center;">
+    <h1 style="text-align: center;">汉语拼音字母表</h1>
+    <div id="forms" class="toggle-radio" data-color="brown" data-style="square">
+        <input type="radio" name="mode" id="low" value="0" checked>
+        <label for="low">小写</label>
+    
+        <input type="radio" name="mode" id="up" value="1">
+        <label for="up">大写</label>
+    
+        <input type="radio" name="mode" id="all" value="2">
+        <label for="all">大小写</label>
+    </div>
+
+    <audio src="" style="visibility: hidden;"></audio>
+    <script>
+        let speak = Speaker()
+        let is_readall = false,jump_queueid = 0
+        const column_limit = 8
+        const form_values = ['low','up','all']
+        const onsets = "b p m f d t n l g k h j q x zh ch sh r z c s y w"
+        const onsets_voices = "波 坡 摸 坲 得 特 呢 了 歌 可 何 机 七 西 之 吃 师 日 子 慈 思 一 五"
+        const vowel = "a o e i u v ai ei ui ao ou iu ie ve er an en in un vn ang eng ing ong";
+
+        const form_choices = document.getElementsByName("mode")
+        function set_table_form(mode){
+            console.log(mode)
+            if(!document.body.classList.contains(form_values[mode])){
+                document.body.classList = [form_values[mode]]
+
+            }
+        }
+        form_choices.forEach(fc=>{
+            const forms = document.querySelector('#forms')
+            fc.addEventListener('change',e=>{
+                const _value = e.target.value
+                if(_value){
+                    forms.setAttribute('value',e.target.value)
+                    set_table_form(e.target.value)
+                    speak(e.target.labels[0].innerText,false)
+                }
+            })
+        })
+
+        let n_table = document.createElement("table");
+        let n_tr = document.createElement("tr");
+        n_table.innerHTML = "<thead class='header'><tr><th colSpan='8'  class='th_title'></th></tr></thead><tbody class='body'></tbody>"
+
+        function playend_handle(dataid){
+            const playing = document.querySelector("td.playing")
+            playing&&playing.classList.remove("playing")
+            if(is_readall){
+                const nextid = jump_queueid?jump_queueid:dataid
+                jump_queueid = 0
+                const next = document.querySelector("td[dataid='"+nextid+"']")    
+                if(next ) next.click()
+                else {
+                    is_readall = false
+                    const _readall = document.querySelector("button[dataid='"+dataid+"']")    
+                    _readall.classList.remove("playing")
+                    _readall.innerText="连续播放"
+                }
+            }
+        }
+
+        function create_talbe(id,title,text){
+            let table = n_table.cloneNode(true)
+            let tbody_html = ''
+            let datas = text.split(' ')
+            console.log(table)
+            let th_title = table.querySelector('.th_title')
+            let tbody = table.querySelector('tbody')
+            table.id = id
+            // th.colSpan = column_limit
+            th_title.innerText = title
+            const readallbtn = document.createElement("button")
+            readallbtn.classList.add("readallbtn")
+            readallbtn.innerText = "连读播放"
+            readallbtn.addEventListener("click",e=>{
+                if(!is_readall){
+                    is_readall = true
+                    e.target.classList.add("playing")
+                    e.target.innerText = "暂停播放"
+                    document.querySelector("td[dataid='"+id+"-0']").click()
+                } else{
+                    const playing_audio = document.querySelector("button.playing")
+                    if(e.target == playing_audio){
+                        is_readall = false
+                        e.target.classList.remove("playing")
+                        e.target.innerText = "连续播放"
+                    } else {
+                    
+                        playing_audio.classList.remove("playing")
+                        playing_audio.innerText = "连续播放"
+                        jump_queueid = id+'-0'
+                        e.target.classList.add("playing")
+                        e.target.innerText = "暂停播放"
+                        // const playingtd = document.querySelector("td.playing")
+                        // playingtd&&playingtd.classList.remove("playing")
+                        // playingtd&&playingtd.querySelector("audio").pause()
+                        // playingtd.querySelector("audio").currentTime = 0;
+                        // document.querySelector("td[dataid='"+id+"-0']").click()
+                    }
+                }
+            })
+            th_title.appendChild(readallbtn)
+            let  srcs =[] 
+            datas.forEach((data,i) => {
+                const _n = i+1,_dataid=  id+"-"+i ,_nextid = id+"-"+_n; 
+                if(i%8 == 0)  tbody_html+="</tr><tr>"
+                tbody_html += "<td class='char' dataid='"+_dataid+"'><span class='low'>"+data +"</span><span class='sep'> | </span><span class='up'>"+data.toUpperCase()+"</span><audio src='./audios/"+data+".mp3' onended='"+'playend_handle("'+_nextid+'"'+")'></td>"
+            });
+            tbody.innerHTML = "<tr>" + tbody_html +"</tr>"
+            // readallbtn.addEventListener()
+            const tds = tbody.querySelectorAll("td")
+            document.body.appendChild(table)
+            return table
+        }
+
+
+        let char_tables = [
+            create_talbe("onsets","声母 23个",onsets),
+            create_talbe("vowel","韵母 24个",vowel)
+        ]
+
+        char_tables.forEach(t=>{
+            const chars = t.querySelectorAll(".char")
+            
+            chars.forEach(c=>{
+                        audio = new Audio
+                        c.addEventListener("click",e=>{
+                            // let _c = c.querySelector('.low').innerText
+                            e.target.classList.add('playing')
+                            c.querySelector("audio").play()
+                            // let w = onsets_voices[onsets.indexOf(_c)]
+                            // console.log(w)
+                            // speak(w,false)
+                            switch (t.id) {
+                                case "onsets":
+                                    
+                                    break;
+                                case "vowel":
+                                    
+                                    break;
+                            
+                                default:
+                                    break;
+                            }
+                        })
+            })
+            
+        })
+        
+    </script>
 </body>
 </html>
