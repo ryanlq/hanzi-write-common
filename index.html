@@ -30,7 +30,8 @@
         flex-direction: row;
         }
 
-        .box { margin: 20px;font-size: 32px; }
+        .box { margin: 20px;font-size: 32px; 
+            text-align: center;cursor: pointer;}
         .box:hover{
             background-color: aquamarine;
             color: #000;
@@ -40,15 +41,21 @@
         .box2 { background-color: orange; }
         .box3 { background-color: purple; }
         .box4 { background-color: grey; }
-        a{text-decoration:none;color:#000}
     </style>
 </head>
 <body>
 
     <div class="grid2x2">
-        <div class="box box1"><div><a href="./write.html">书写</a></div></div>
-        <div class="box box2"><div><a href="./pinyin.html">拼音练习</a></div></div>
-        <div class="box box3"><div><a href="./essay.html">文章阅读</a></div></div>
+        <div class="box box1" href="./write.html">书写</div>
+        <div class="box box2" href="./pinyin.html">拼音练习</div>
+        <div class="box box3" href="./essay.html">文章阅读</div>
     </div>
+
+    <script>
+        const  boxes = document.querySelectorAll(".box")
+        boxes.forEach(box=>{
+            box.addEventListener("click",e=>window.location.href=box.getAttribute('href'))
+        })
+    </script>
 </body>
 </html>
