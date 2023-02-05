@@ -59,9 +59,10 @@
             visibility: hidden;
         }
         .readallbtn{
-            position: absolute;
-            right: 0;
             background: antiquewhite;
+        }
+        .th_readallbtn{
+            text-align: right;
         }
     </style>
 </head>
@@ -110,7 +111,7 @@
 
         let n_table = document.createElement("table");
         let n_tr = document.createElement("tr");
-        n_table.innerHTML = "<thead class='header'><tr><th colSpan='8'  class='th_title'></th></tr></thead><tbody class='body'></tbody>"
+        n_table.innerHTML = "<thead class='header'><tr><th colSpan='6'  class='th_title'></th><th colSpan='2'  class='th_readallbtn'></th></tr><tr></tr></thead><tbody class='body'></tbody>"
 
         function playend_handle(dataid){
             const playing = document.querySelector("td.playing")
@@ -133,8 +134,8 @@
             let table = n_table.cloneNode(true)
             let tbody_html = ''
             let datas = text.split(' ')
-            console.log(table)
             let th_title = table.querySelector('.th_title')
+            let th_readallbtn = table.querySelector('.th_readallbtn')
             let tbody = table.querySelector('tbody')
             table.id = id
             // th.colSpan = column_limit
@@ -169,7 +170,7 @@
                     }
                 }
             })
-            th_title.appendChild(readallbtn)
+            th_readallbtn.appendChild(readallbtn)
             let  srcs =[] 
             datas.forEach((data,i) => {
                 const _n = i+1,_dataid=  id+"-"+i ,_nextid = id+"-"+_n; 
