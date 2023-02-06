@@ -1,3 +1,14 @@
 声母：23个,分别是：b p m f d t n l g k h j q x zh ch sh r z c s y w 
 韵母: 共有24个,分别ɑ o e i u v ai ei ui ao ou iu ie ve er an en in un vn ang eng ing ong
 整体认读章节共16个:zhi chi shi ri zi ci si yi wu yu ye yue yuɑn yin yun ying
+
+
+整体认读音节一般是指添加一个韵母后读音仍和声母一样（或者添加一个声母后读音仍和韵母一样）的音节（yuan比较特殊），也就是指不用拼读即直接认读的音节，所以整体认读音节要直接读出。 有zhi chi shi ri；zi ci si；yi wu yu；ye yue yuan；yin yun ying。
+
+//头字节
+"zhuang".match(/^(zh|ch|sh|[bpmfdtnlgkhjqxrzcsyw])/g)
+//尾字节
+"zhuang".match(/(ang|eng|ing|ong|ai|ei|ui|ao|ou|iu|ie|ve|er|an|en|in|un|vn|[ɑoeiuv])$/g)
+//中字节
+
+"zhuang".match(/^(zh|ch|sh|[bpmfdtnlgkhjqxrzcsyw]).*(ang|eng|ing|ong|ai|ei|ui|ao|ou|iu|ie|ve|er|an|en|in|un|vn|[ɑoeiuv])/g)
