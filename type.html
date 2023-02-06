@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>打字练习</title>
+    <style>
+        html,body{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: #63be67;
+        }
+        #console{
+            height: 35%;
+            width: 600px;
+            margin-bottom: 20px;
+            background-color: blanchedalmond;
+            border: 1px solid #eee;
+            padding: 20px;
+            box-sizing: border-box;
+            
+        }
+        .keyboard{
+            display: grid;
+            grid-template-rows: 100px 100px 100px;
+            grid-template-columns: 200px 200px 200px;
+            height: 300px;
+            width: 600px;
+        }
+        .box {
+            background: #444;
+            border: 1px solid #555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #AAA;
+            cursor: pointer;
+            position: relative;
+        }
+        *{
+            moz-user-select: -moz-none;
+            -moz-user-select: none;
+            -o-user-select:none;
+            -khtml-user-select:none;
+            -webkit-user-select:none;
+            -ms-user-select:none;
+            user-select:none;
+        }
+        .pressed {
+            background-color: #f0f0f0;
+            color: #000;
+        }
+        .error{
+            background-color: #6e0101;
+        }
+        .type_char{
+            display: none;
+            font-size:32px;
+            font-weight: bolder;
+        }
+        .pressed .chars{
+            display: none;
+        }
+        .pressed .type_char{
+            display: inline-block;
+            
+            
+        }
+        .box .cover{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #f0f8ff00;
+        }
+    </style>
+</head>
+<body>
+    <div id="question"><ruby>我们去哪里？<rt class="pinyin">wo men qu na li</rt></ruby></div>
+    <div id="console" data-cur="0"></div>
+    <div class="keyboard">
+        <div class="box" id="key0"><span>符号</span></div>
+        <div class="box" id="key1">
+            <span class="chars">abc</span>
+            <span class="type_char"></span>
+            <span class="cover"></span>
+        </div>
+        <div class="box" id="key2">
+            <span class="chars">def</span>
+            <span class="type_char"></span>
+            <span class="cover"></span>
+        </div>
+        <div class="box" id="key3">
+            <span class="chars">ghi</span>
+            <span class="type_char"></span>
+            <span class="cover"></span>
+        </div>
+        <div class="box" id="key4">
+            <span class="chars">jkl</span>
+            <span class="type_char"></span>
+            <span class="cover"></span>
+        </div>
+        <div class="box" id="key5">
+            <span class="chars">mno</span>
+            <span class="type_char"></span>
+            <span class="cover"></span>
+        </div>
+        <div class="box" id="key6">
+            <span class="chars">pqrs</span>
+            <span class="type_char"></span>
+            <span class="cover"></span>
+        </div>
+        <div class="box" id="key7">
+            <span class="chars">tuv</span>
+            <span class="type_char"></span>
+            <span class="cover"></span>
+        </div>
+        <div class="box" id="key8">
+            <span class="chars">wxyz</span>
+            <span class="type_char"></span>
+            <span class="cover"></span>
+        </div>
+    </div>
+    <div>
+        
+        <audio src="./audios/a.mp3" id="pinyin_a"></audio>
+        <audio src="./audios/b.mp3" id="pinyin_b"></audio>
+        <audio src="./audios/c.mp3" id="pinyin_c"></audio>
+        <audio src="./audios/d.mp3" id="pinyin_d"></audio>
+        <audio src="./audios/e.mp3" id="pinyin_e"></audio>
+        <audio src="./audios/f.mp3" id="pinyin_f"></audio>
+        <audio src="./audios/g.mp3" id="pinyin_g"></audio>
+        <audio src="./audios/h.mp3" id="pinyin_h"></audio>
+        <audio src="./audios/i.mp3" id="pinyin_i"></audio>
+        <audio src="./audios/j.mp3" id="pinyin_j"></audio>
+        <audio src="./audios/k.mp3" id="pinyin_k"></audio>
+        <audio src="./audios/l.mp3" id="pinyin_l"></audio>
+        <audio src="./audios/m.mp3" id="pinyin_m"></audio>
+        <audio src="./audios/n.mp3" id="pinyin_n"></audio>
+        <audio src="./audios/o.mp3" id="pinyin_o"></audio>
+        <audio src="./audios/p.mp3" id="pinyin_p"></audio>
+        <audio src="./audios/q.mp3" id="pinyin_q"></audio>
+        <audio src="./audios/r.mp3" id="pinyin_r"></audio>
+        <audio src="./audios/s.mp3" id="pinyin_s"></audio>
+        <audio src="./audios/t.mp3" id="pinyin_t"></audio>
+        <audio src="./audios/u.mp3" id="pinyin_u"></audio>
+        <audio src="./audios/v.mp3" id="pinyin_v"></audio>
+        <audio src="./audios/w.mp3" id="pinyin_w"></audio>
+        <audio src="./audios/x.mp3" id="pinyin_x"></audio>
+        <audio src="./audios/y.mp3" id="pinyin_y"></audio>
+        <audio src="./audios/z.mp3" id="pinyin_z"></audio>
+        <audio src="./audios/tip/error.mp3" id="error_audio"></audio>
+        <audio src="./audios/tip/correct.mp3" id="correct_audio"></audio>
+    </div>
+
+    <script>
+        const keymap = {
+            "a":1,"b":1,"c":1,
+            "d":2,"e":2,"f":2,
+            "g":3,"h":3,"i":3,
+            "j":4,"k":4,"l":4,
+            "m":5,"n":5,"o":5,
+            "p":6,"q":6,"r":6,"s":6,
+            "t":7,"u":7,"v":7,
+            "w":8,"x":8,"y":8,"z":8
+        }
+        let TYPE_QUEUE;
+        let pressed_time_handler,error_time_handler;
+        const boxes = document.querySelectorAll('.box')
+        const n_console = document.querySelector("#console")
+        const n_question = document.querySelector("#question")
+        boxes.forEach(box=>{
+            if(box.id !== "key0"){
+                box.addEventListener("click",(e)=>type_handle(e))
+            }
+        })
+
+        function get_pinyin_queue() { 
+            const queue = n_question.innerText.replaceAll(' ','').match(/[a-z]+/g)
+            return queue[0] || false
+        }
+
+        function type_handle(e,box){
+            clearTimeout(pressed_time_handler)
+            clearTimeout(error_time_handler)
+            const target = e.target.classList.contains('box')?e.target:e.target.parentElement;
+            const cur = n_console.getAttribute('data-cur')
+            const char = TYPE_QUEUE[cur]
+            const keyid = keymap[char]
+            if(target.id == "key"+keyid){
+                target.querySelector('.type_char').innerText = char
+                target.classList.add('pressed')
+                pressed_time_handler = setTimeout(()=>{
+                    target.classList.remove('pressed')
+                    target.querySelector('.type_char').innerText = ""
+                },150)
+                document.querySelector("audio#pinyin_"+char).play()
+                push_to_console(char)
+            } else {
+                target.classList.add('error')
+                document.querySelector("audio#error_audio").play()
+                error_time_handler = setTimeout(()=>target.classList.remove('error'),550)
+
+            }
+
+        }
+
+        function push_to_console(c){
+            n_console.innerText += c
+            n_console.setAttribute("data-cur",n_console.innerText.length)
+        }
+
+        let queue = get_pinyin_queue()
+        if(queue) TYPE_QUEUE = queue.split('')
+        
+            
+        
+    </script>
+</body>
+</html>
