@@ -62,7 +62,13 @@
     
     <script>
         if (navigator.serviceWorker) {
-            navigator.serviceWorker.register('/sw-cloudflare.js', {scope: '/'})
+            if(window.location.href.match(/.*hanzi-write-common.pages.dev.*$/g)){
+                navigator.serviceWorker.register('/sw-cloudflare.js', {scope: '/'})
+            } else {
+                navigator.serviceWorker.register('/hanzi-write-common/sw.js', {scope: '/hanzi-write-common/'})
+
+            }
+            
         }
     </script>
 </body>
