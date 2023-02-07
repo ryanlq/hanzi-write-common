@@ -329,10 +329,14 @@
         }
         function next_char(cb=null){ //
             g_char = pointer3.next() //  value,q,i-n-g
+            
             if(g_char.done) {
                 cb && cb()
                 
                 next_unit()
+            } else {
+                if((g_unit.value.length-1) == g_char.value[0]) document.querySelector('#correct_audio').play()
+                    
             }
 
         }
