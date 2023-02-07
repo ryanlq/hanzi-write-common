@@ -53,7 +53,7 @@
         <div class="box box3" href="./type.html">打字练习</div>
     </div>
 
-    <script>
+    <script type="">
         const  boxes = document.querySelectorAll(".box")
         boxes.forEach(box=>{
             box.addEventListener("click",e=>window.location.href=box.getAttribute('href'))
@@ -64,9 +64,6 @@
         if (navigator.serviceWorker) {
             navigator.serviceWorker.register('/hanzi-write-common/sw.js', {scope: '/hanzi-write-common/'})
         }
-
-
-
     </script>
 </body>
 </html>
