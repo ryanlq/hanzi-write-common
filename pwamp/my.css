@@ -1,5 +1,6 @@
 #lyric-panel{
     visibility: hidden;
+    font-family:STFangsong ;
     display: flex;
     position: fixed;
     align-items:center;
@@ -11,6 +12,7 @@
     background-color: #11191f4a;
     padding: 40px;
     flex-direction: column;
+
     overflow-y: auto;
     -ms-overflow-style: none; /* IE */
     scrollbar-width: none; /* Firefox */
@@ -24,6 +26,9 @@
     padding: 5px;
     cursor: pointer;
 }
+html.playing .lyric-item{
+    color: #ffffff3d;
+}
 .lyric-item:hover{
     color: #92ff8c;
 }
@@ -34,9 +39,14 @@
     font-size: 12px;
 }
 
-.lyric-item.playing{
+html.playing  .lyric-item.playing,.lyric-item.playing{
     color: #92ff8c;
-    font-size: larger;
+    font-size: 40px;
+    font-weight: bold;
+}
+.lyric-item.playing ~ .lyric-item{
+    color: #84b481;
+    font-size: 22px;
 }
 
   /* 针对Chrome和Safari浏览器 */
@@ -54,4 +64,8 @@
 .visualizing .current-song span{
     color:var(--primary);
     font-weight: bolder;
+}
+
+.playlist-song .artist,.playlist-song .album{
+    display: none;
 }

@@ -8,6 +8,7 @@ const INITIAL_CACHED_RESOURCES = [
   "./index.html",
   "./skins/default.css",
   "./about.css",
+  "./my.css",
   "./album-art-placeholder.png",
   "./app.js",
   "./audio-metadata-parse-worker.js",
@@ -31,7 +32,10 @@ const INITIAL_CACHED_RESOURCES = [
   "./visualizer.png",
   "./widgets/mini-player.json",
   "./widgets/mini-player-data.json",
-  "./idb-keyval.js"
+  "./idb-keyval.js",
+  "./songs/幸福万年长.m4a",
+  "./songs/彩云之南.m4a",
+  "./songs/醉酒的蝴蝶.mp3",
 ];
 
 // Add a cache-busting query string to the pre-cached resources.

@@ -26,7 +26,7 @@ export async function getSongs() {
     // Add a couple of songs to get started so the app isn't empty.
     songs = [{
       type: 'url',
-      id: 'https://hanzi-write-common.pages.dev/pwamp/songs/醉酒的蝴蝶.mp3',
+      id: 'https://ryanlq.github.io/hanzi-write-common/pwamp/songs/醉酒的蝴蝶.mp3',
       title: '醉酒的蝴蝶',
       artist: 'Noi2er',
       album: '醉酒的蝴蝶',
@@ -36,7 +36,7 @@ export async function getSongs() {
     },
     {
       type: 'url',
-      id: 'https://hanzi-write-common.pages.dev/pwamp/songs/幸福万年长.m4a',
+      id: 'https://ryanlq.github.io/hanzi-write-common/pwamp/songs/幸福万年长.m4a',
       title: '幸福万年长',
       artist: 'David Rousset',
       album: '幸福万年长',
@@ -46,7 +46,7 @@ export async function getSongs() {
     },
     {
       type: 'url',
-      id: 'https://hanzi-write-common.pages.dev/pwamp/songs/彩云之南.m4a',
+      id: 'https://ryanlq.github.io/hanzi-write-common/pwamp/songs/彩云之南.m4a',
       title: '彩云之南',
       artist: 'David Rousset',
       album: '彩云之南',
