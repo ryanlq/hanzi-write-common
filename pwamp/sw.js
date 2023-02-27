@@ -28,6 +28,8 @@ const INITIAL_CACHED_RESOURCES = [
   "./song-ui-factory.js",
   "./store.js",
   "./utils.js",
+  "./lyric.js",
+  "./icon/favicon.png",
   "./visualizer.js",
   "./visualizer.png",
   "./widgets/mini-player.json",
