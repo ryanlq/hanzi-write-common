@@ -1,0 +1,46 @@
+#lyric-panel{
+    display: none;
+    position: fixed;
+    align-items:center;
+    justify-self:center;
+    box-shadow: 0px 0px 0px 4px #f4373761;
+    top:100px;
+    width: 80%;
+    height: 70%;
+    background-color: #ff000012;
+    padding: 40px;
+    flex-direction: column;
+    overflow-y: auto;
+    -ms-overflow-style: none; /* IE */
+    scrollbar-width: none; /* Firefox */
+}
+
+.visualizing #lyric-panel{
+    display: flex;
+}
+
+.lyric-item{
+    padding: 5px;
+}
+
+.lyric-item.playing{
+    color: #92ff8c;
+    font-size: larger;
+}
+
+  /* 针对Chrome和Safari浏览器 */
+#lyric-panel::-webkit-scrollbar {
+    display: none;
+}
+
+.visualizing .current-song{
+    position: fixed;
+    justify-self: center;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+}
+.visualizing .current-song span{
+    color:red;
+    font-weight: bolder;
+}
