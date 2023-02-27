@@ -63,6 +63,7 @@ const lyricPanel = document.querySelector('#lyric-panel');
 let currentSongEl = null;
 
 let isFirstUse = true;
+let MYSONGS = {};
 
 // Instantiate the player object. It will be used to play/pause/seek/... songs. 
 const player = new Player();
@@ -118,13 +119,18 @@ function updateUI() {
   // Update the play state in the playlist.
   const currentSong = playlistSongsContainer.querySelector(`[id="${player.song.id}"]`);
   currentSong && currentSong.classList.add('playing');
+  loadLyric()
 }
 
 // Calling this function starts (or reloads) the app.
 // If the store is changed, you can call this function again to reload the app.
 export async function startApp() {
   clearInterval(updateLoop);
-
+  const _songs = await getSongs()
+  _songs.forEach(song=>{
+    if(!song) return
+    MYSONGS[song.id.toString()] = song
+  })
   removeLoadingSongPlaceholders(playlistSongsContainer);
 
   // Restore the volume from the store.
@@ -188,7 +194,7 @@ export async function startApp() {
 playButton.addEventListener("click", () => {
   if (player.isPlaying) {
     player.pause();
-  } else {
+  } else {   
     player.play();
   }
 });
@@ -233,12 +239,14 @@ navigator.serviceWorker.addEventListener('message', (event) => {
       player.play();
       break;
     case 'next':
+
       player.playNext();
       break;
     case 'previous':
       goPrevious();
       break;
   }
+  
 });
 
 // Listen to player playing/paused status to update the visualizer.
@@ -388,7 +396,17 @@ function toggleVisualizer() {
 
   document.documentElement.classList.toggle('visualizing');
 
-  isVis ? visualizer.stop() : visualizer.start();
+  if(isVis){
+    visualizer.stop()
+  } else {
+    visualizer.start()
+    if(!document.querySelector(".playlist-song.playing")){
+      const _s = document.querySelector(".playlist-song")
+      _s.classList.add("playing")
+    }
+  }
+
+
 }
 
 // Manage the record audio button.
@@ -546,7 +564,6 @@ addEventListener('drop', async (e) => {
     if (targetSong) {
       const song = await getSong(targetSong.id);
       if (song) {
-        if(song.hasOwnProperty("lyric"))  lyric.load(song.lyric)
         await setArtwork(song.artist, song.album, image);
         
       }
@@ -565,6 +582,22 @@ sendMessageToSW({ action: 'paused' });
 // Initialize the shortcuts.
 initKeyboardShortcuts(player, toggleVisualizer);
 
+function loadLyric(){
+  const cur = document.querySelector(".playlist-song.playing")
+  if(cur && cur.id){
+    const lyric_songid = lyricPanel.getAttribute("songid")
+    if(cur.id !== lyric_songid){
+      lyricPanel.setAttribute("songid",cur.id)
+      if(MYSONGS[cur.id].hasOwnProperty("lyric")){
+        lyric.load(MYSONGS[cur.id]["lyric"])
+      } else {
+        lyric.load("[00:03.000] 暂无歌词")
+      }
+      setLyricPanel()
+      
+    }
+  }
+}
 
 function setLyricPanel(){
   if(lyric.symbols.length==0) return;
@@ -575,16 +608,23 @@ function setLyricPanel(){
     let new_node = item_node.cloneNode(true)
     new_node.setAttribute("data-time",s)
     new_node.innerText = lyric.lyric[s]
+    new_node.addEventListener("click",function(e){
+      const _time = new_node.getAttribute("data-time")
+      const _currentTime = parseInt(_time.slice(0,2)) * 60 + parseInt(_time.slice(3,5))
+      if(player.isBuffered()){
+        player.currentTime = _currentTime
+      } else {
+        console.log("未缓冲完成")
+      }
+    })
     return new_node
   })
   lyricPanel.innerHTML = ""
   lyricPanel.append(...nodes)
-  
-  
 }
 
 
-setLyricPanel()
+
 
 player.addEventListener('timeupdated', (e) => {
   let minites = parseInt(e.target.audio.currentTime /60)

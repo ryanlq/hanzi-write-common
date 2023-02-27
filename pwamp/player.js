@@ -125,6 +125,12 @@ export class Player extends EventTarget {
     this.dispatchEvent(new Event('paused'));
   }
 
+  getBuffersize(){
+    return this.audio.buffered.end(xPlayer.audio.buffered-1)
+  }
+  isBuffered(){
+    return this.audio.duration == this.getBuffersize()
+  }
   get volume() {
     return this.audio.volume;
   }

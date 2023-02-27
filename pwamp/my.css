@@ -1,13 +1,14 @@
 #lyric-panel{
-    display: none;
+    visibility: hidden;
+    display: flex;
     position: fixed;
     align-items:center;
     justify-self:center;
-    box-shadow: 0px 0px 0px 4px #f4373761;
+    /* box-shadow: 0px 0px 0px 4px var(--primary); */
     top:100px;
     width: 80%;
     height: 70%;
-    background-color: #ff000012;
+    background-color: #11191f4a;
     padding: 40px;
     flex-direction: column;
     overflow-y: auto;
@@ -16,11 +17,21 @@
 }
 
 .visualizing #lyric-panel{
-    display: flex;
+    visibility:visible;
 }
 
 .lyric-item{
     padding: 5px;
+    cursor: pointer;
+}
+.lyric-item:hover{
+    color: #92ff8c;
+}
+.lyric-item:hover::after{
+    content:" [播放]";
+    display: inline;
+    color: var(--primary);
+    font-size: 12px;
 }
 
 .lyric-item.playing{
@@ -41,6 +52,6 @@
     width: 100%;
 }
 .visualizing .current-song span{
-    color:red;
+    color:var(--primary);
     font-weight: bolder;
 }
