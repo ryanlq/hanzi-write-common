@@ -120,6 +120,7 @@ function updateUI() {
   const currentSong = playlistSongsContainer.querySelector(`[id="${player.song.id}"]`);
   currentSong && currentSong.classList.add('playing');
   loadLyric()
+  lyricPanel.scrollTo(0,0)
 }
 
 // Calling this function starts (or reloads) the app.

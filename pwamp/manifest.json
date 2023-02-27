@@ -14,23 +14,23 @@
   "edge_side_panel": {},
   "icons": [
     {
-      "src": "./favicon-48.png",
+      "src": "./icon/favicon-48.png",
       "sizes": "48x48"
     },
     {
-      "src": "./favicon-96.png",
+      "src": "./icon/favicon-96.png",
       "sizes": "96x96"
     },
     {
-      "src": "./favicon-128.png",
+      "src": "./icon/favicon-128.png",
       "sizes": "128x128"
     },
     {
-      "src": "./favicon-256.png",
+      "src": "./icon/favicon-256.png",
       "sizes": "256x256"
     },
     {
-      "src": "./favicon-512.png",
+      "src": "./icon/favicon-512.png",
       "sizes": "512x512"
     }
   ],
@@ -141,23 +141,23 @@
       ],
       "icons": [
         {
-          "src": "./favicon-48.png",
+          "src": "./icon/favicon-48.png",
           "sizes": "48x48"
         },
         {
-          "src": "./favicon-96.png",
+          "src": "./icon/favicon-96.png",
           "sizes": "96x96"
         },
         {
-          "src": "./favicon-128.png",
+          "src": "./icon/favicon-128.png",
           "sizes": "128x128"
         },
         {
-          "src": "./favicon-256.png",
+          "src": "./icon/favicon-256.png",
           "sizes": "256x256"
         },
         {
-          "src": "./favicon-512.png",
+          "src": "./icon/favicon-512.png",
           "sizes": "512x512"
         }
       ],
