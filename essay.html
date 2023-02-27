@@ -76,7 +76,7 @@
                     } else{
                         _span.innerHTML = "<ruby>"+seg + generate_pinyin(seg)+"</ruby>"
                         _span.addEventListener("click",e=>{
-                        speak(e.target.innerText,false)
+                        speak(e.target.innerText.replaceAll(/[a-z ]+/g,''),false)
                     })
                     }
                     container.appendChild(_span)                    
@@ -98,7 +98,7 @@
             const title = h1.textContent
             var re = new RegExp("^"+title);
             const content = main.textContent.replace(re,"")
-            speak(content,false,()=>end_callback())
+            speak(content.replaceAll(/[a-z ]+/g,''),false,()=>end_callback())
         }
         function readall_byseg(end_callback){
             const main = document.querySelector("#main")
@@ -115,10 +115,10 @@
                     end_callback()
                     return;
                 }
-                speak(spans[j++].textContent,false,()=>read(j))
+                speak(spans[j++].textContent.replaceAll(/[a-z ]+/g,''),false,()=>read(j))
                 
             }
-            speak(title.textContent,false,()=>read(0))
+            speak(title.textContent.replaceAll(/[a-z ]+/g,''),false,()=>read(0))
             
         }
         function play_switch_to(player_type = "readall"){
