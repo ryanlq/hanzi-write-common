@@ -57,6 +57,7 @@ html.playing  .lyric-item.playing,.lyric-item.playing{
     font-weight: bold;
     background: #000c;
     padding: 0 20px;
+    transition: all .2s ease;
 }
 .lyric-item.playing ~ .lyric-item{
     color: #8bff8d;
