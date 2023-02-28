@@ -51,9 +51,11 @@ html.playing .lyric-item:hover::after{
 }
 
 html.playing  .lyric-item.playing,.lyric-item.playing{
-    color: #0dff00;
+    color: #82ff7b;
     font-size: 40px;
     font-weight: bold;
+    background: #000c;
+    padding: 0 20px;
 }
 .lyric-item.playing ~ .lyric-item{
     color: #8bff8d;
