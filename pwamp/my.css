@@ -83,6 +83,10 @@ html.playing  .lyric-item.playing,.lyric-item.playing{
 .playlist-song .artist,.playlist-song .album, .visualizing .base{
     display: none !important;
 }
+.playlist-song{
+    background-color: #85040452;
+}
+
 .app-controls,.volume,#song-actions-popover,#playlist-actions-popover,.app-controls #load-custom-skin,.app-controls #record-audio,.app-controls #playlist-actions{
     visibility: hidden;
 }
@@ -119,4 +123,8 @@ html.playing  .lyric-item.playing,.lyric-item.playing{
 
 #playhead{
     width: 70%  !important;
+}
+
+.player {
+    background-color: #85040452;
 }

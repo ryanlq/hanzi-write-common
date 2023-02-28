@@ -7,6 +7,7 @@
   --text-disabled: #8c8c8c;
   --origin: #ffbb50;
   --primary: #43651fe0;
+  --primary-opacity: #43651f4d;
 }
 
 @media (forced-colors: active) {
