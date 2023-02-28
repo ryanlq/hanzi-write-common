@@ -32,13 +32,25 @@
         加载中……
       </section>
       <section class="playlist">
+        
         <p class="empty-playlist">
           No songs in playlist, drag songs here or click <strong>+</strong>
         </p>
         <ol class="songs"></ol>
       </section>
       <section class="player">
+        <div class="playhead-control">
+          <span id="currenttime">00:00</span>
+          <input
+            type="range"
+            id="playhead"
+            aria-label="Current position in song"
+            value="0"
+          />
+          <span id="duration">00:00</span>
+        </div>
         <div class="player-controls">
+          <button class="empty-playlist" id="add-local-song">+</button>
           <button
             class="player-control-button main-button"
             id="previous"
@@ -69,16 +81,7 @@
           </button>
         </div>
   
-        <div class="playhead-control">
-          <span id="currenttime">00:00</span>
-          <input
-            type="range"
-            id="playhead"
-            aria-label="Current position in song"
-            value="0"
-          />
-          <span id="duration">00:00</span>
-        </div>
+
       </section>
     </div>
 

@@ -309,9 +309,11 @@ player.addEventListener("playing", () => {
 addSongsButton.addEventListener("click", async () => {
   const files = await openFilesFromDisk();
 
+  console.log(1)
   createLoadingSongPlaceholders(playlistSongsContainer, files.length);
-
+console.log(2)
   await importSongsFromFiles(files);
+  console.log(3)
 
   await startApp();
 });
@@ -662,4 +664,12 @@ player.addEventListener('timeupdated', (e) => {
   }
 
 },false);
+
+function add_local_song(){
+  const btn = document.querySelector("#add-local-song")
+  btn.addEventListener("click",function(e){
+    document.querySelector("#add-songs").click()
+  })
+}
+add_local_song()
 

@@ -1,5 +1,6 @@
 import { hasRemoteURLSong, addRemoteURLSong, addLocalFileSong, addMultipleLocalFileSongs } from "./store.js";
 import { formatTime, guessSongInfo } from "./utils.js";
+import { lyrics } from "./datas/lyrics.js"
 
 // To add new songs into the store, the app uses this importer instead of the
 // store functions directly.
@@ -61,8 +62,9 @@ export async function importSongsFromFiles(files) {
 
     const url = await turnFileIntoURL(file);
     const duration = await getSongDuration(url);
-
-    songs.push({ title, artist, album, duration: formatTime(duration), file });
+    let _data = { title, artist, album, duration: formatTime(duration), file }
+    if(lyrics[title]) _data["lyric"] = lyrics[title]
+    songs.push(_data);
   }));
 
   // And then add all songs in one go in the storage.

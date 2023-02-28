@@ -83,7 +83,7 @@ html.playing  .lyric-item.playing,.lyric-item.playing{
 .playlist-song .artist,.playlist-song .album, .visualizing .base{
     display: none !important;
 }
-.volume,.app-controls,#song-actions-popover,#playlist-actions-popover{
+.app-controls,.volume,#song-actions-popover,#playlist-actions-popover,.app-controls #load-custom-skin,.app-controls #record-audio,.app-controls #playlist-actions{
     visibility: hidden;
 }
 
@@ -97,3 +97,26 @@ html.playing  .lyric-item.playing,.lyric-item.playing{
     background-color: #11191f30;
 }
 
+#add-local-song{
+    display: block !important;
+    width: 3rem;
+    height: 3rem;
+    background-color: var(--text);
+    border-width: 0px;
+    font-weight: bolder;
+    color: #000;
+    border-radius: 50%;
+    font-size: 1.8rem;
+    scale: .7;
+}
+#toggle-visualizer{
+    margin-left: 2rem;
+}
+
+.player-controls{
+    margin: 1rem 0 0 0 !important;
+}
+
+#playhead{
+    width: 70%  !important;
+}
