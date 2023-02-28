@@ -10,6 +10,7 @@ import { startRecordingAudio, stopRecordingAudio } from "./recorder.js";
 import { createSongUI, removeAllSongs, createLoadingSongPlaceholders, removeLoadingSongPlaceholders } from "./song-ui-factory.js";
 import { initMediaSession } from "./media-session.js";
 import { initKeyboardShortcuts } from "./keys.js";
+import { Speaker } from "./widgets/Speaker.js";
 
 // Whether the app is running in the Microsoft Edge sidebar.
 const isSidebarPWA = (() => {
@@ -120,7 +121,7 @@ function updateUI() {
   const currentSong = playlistSongsContainer.querySelector(`[id="${player.song.id}"]`);
   currentSong && currentSong.classList.add('playing');
   loadLyric()
-  lyricPanel.scrollTo(0,0)
+  // lyricPanel.scrollTo(0,0)
 }
 
 // Calling this function starts (or reloads) the app.
@@ -148,7 +149,8 @@ export async function startApp() {
   // Populate the playlist UI.
   removeAllSongs(playlistSongsContainer);
   for (const song of songs) {
-    const playlistSongEl = createSongUI(playlistSongsContainer, song);
+    // const playlistSongEl = createSongUI(playlistSongsContainer, song);
+    const playlistSongEl = createSongUI(playlistSongsContainer, song, true);// stateless = true
 
     playlistSongEl.addEventListener('play-song', () => {
       player.pause();
@@ -582,12 +584,13 @@ sendMessageToSW({ action: 'paused' });
 
 // Initialize the shortcuts.
 initKeyboardShortcuts(player, toggleVisualizer);
-
+const speak = Speaker()
 function loadLyric(){
   const cur = document.querySelector(".playlist-song.playing")
   if(cur && cur.id){
     const lyric_songid = lyricPanel.getAttribute("songid")
     if(cur.id !== lyric_songid){
+      document.body.style.backgroundImage= 'url("./imgs/'+parseInt(Math.random() * 12)+'.jpg")'
       lyricPanel.setAttribute("songid",cur.id)
       if(MYSONGS[cur.id].hasOwnProperty("lyric")){
         lyric.load(MYSONGS[cur.id]["lyric"])
@@ -595,7 +598,7 @@ function loadLyric(){
         lyric.load("[00:03.000] 暂无歌词")
       }
       setLyricPanel()
-      
+      lyricPanel.scrollTo(0,0)
     }
   }
 }
@@ -610,13 +613,18 @@ function setLyricPanel(){
     new_node.setAttribute("data-time",s)
     new_node.innerText = lyric.lyric[s]
     new_node.addEventListener("click",function(e){
-      const _time = new_node.getAttribute("data-time")
-      const _currentTime = parseInt(_time.slice(0,2)) * 60 + parseInt(_time.slice(3,5))
-      if(player.isBuffered()){
-        player.currentTime = _currentTime
+      if(document.querySelector("html").classList.contains("playing")){
+        const _time = new_node.getAttribute("data-time")
+        const _currentTime = parseInt(_time.slice(0,2)) * 60 + parseInt(_time.slice(3,5))
+        if(player.isBuffered()){
+          player.currentTime = _currentTime
+        } else {
+          console.log("未缓冲完成")
+        }
       } else {
-        console.log("未缓冲完成")
+        speak(e.target.innerText,false)
       }
+
     })
     return new_node
   })
@@ -642,12 +650,16 @@ player.addEventListener('timeupdated', (e) => {
       const curplay = document.querySelector(".lyric-item.playing")
       curplay && curplay.classList.remove("playing")
       const _t = document.querySelector(".lyric-item[data-time='"+tag+"']")
+      const _h = _t.clientHeight
       _t.classList.add("playing")
-      const positionY = _t.offsetTop - lyricPanel.clientHeight
-      const startY = 0 - lyricPanel.clientHeight/2
-      if(positionY>startY) lyricPanel.scrollTo(0,positionY-startY)
-    } 
+      const _offset = lyricPanel.clientHeight - _t.offsetTop;
+      const startpos = lyricPanel.clientHeight/2
+      if(_offset < startpos){
 
+        lyricPanel.scrollTo(0,lyricPanel.scrollTop + _h)
+      }
+    } 
   }
 
 },false);
+

@@ -10,14 +10,16 @@ export function createSongUI(playlistSongsContainer, song, stateLess) {
   li.classList.add(song.type === 'file' ? 'file' : 'remote');
   li.id = song.id;
 
+  const baseInfo = document.createElement("div");
+  baseInfo.classList.add("base")
   // Play button
-  let playButton = null;
   if (!stateLess) {
+    let playButton = null;
     playButton = document.createElement("button");
     playButton.classList.add('play');
     playButton.setAttribute('title', 'Play this song');
     playButton.innerHTML = '<span>Play</span>';
-    li.appendChild(playButton);
+    baseInfo.appendChild(playButton);
   }
 
   // Album artwork
@@ -25,7 +27,7 @@ export function createSongUI(playlistSongsContainer, song, stateLess) {
   albumArt.classList.add('artwork');
   albumArt.setAttribute('loading', 'lazy');
   albumArt.setAttribute('src', song.artworkUrl || './album-art-placeholder.png');
-  li.appendChild(albumArt);
+  baseInfo.appendChild(albumArt);
 
   // Song title
   const titleInput = document.createElement("span");
@@ -36,7 +38,8 @@ export function createSongUI(playlistSongsContainer, song, stateLess) {
     titleInput.setAttribute('contenteditable', true);
     titleInput.setAttribute('spellcheck', false);
   }
-  li.appendChild(titleInput);
+  baseInfo.appendChild(titleInput);
+  li.appendChild(baseInfo)
 
   // Artist name
   const artistInput = document.createElement("span");
@@ -66,19 +69,24 @@ export function createSongUI(playlistSongsContainer, song, stateLess) {
   durationLabel.textContent = song.duration;
   li.appendChild(durationLabel);
 
+  if(stateLess){
+    li.addEventListener('click', () => {
+      li.dispatchEvent(new CustomEvent("play-song", { bubbles: true }));
+    });
+  }
   // Actions button
   if (!stateLess) {
+
     const actionsButton = document.createElement("button");
     actionsButton.classList.add('actions');
     actionsButton.setAttribute('title', 'Song actions');
     actionsButton.innerHTML = '<span>Actions</span>';
     li.appendChild(actionsButton);
 
-    // Play button event listener
+  // Play button event listener
     playButton.addEventListener('click', () => {
       li.dispatchEvent(new CustomEvent("play-song", { bubbles: true }));
     });
-
     // Auto-select text on focus
     function focusText() {
       window.setTimeout(function () {

@@ -34,10 +34,28 @@ const INITIAL_CACHED_RESOURCES = [
   "./visualizer.png",
   "./widgets/mini-player.json",
   "./widgets/mini-player-data.json",
+  "./widgets/Speaker.js",
   "./idb-keyval.js",
   "./songs/幸福万年长.m4a",
   "./songs/彩云之南.m4a",
   "./songs/醉酒的蝴蝶.mp3",
+  "./imgs/0.jpg",
+  "./imgs/1.jpg",
+  "./imgs/2.jpg",
+  "./imgs/3.jpg",
+  "./imgs/4.jpg",
+  "./imgs/5.jpg",
+  "./imgs/6.jpg",
+  "./imgs/7.jpg",
+  "./imgs/8.jpg",
+  "./imgs/9.jpg",
+  "./imgs/10.jpg",
+  "./imgs/11.jpg",
+  "./imgs/12.jpg",
+  "./imgs/13.jpg",
+  "./imgs/14.jpg",
+  "./imgs/15.jpg",
+  "./imgs/16.jpg"
 ];
 
 // Add a cache-busting query string to the pre-cached resources.
@@ -56,6 +74,7 @@ self.addEventListener("install", event => {
 
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE_NAME);
+    console.log(CACHE_NAME)
     cache.addAll(INITIAL_CACHED_RESOURCES_WITH_VERSIONS);
   })());
 });

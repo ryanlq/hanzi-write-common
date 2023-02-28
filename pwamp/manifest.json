@@ -1,6 +1,6 @@
 {
-  "name": "PWAmp music player",
-  "short_name": "PWAmp",
+  "name": "音乐",
+  "short_name": "music",
   "description": "A skinable music player app to play your favorite mp3 files",
   "lang": "en-US",
   "start_url": "./",
@@ -127,8 +127,8 @@
   },
   "widgets": [
     {
-      "name": "PWAmp mini player",
-      "short_name": "PWAmp",
+      "name": "mini player",
+      "short_name": "miniPlayer",
       "description": "Widget to control the PWAmp player",
       "tag": "pwamp",
       "ms_ac_template": "widgets/mini-player.json",

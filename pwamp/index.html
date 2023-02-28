@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pwamp</title>
+    <title>音乐</title>
     <link rel="icon" href="./icon/favicon.ico" sizes="any" />
     <link rel="icon" href="./icon/favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="manifest.json" />
@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="skins/default.css" id="default-stylesheet" />
     <meta http-equiv="origin-trial" content="Anis2Rwm4wMgVdj20cDZtpc3+ICrimlJA0dKFx4wqdERgdHKwE4EHTH3misGpnEhGJSnaVlaeAi92b6KSgCGXYAAAAB0eyJvcmlnaW4iOiJodHRwczovL21pY3Jvc29mdGVkZ2UuZ2l0aHViLmlvOjQ0MyIsImlzU3ViZG9tYWluIjpmYWxzZSwiZmVhdHVyZSI6Im1zV2ViQXBwV2lkZ2V0cyIsImV4cGlyeSI6MTY4NTU3NzYwMH0=">
   </head>
-  <body>
+  <body style="background-size:cover !important;">
     <div
       id="wco-drag"
       style="
@@ -27,56 +27,60 @@
       "
     ></div>
 
-    <section class="player">
-      <div class="player-controls">
-        <button
-          class="player-control-button main-button"
-          id="previous"
-          title="Go to the previous song or the beginning of song (P)"
-        >
-          <span>Previous</span>
-        </button>
-        <button
-          class="player-control-button main-button"
-          id="playpause"
-          title="Play (space)"
-        >
-          <span>Play</span>
-        </button>
-        <button
-          class="player-control-button main-button"
-          id="next"
-          title="Go to the next song (N)"
-        >
-          <span>Next</span>
-        </button>
-        <button
-          class="main-button"
-          id="toggle-visualizer"
-          title="Show visualizer (V)"
-        >
-          <span>Show visualizer</span>
-        </button>
-      </div>
-
-      <div class="playhead-control">
-        <span id="currenttime">00:00</span>
-        <input
-          type="range"
-          id="playhead"
-          aria-label="Current position in song"
-          value="0"
-        />
-        <span id="duration">00:00</span>
-      </div>
-    </section>
-
-    <section class="playlist">
-      <p class="empty-playlist">
-        No songs in playlist, drag songs here or click <strong>+</strong>
-      </p>
-      <ol class="songs"></ol>
-    </section>
+    <div class="main-view">
+      <section id="lyric-panel">
+        加载中……
+      </section>
+      <section class="playlist">
+        <p class="empty-playlist">
+          No songs in playlist, drag songs here or click <strong>+</strong>
+        </p>
+        <ol class="songs"></ol>
+      </section>
+      <section class="player">
+        <div class="player-controls">
+          <button
+            class="player-control-button main-button"
+            id="previous"
+            title="Go to the previous song or the beginning of song (P)"
+          >
+            <span>Previous</span>
+          </button>
+          <button
+            class="player-control-button main-button"
+            id="playpause"
+            title="Play (space)"
+          >
+            <span>Play</span>
+          </button>
+          <button
+            class="player-control-button main-button"
+            id="next"
+            title="Go to the next song (N)"
+          >
+            <span>Next</span>
+          </button>
+          <button
+            class="main-button"
+            id="toggle-visualizer"
+            title="Show visualizer (V)"
+          >
+            <span>Show visualizer</span>
+          </button>
+        </div>
+  
+        <div class="playhead-control">
+          <span id="currenttime">00:00</span>
+          <input
+            type="range"
+            id="playhead"
+            aria-label="Current position in song"
+            value="0"
+          />
+          <span id="duration">00:00</span>
+        </div>
+      </section>
+    </div>
 
     <section class="current-song"></section>
 
@@ -111,6 +115,7 @@
         <span>More tools...</span>
       </button>
     </section>
+
 
     <canvas id="waveform"></canvas>
 
@@ -159,7 +164,7 @@
       </button>
     </div>
 
-    <dialog id="about-dialog">
+    <dialog id="about-dialog" style="display:none;">
       <div class="screenshot"></div>
       <img class="logo" src="./icon/favicon.png" alt="The PWAmp logo" />
       <section class="about">
@@ -181,10 +186,6 @@
       </form>
     </dialog>
 
-    <section id="lyric-panel">
-      test
-    </section>
-
 
     <script src="popup-polyfill.js"></script>
 
@@ -197,6 +198,7 @@
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("./sw.js");
       }
+
     </script>
   </body>
 </html>
