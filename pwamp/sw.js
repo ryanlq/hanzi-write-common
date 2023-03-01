@@ -35,6 +35,7 @@ const INITIAL_CACHED_RESOURCES = [
   "./widgets/mini-player.json",
   "./widgets/mini-player-data.json",
   "./widgets/Speaker.js",
+  "./widgets/LyricParser.js",
   "./idb-keyval.js",
   "./songs/幸福万年长.m4a",
   "./songs/彩云之南.m4a",
@@ -55,7 +56,8 @@ const INITIAL_CACHED_RESOURCES = [
   "./imgs/13.jpg",
   "./imgs/14.jpg",
   "./imgs/15.jpg",
-  "./imgs/16.jpg"
+  "./imgs/16.jpg",
+  "./imgs/add.png"
 ];
 
 // Add a cache-busting query string to the pre-cached resources.

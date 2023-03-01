@@ -11,6 +11,7 @@ import { createSongUI, removeAllSongs, createLoadingSongPlaceholders, removeLoad
 import { initMediaSession } from "./media-session.js";
 import { initKeyboardShortcuts } from "./keys.js";
 import { Speaker } from "./widgets/Speaker.js";
+import { LyricParser } from "./widgets/LyricParser.js"
 
 // Whether the app is running in the Microsoft Edge sidebar.
 const isSidebarPWA = (() => {
@@ -672,4 +673,5 @@ function add_local_song(){
   })
 }
 add_local_song()
+
 

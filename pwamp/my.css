@@ -113,6 +113,8 @@ html.playing  .lyric-item.playing,.lyric-item.playing{
     border-radius: 50%;
     font-size: 1.8rem;
     scale: .7;
+    background-image: url(imgs/add.png);
+    background-size: cover;
 }
 #toggle-visualizer{
     margin-left: 2rem;
