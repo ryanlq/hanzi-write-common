@@ -1,7 +1,7 @@
 import { hasRemoteURLSong, addRemoteURLSong, addLocalFileSong, addMultipleLocalFileSongs } from "./store.js";
 import { formatTime, guessSongInfo } from "./utils.js";
 import { lyrics } from "./datas/lyrics.js"
-import { LyricParser } from "./widgets/LyricParser.js"
+import { LyricParser } from "./libs/LyricParser.js"
 
 // To add new songs into the store, the app uses this importer instead of the
 // store functions directly.

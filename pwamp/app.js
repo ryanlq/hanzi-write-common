@@ -10,8 +10,8 @@ import { startRecordingAudio, stopRecordingAudio } from "./recorder.js";
 import { createSongUI, removeAllSongs, createLoadingSongPlaceholders, removeLoadingSongPlaceholders } from "./song-ui-factory.js";
 import { initMediaSession } from "./media-session.js";
 import { initKeyboardShortcuts } from "./keys.js";
-import { Speaker } from "./widgets/Speaker.js";
-import { LyricParser } from "./widgets/LyricParser.js"
+import { Speaker } from "./libs/Speaker.js";
+import { LyricParser } from "./libs/LyricParser.js"
 
 // Whether the app is running in the Microsoft Edge sidebar.
 const isSidebarPWA = (() => {
