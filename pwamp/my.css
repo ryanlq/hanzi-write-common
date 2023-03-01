@@ -120,6 +120,17 @@ html.playing  .lyric-item.playing,.lyric-item.playing{
     background-size: 3rem 3rem;
     -webkit-background-size :contain;
 }
+@supports ( -webkit-touch-callout : none) {
+    #add-local-song {
+        background-attachment:scroll
+    }
+}
+    
+@supports not ( -webkit-touch-callout : none) {
+    #add-local-song {
+        background-attachment: fixed;
+    }
+}
 #toggle-visualizer{
     
 }
