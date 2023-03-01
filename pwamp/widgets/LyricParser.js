@@ -1,5 +1,5 @@
 
-const base = "https://raw.githubusercontent.com/ryanlq/lyrics/main/"
+const base = "https://statics-dg5.pages.dev/lyrics/"
 export async function LyricParser(name){
     var header = new Headers();
     header.append('Content-Type','text/plain; charset=UTF-8');

@@ -596,7 +596,7 @@ function loadLyric(){
     if(cur.id !== lyric_songid){
       document.body.style.backgroundImage= 'url("./imgs/'+parseInt(Math.random() * 12)+'.jpg")'
       lyricPanel.setAttribute("songid",cur.id)
-      if(MYSONGS[cur.id].hasOwnProperty("lyric")){
+      if(MYSONGS[cur.id].hasOwnProperty("lyric") && MYSONGS[cur.id]["lyric"]){
         lyric.load(MYSONGS[cur.id]["lyric"])
       } else {
         lyric.load("[00:03.000] 暂无歌词")
