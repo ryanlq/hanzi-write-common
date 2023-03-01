@@ -146,3 +146,7 @@ html.playing  .lyric-item.playing,.lyric-item.playing{
 body {
     user-select: none;
 }
+
+.playlist.has-songs .empty-playlist {
+    display: none;
+  }

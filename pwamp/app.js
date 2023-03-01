@@ -179,8 +179,12 @@ export async function startApp() {
       songActionCopyUri.disabled = song.type !== 'url';
     });
   }
-
-  playlistEl.classList.toggle('has-songs', songs.length > 0);
+  if(songs.length > 0){
+    playlistEl.classList.add('has-songs');
+  } else {
+    playlistEl.classList.remove('has-songs');
+  }
+  
 
   // Start the update loop.
   updateLoop = setInterval(updateUI, 500);
