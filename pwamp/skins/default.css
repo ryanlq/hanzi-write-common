@@ -569,7 +569,7 @@ input[type="range"]:hover::-moz-range-thumb {
     100% 40%,
     100% 20%;
   scale: .7;
-  position: absolute;
+  /* position: absolute; */
   left: calc(50% + 6rem);
 }
 
