@@ -598,16 +598,17 @@ function loadLyric(){
       lyricPanel.setAttribute("songid",cur.id)
       if(MYSONGS[cur.id].hasOwnProperty("lyric") && MYSONGS[cur.id]["lyric"]){
         lyric.load(MYSONGS[cur.id]["lyric"])
+        setLyricPanel()
       } else {
         lyric.load("[00:03.000] 暂无歌词")
+        setLyricPanel(true)
       }
-      setLyricPanel()
       lyricPanel.scrollTo(0,0)
     }
   }
 }
 
-function setLyricPanel(){
+function setLyricPanel(isEmpty=false){
   if(lyric.symbols.length==0) return;
   
   let item_node = document.createElement("div")
@@ -633,6 +634,21 @@ function setLyricPanel(){
     return new_node
   })
   lyricPanel.innerHTML = ""
+  if(isEmpty){
+    const find_lyric_btn = document.createElement("button")
+    find_lyric_btn.id = "find_lyric_btn"
+    find_lyric_btn.addEventListener("click",async e=>{
+      const palying = document.querySelector(".playlist-song.playing")
+      let _song = await getSong(palying.id)
+      const lyric = await LyricParser(_song.title+" - "+_song.artist)
+      
+      if(lyric){
+        await editSong(_song.id,_song.title,_song.artist,_song.album,lyric)
+        await startApp()
+      } 
+    })
+  }
+
   lyricPanel.append(...nodes)
 }
 

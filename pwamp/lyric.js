@@ -5,7 +5,9 @@ export class Lyric{
         this.symbols = []
     }
     load(text){
-        if(!text) return false;
+        if(!text) {
+            return false;
+        };
         let textlist = text.split("[")
         let results = {}
         let items = textlist.forEach(t=>{

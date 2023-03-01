@@ -132,7 +132,7 @@ async function addSong(type, id, title, artist, album, duration, data = null,pic
 /**
  * Given the unique ID to an existing song, edit its title, artist and album.
  */
-export async function editSong(id, title, artist, album) {
+export async function editSong(id, title, artist, album, lyric,picture) {
   const songs = await getSongs();
   const song = songs.find(s => s.id === id);
   if (!song) {
@@ -142,6 +142,9 @@ export async function editSong(id, title, artist, album) {
   song.title = title;
   song.artist = artist;
   song.album = album;
+  song.lyric = lyric;
+  song.picture = picture;
+
 
   await set('pwamp-songs', songs);
 }

@@ -7,7 +7,7 @@ export async function LyricParser(name){
     const response = await fetch(fullurl,header);
     const text = await response.text()
 
-    if(text.slice(0,3) !== "404"){
+    if(!text.includes("<html") && text.slice(0,3) !== "404"  ){
         return text.replaceAll("\n","")
     } else {
         return false
