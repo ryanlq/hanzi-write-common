@@ -156,7 +156,8 @@ function guessSongInfoFromFile(file) {
       resolve({
         artist: event.data.artist,
         title: event.data.title,
-        album: event.data.album
+        album: event.data.album,
+        picture:event.data.picture
       });
     }, { once: true });
 
@@ -176,7 +177,8 @@ export async function guessSongInfo(file) {
   return {
     album: fromMetadata.album || fromFileName.album || 'Unknown album',
     artist: fromMetadata.artist || fromFileName.artist || 'Unknown artist',
-    title: fromMetadata.title || fromFileName.title || 'Unknown song'
+    title: fromMetadata.title || fromFileName.title || 'Unknown song',
+    picture: fromMetadata.picture || fromFileName.picture || 'Unknown song',
   };
 }
 

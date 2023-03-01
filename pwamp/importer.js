@@ -59,14 +59,13 @@ export async function importSongsFromFiles(files) {
 
   // We can do this part in parallel.
   await Promise.all(files.map(async file => {
-    const { title, artist, album } = await guessSongInfo(file)
+    const { title, artist, album,picture } = await guessSongInfo(file)
 
     const url = await turnFileIntoURL(file);
     const duration = await getSongDuration(url);
-    let _data = { title, artist, album, duration: formatTime(duration), file }
+    let _data = { title, artist, album, duration: formatTime(duration), file,picture }
     if(lyrics[title]) _data["lyric"] = lyrics[title]
     else{
-      console.log(title+" - "+artist)
       _data["lyric"] = await LyricParser(title+" - "+artist)
     }
     songs.push(_data);
@@ -83,11 +82,11 @@ export async function importSongsFromFiles(files) {
  * If the file could not be read as an audio file an error message is returned.
  */
 export async function importSongFromFile(file) {
-  const { title, artist, album } = await guessSongInfo(file)
+  const { title, artist, album ,picture} = await guessSongInfo(file)
   const url = await turnFileIntoURL(file);
   const duration = await getSongDuration(url);
-
-  await addLocalFileSong(file, title, artist, album, formatTime(duration));
+  if(picture) await addLocalFileSong(file, title, artist, album, formatTime(duration),picture);
+  else await addLocalFileSong(file, title, artist, album, formatTime(duration));
 
   return { error: false };
 }

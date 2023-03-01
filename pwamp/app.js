@@ -310,11 +310,8 @@ player.addEventListener("playing", () => {
 addSongsButton.addEventListener("click", async () => {
   const files = await openFilesFromDisk();
 
-  console.log(1)
   createLoadingSongPlaceholders(playlistSongsContainer, files.length);
-console.log(2)
   await importSongsFromFiles(files);
-  console.log(3)
 
   await startApp();
 });

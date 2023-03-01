@@ -26,14 +26,15 @@ export function createSongUI(playlistSongsContainer, song, stateLess) {
   const albumArt = document.createElement("img");
   albumArt.classList.add('artwork');
   albumArt.setAttribute('loading', 'lazy');
-  albumArt.setAttribute('src', song.artworkUrl || './album-art-placeholder.png');
+  let picurl = song.picture?URL.createObjectURL(song.picture):false
+  albumArt.setAttribute('src', picurl||song.artworkUrl || './album-art-placeholder.png');
   baseInfo.appendChild(albumArt);
 
   // Song title
   const titleInput = document.createElement("span");
   titleInput.classList.add('title');
-  titleInput.setAttribute('title', 'Song title - click to edit');
-  titleInput.textContent = song.title;
+  titleInput.setAttribute('title', song.title+' - '+song.artist);
+  titleInput.textContent = song.title +' - '+song.artist;
   if (!stateLess) {
     titleInput.setAttribute('contenteditable', true);
     titleInput.setAttribute('spellcheck', false);
@@ -133,7 +134,7 @@ export function createSongUI(playlistSongsContainer, song, stateLess) {
 
 export function createLoadingSongPlaceholders(playlistSongsContainer, nbOfPlaceholders) {
   for (let i = 0; i < nbOfPlaceholders; i++) {
-    const playlistSongEl = createSongUI(playlistSongsContainer, { title: '', artist: '', album: '', id: getUniqueId(), type: 'file' },true);
+    const playlistSongEl = createSongUI(playlistSongsContainer, { title: '', artist: '', album: '', id: getUniqueId(), type: 'file' ,picture:''},true);
     playlistSongEl.classList.add('loading-placeholder');
     playlistSongsContainer.appendChild(playlistSongEl);
   }

@@ -91,7 +91,6 @@ export function Speaker(){
           let texts,speak_word;
           let speaktext = text
           if(is_extra ){
-            console.log("extra@@@")
             texts = get_extra(text)
             speak_word = text + ":"
             texts.forEach(t=>{

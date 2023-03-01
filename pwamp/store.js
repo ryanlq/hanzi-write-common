@@ -77,9 +77,11 @@ export async function addRemoteURLSong(url, title, artist, album, duration) {
  * Add a new file song to the list of songs in IDB.
  * The song is expected to be passed as a File object.
  */
-export async function addLocalFileSong(file, title, artist, album, duration) {
+export async function addLocalFileSong(file, title, artist, album, duration,picture=false) {
   const id = getUniqueId();
-  await addSong('file', id, title, artist, album, duration, file);
+  if(picture) await addSong('file', id, title, artist, album, duration, file,picture);
+  else await addSong('file', id, title, artist, album, duration, file);
+  
 }
 
 /**
@@ -96,7 +98,8 @@ export async function addMultipleLocalFileSongs(fileSongs) {
       type: 'file',
       id: getUniqueId(),
       lyric: fileSong.lyric,
-      dateAdded: Date.now()
+      dateAdded: Date.now(),
+      picture:fileSong.picture
     }
   });
 
@@ -108,7 +111,7 @@ export async function addMultipleLocalFileSongs(fileSongs) {
 /**
  * Private implementation of addSong.
  */
-async function addSong(type, id, title, artist, album, duration, data = null) {
+async function addSong(type, id, title, artist, album, duration, data = null,picture=null) {
   const song = {
     type,
     id,
@@ -117,7 +120,8 @@ async function addSong(type, id, title, artist, album, duration, data = null) {
     album,
     duration,
     dateAdded: Date.now(),
-    data
+    data,
+    picture
   };
 
   let songs = await getSongs();
