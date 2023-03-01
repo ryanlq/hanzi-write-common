@@ -143,3 +143,6 @@ html.playing  .lyric-item.playing,.lyric-item.playing{
     border-top-width: 1px;
     border-top-style: double;
 }
+body {
+    user-select: none;
+}
