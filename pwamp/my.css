@@ -46,12 +46,12 @@ html.playing .lyric-item{
     color: var(--origin);
     font-size: 12px;
 }
-html.playing .lyric-item:hover::after{
+/* html.playing .lyric-item:hover::after{
     content:"[此处播放]";
     display: inline;
     color: var(--origin);
     font-size: 12px;
-}
+} */
 
 html.playing  .lyric-item.playing,.lyric-item.playing{
     color: #82ff7b;
