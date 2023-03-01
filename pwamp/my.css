@@ -117,7 +117,7 @@ html.playing  .lyric-item.playing,.lyric-item.playing{
     font-size: 1.8rem;
     scale: .7;
     background-image: url(imgs/add.png);
-    background-size: cover;
+    background-size: 3rem 3rem;
 }
 #toggle-visualizer{
     
