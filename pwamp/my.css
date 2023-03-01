@@ -40,7 +40,7 @@ html.playing .lyric-item{
 .lyric-item:hover{
     color: #92ff8c;
 }
-.lyric-item:hover::after{
+html:not(.playing) .lyric-item:hover::after{
     content:" [讲述人]";
     display: inline;
     color: var(--origin);
