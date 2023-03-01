@@ -35,8 +35,7 @@ html,body{
 html.playing .lyric-item{
     color: #ffffff3d;
     transition-property: all;
-    transition-duration: 0.1s;
-    transition-timing-function: cubic-bezier(0.49, 1.59, 0.46, -0.21);
+
 }
 .lyric-item:hover{
     color: #92ff8c;
@@ -59,7 +58,6 @@ html.playing  .lyric-item.playing,.lyric-item.playing{
     font-weight: bold;
     background: #000c;
     padding: 0 20px;
-    border-radius: 50%;
     transform: scale(1.7);
 }
 .lyric-item.playing ~ .lyric-item{
