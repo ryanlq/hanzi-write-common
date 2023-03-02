@@ -2,10 +2,20 @@ html,body{
     height: 100%;
     width: 100%;
 }
-body{
-    padding-bottom: constant(safe-area-inset-bottom);
-    padding-bottom: env(safe-area-inset-bottom);
-}
+@supports ((height: constant(safe-area-inset-top)) or (height: env(safe-area-inset-top))) and (-webkit-overflow-scrolling: touch) {
+    body {
+      /* 适配齐刘海 */
+      padding-top: 20px;
+      padding-top: constant(safe-area-inset-top);
+      padding-top: env(safe-area-inset-top);
+      
+      /* 适配底部小黑条 */
+      padding-bottom: 0;
+      padding-bottom: costant(safe-area-inset-bottom);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+  }
+  
 #lyric-panel{
     visibility: hidden;
     font-family:STFangsong ;
@@ -193,17 +203,17 @@ body {
   }
 
   @keyframes color {
-    0%   { background: #0182823e; }
-    20%  { background: #16b00b6c; }
-    40%  { background: #9c810aaa; }
-    60%  { background: #ce1a1a; }
-    80%  { background: #c511a4a3; }
-    90%  { background: #2311c567; }
-    100%   { background: #0182823e; }
+    0%   { background: #01828215; }
+    20%  { background: #01820568; }
+    40%  { background: #827c01a3; }
+    50%  { background: #822a0188; }
+    60%  { background: #82016684; }
+    80%  { background: #01308262; }
+    100%   { background: #01828215; }
   }
   
   .playlist-song.playing {
-    background: #0182823e;
+    background: #01828215;
     animation: color 9s infinite linear;
   }
 
