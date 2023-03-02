@@ -205,6 +205,11 @@ body {
     background: #018282d4;
     animation: color 9s infinite linear;
   }
+
+.visualizing.playing .player{
+    background: #018282d4;
+    animation: color 9s infinite linear;
+  }
 #add-local-song,#previous,#next,#playpause{
     display: flex !important;
     justify-content: center;
