@@ -265,6 +265,3 @@ body {
 .player-controls #previous::before, .player-controls #next::before{
     display: none;
 }
-.player-controls button{
-    margin: 0 10px;
-}
