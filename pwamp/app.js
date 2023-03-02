@@ -12,6 +12,7 @@ import { initMediaSession } from "./media-session.js";
 import { initKeyboardShortcuts } from "./keys.js";
 import { Speaker } from "./libs/Speaker.js";
 import { LyricParser } from "./libs/LyricParser.js"
+import { preload } from "./libs/preload.js"
 
 // Whether the app is running in the Microsoft Edge sidebar.
 const isSidebarPWA = (() => {
@@ -694,6 +695,10 @@ function add_local_song(){
     document.querySelector("#add-songs").click()
   })
 }
-add_local_song()
 
 
+
+window.onload = ()=>{
+  add_local_song()
+  preload()
+}

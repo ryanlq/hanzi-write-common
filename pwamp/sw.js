@@ -1,9 +1,10 @@
+
 const VERSION = "v38";
 const CACHE_NAME = `pwamp-${VERSION}`;
 
 // Those are all the resources our app needs to work.
 // We'll cache them on install.
-const INITIAL_CACHED_RESOURCES = [
+let INITIAL_CACHED_RESOURCES = [
   "./",
   "./index.html",
   "./skins/default.css",
@@ -37,9 +38,6 @@ const INITIAL_CACHED_RESOURCES = [
   "./libs/Speaker.js",
   "./libs/LyricParser.js",
   "./idb-keyval.js",
-  "./songs/幸福万年长.m4a",
-  "./songs/彩云之南.m4a",
-  "./songs/醉酒的蝴蝶.mp3",
   "./imgs/0.jpg",
   "./imgs/1.jpg",
   "./imgs/2.jpg",
@@ -59,7 +57,6 @@ const INITIAL_CACHED_RESOURCES = [
   "./imgs/16.jpg",
   "./imgs/add.png"
 ];
-
 // Add a cache-busting query string to the pre-cached resources.
 // This is to avoid loading these resources from the disk cache.
 const INITIAL_CACHED_RESOURCES_WITH_VERSIONS = INITIAL_CACHED_RESOURCES.map(path => {
@@ -76,8 +73,8 @@ self.addEventListener("install", event => {
 
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE_NAME);
-    console.log(CACHE_NAME)
-    cache.addAll(INITIAL_CACHED_RESOURCES_WITH_VERSIONS);
+    var uniqueUrls = [...new Set(INITIAL_CACHED_RESOURCES_WITH_VERSIONS)]; 
+    cache.addAll(uniqueUrls);
   })());
 });
 

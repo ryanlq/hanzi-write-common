@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="skins/default.css" id="default-stylesheet" />
     <meta http-equiv="origin-trial" content="Anis2Rwm4wMgVdj20cDZtpc3+ICrimlJA0dKFx4wqdERgdHKwE4EHTH3misGpnEhGJSnaVlaeAi92b6KSgCGXYAAAAB0eyJvcmlnaW4iOiJodHRwczovL21pY3Jvc29mdGVkZ2UuZ2l0aHViLmlvOjQ0MyIsImlzU3ViZG9tYWluIjpmYWxzZSwiZmVhdHVyZSI6Im1zV2ViQXBwV2lkZ2V0cyIsImV4cGlyeSI6MTY4NTU3NzYwMH0=">
   </head>
-  <body style="background-size:cover !important;">
+  <body style="background-size:cover !important;" class="loading">
     <div
       id="wco-drag"
       style="
@@ -123,7 +123,8 @@
 
     <canvas id="waveform"></canvas>
 
-    <div id="song-actions-popover" popover>
+    <!-- <div id="song-actions-popover" popover> -->
+    <div id="song-actions-popover">
       <button class="popover-item song-action" id="song-action-copy-uri">
         Copy link
       </button>
@@ -138,8 +139,9 @@
       </button>
     </div>
 
-    <div id="playlist-actions-popover" popover>
-      <button
+    <div id="playlist-actions-popover">
+      <!-- <div id="playlist-actions-popover" popover> -->
+        <button
         class="popover-item playlist-action"
         id="playlist-action-sortbyartist"
       >
@@ -189,7 +191,10 @@
         <button value="install" id="install-button">Install app</button>
       </form>
     </dialog>
-
+    <div id="load-view">
+      <div class="lds-facebook"><div></div><div></div><div></div></div>
+    </div>
+   
 
     <script src="popup-polyfill.js"></script>
 
@@ -202,6 +207,9 @@
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("./sw.js");
       }
+      document.addEventListener('DOMContentLoaded', (event) => {
+        document.body.classList.remove("loading")
+      });
 
     </script>
   </body>

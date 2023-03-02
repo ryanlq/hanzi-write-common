@@ -26,6 +26,7 @@ export function createSongUI(playlistSongsContainer, song, stateLess) {
   const albumArt = document.createElement("img");
   albumArt.classList.add('artwork');
   albumArt.setAttribute('loading', 'lazy');
+  albumArt.alt = ""
   let picurl = './album-art-placeholder.png'
   if(song.hasOwnProperty("picture") && (song["picture"] instanceof  Blob)){
     picurl = URL.createObjectURL(song.picture)
