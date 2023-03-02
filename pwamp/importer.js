@@ -16,10 +16,10 @@ import { LyricParser } from "./libs/LyricParser.js"
  * If the song already exists (based on URL) or if the URL didn't return a
  * valid audio file, then an error message is returned.
  */
-export async function importSongFromURL(url, title = 'Unknown', artist = 'Unknown artist', album = 'Unknown album') {
+export async function importSongFromURL(url, title = '未命名', artist = '群星', album = '单曲') {
   const alreadyExists = await hasRemoteURLSong(url);
   if (alreadyExists) {
-    return { error: true, message: 'Song already exists' };
+    return { error: true, message: '歌曲已经存在' };
   }
 
   if (!url.startsWith('http')) {

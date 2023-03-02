@@ -175,10 +175,10 @@ export async function guessSongInfo(file) {
 
   // If anything is missing from the metadata, complete it from the file name.
   return {
-    album: fromMetadata.album || fromFileName.album || 'Unknown album',
-    artist: fromMetadata.artist || fromFileName.artist || 'Unknown artist',
-    title: fromMetadata.title || fromFileName.title || 'Unknown song',
-    picture: fromMetadata.picture || fromFileName.picture || 'Unknown song',
+    album: fromMetadata.album || fromFileName.album || '单曲',
+    artist: fromMetadata.artist || fromFileName.artist || '群星',
+    title: fromMetadata.title || fromFileName.title || '未命名',
+    picture: fromMetadata.picture || fromFileName.picture || '',
   };
 }
 

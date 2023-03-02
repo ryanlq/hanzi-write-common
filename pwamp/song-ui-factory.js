@@ -27,7 +27,7 @@ export function createSongUI(playlistSongsContainer, song, stateLess) {
   albumArt.classList.add('artwork');
   albumArt.setAttribute('loading', 'lazy');
   let picurl = './album-art-placeholder.png'
-  if(song.hasOwnProperty("picture")){
+  if(song.hasOwnProperty("picture") && (song["picture"] instanceof  Blob)){
     picurl = URL.createObjectURL(song.picture)
   }
   albumArt.setAttribute('src', song.artworkUrl || picurl );
@@ -48,7 +48,7 @@ export function createSongUI(playlistSongsContainer, song, stateLess) {
   // Artist name
   const artistInput = document.createElement("span");
   artistInput.classList.add('artist');
-  artistInput.setAttribute('title', 'Artist - click to edit');
+  artistInput.setAttribute('title', 'Artist');
   artistInput.textContent = song.artist;
   if (!stateLess) {
     artistInput.setAttribute('contenteditable', true);
@@ -59,7 +59,7 @@ export function createSongUI(playlistSongsContainer, song, stateLess) {
   // Album name
   const albumInput = document.createElement("span");
   albumInput.classList.add('album');
-  albumInput.setAttribute('title', 'Album - click to edit');
+  albumInput.setAttribute('title', 'Album');
   albumInput.textContent = song.album;
   if (!stateLess) {
     albumInput.setAttribute('contenteditable', true);
