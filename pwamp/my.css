@@ -187,17 +187,20 @@ body {
       height: 32px;
     }
   }
+
+  @keyframes color {
+    0%   { background: #018282d4; }
+    20%  { background: #16b00bcb; }
+    40%  { background: #9c810acb; }
+    60%  { background: #ce1a1acb; }
+    80%  { background: #c511a4b6; }
+    100%   { background: #018282d4; }
+  }
   
-  /* @keyframes color {
-    0%   { background: #33cccc5d; }
-    60%  { background: #fcca0070; }
-    80%  { background: #33cc3680; }
-  } */
-  
-  /* .playing .main-view {
-    background: #33cccc5d;
+  .playlist-song.playing {
+    background: #018282d4;
     animation: color 9s infinite linear;
-  } */
+  }
 #add-local-song,#previous,#next,#playpause{
     display: flex !important;
     justify-content: center;
