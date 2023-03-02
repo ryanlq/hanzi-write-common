@@ -2,21 +2,26 @@ html,body{
     height: 100%;
     width: 100%;
 }
-@supports ((height: constant(safe-area-inset-top)) or (height: env(safe-area-inset-top))) and (-webkit-overflow-scrolling: touch) {
-    body {
-      /* 适配齐刘海 */
-      padding-top: 20px;
-      padding-top: constant(safe-area-inset-top);
-      padding-top: env(safe-area-inset-top);
-      
-      /* 适配底部小黑条 */
-      padding-bottom: 0;
-      padding-bottom: costant(safe-area-inset-bottom);
-      padding-bottom: env(safe-area-inset-bottom);
+:root {
+    --safe-top: 0px;
+    --safe-bottom: 0px;
+  }
+  
+  @supports (top: constant(safe-area-inset-top)) {
+    :root {
+      --safe-top: constant(safe-area-inset-top);
+      --safe-bottom: constant(safe-area-inset-bottom);
     }
   }
   
+  @supports (top: env(safe-area-inset-top)) {
+    :root {
+      --safe-top: env(safe-area-inset-top);
+      --safe-bottom: env(safe-area-inset-bottom);
+    }
+  }
 #lyric-panel{
+    padding-top: var(--safe-top);
     visibility: hidden;
     font-family:STFangsong ;
     display: flex;
