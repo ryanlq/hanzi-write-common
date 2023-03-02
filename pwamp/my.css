@@ -2,6 +2,10 @@ html,body{
     height: 100%;
     width: 100%;
 }
+body{
+    padding-bottom: constant(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom);
+}
 #lyric-panel{
     visibility: hidden;
     font-family:STFangsong ;
