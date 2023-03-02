@@ -193,21 +193,22 @@ body {
   }
 
   @keyframes color {
-    0%   { background: #018282e9; }
-    20%  { background: #16b00bcb; }
-    40%  { background: #9c810aab; }
-    60%  { background: #ce1a1a68; }
-    80%  { background: #c511a495; }
-    100%   { background: #018282e9; }
+    0%   { background: #0182823e; }
+    20%  { background: #16b00b6c; }
+    40%  { background: #9c810aaa; }
+    60%  { background: #ce1a1a; }
+    80%  { background: #c511a4a3; }
+    90%  { background: #2311c567; }
+    100%   { background: #0182823e; }
   }
   
   .playlist-song.playing {
-    background: #018282d4;
+    background: #0182823e;
     animation: color 9s infinite linear;
   }
 
 .visualizing.playing .player{
-    background: #018282d4;
+    background: #0182823e;
     animation: color 9s infinite linear;
   }
 #add-local-song,#previous,#next,#playpause{
