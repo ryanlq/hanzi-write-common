@@ -26,8 +26,11 @@ export function createSongUI(playlistSongsContainer, song, stateLess) {
   const albumArt = document.createElement("img");
   albumArt.classList.add('artwork');
   albumArt.setAttribute('loading', 'lazy');
-  let picurl = song.picture?URL.createObjectURL(song.picture):false
-  albumArt.setAttribute('src', picurl||song.artworkUrl || './album-art-placeholder.png');
+  let picurl = './album-art-placeholder.png'
+  if(song.hasOwnProperty("picture")){
+    picurl = URL.createObjectURL(song.picture)
+  }
+  albumArt.setAttribute('src', song.artworkUrl || picurl );
   baseInfo.appendChild(albumArt);
 
   // Song title
