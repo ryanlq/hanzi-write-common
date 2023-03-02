@@ -166,7 +166,7 @@ button span {
 
 .player-controls #playpause span::before,
 .player-controls #playpause span::after {
-  content: "";
+  /* content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -177,21 +177,21 @@ button span {
 
   /* And transitioned to the right angle to transform the square into a
      triangle */
-  transition: transform 0.3s;
+ /* transition: transform 0.3s; */
 }
 
 .player-controls #playpause span::before {
-  transform: skew(64deg);
+  /* transform: skew(64deg); */
 }
 
 .player-controls #playpause span::after {
-  transform: skew(117deg);
-  transform-origin: bottom left;
+  /* transform: skew(117deg);
+  transform-origin: bottom left; */
 }
 
 .player-controls #playpause.playing span::before,
 .player-controls #playpause.playing span::after {
-  content: "";
+  /* content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -200,11 +200,11 @@ button span {
   background: var(--primary);
   /* Before and after are skewed at 90deg to be invisible */
   transform: skew(90deg);
-  transform-origin: top left;
+  transform-origin: top left; */
 }
 
 .player-controls #playpause.playing span::after {
-  transform-origin: bottom left;
+  /* transform-origin: bottom left; */
 }
 
 .player-controls #previous,
@@ -223,19 +223,19 @@ button span {
 
 .player-controls #previous::before,
 .player-controls #next::before {
-  content: "";
+  /* content: "";
   display: block;
   background: var(--primary);
   width: 0.2rem;
   height: 1rem;
   position: absolute;
   top: 1rem;
-  left: 1rem;
+  left: 1rem; */
 }
 
 .player-controls #next::before {
-  left: unset;
-  right: 1rem;
+  /* left: unset;
+  right: 1rem; */
 }
 
 .player-controls #next span {

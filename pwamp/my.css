@@ -103,28 +103,18 @@ html.playing  .lyric-item.playing,.lyric-item.playing{
     background-color: #11191f30;
 }
 
-#add-local-song{
-    display: block !important;
+
+#add-local-song img{
     width: 3rem;
     height: 3rem;
-    background-color: var(--text);
-    border-width: 0px;
-    font-weight: bolder;
-    color: #000;
-    border-radius: 50%;
-    font-size: 1.8rem;
-    scale: .7;
-    background-image: url(imgs/add.png);
-    background-size:  109% 100%;;
-    -webkit-background-size :109% 100%;
 }
-
 #toggle-visualizer{
     
 }
 
 .player-controls{
     margin: 1rem 0 0 0 !important;
+    align-items: center;
 }
 
 #playhead{
@@ -198,3 +188,83 @@ body {
     }
   }
   
+  /* @keyframes color {
+    0%   { background: #33cccc5d; }
+    60%  { background: #fcca0070; }
+    80%  { background: #33cc3680; }
+  } */
+  
+  /* .playing .main-view {
+    background: #33cccc5d;
+    animation: color 9s infinite linear;
+  } */
+#add-local-song,#previous,#next,#playpause{
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+}
+#previous span,#next span,#playpause span{
+    visibility: hidden !important;
+    height: 0 !important;
+    width: 0 !important;
+    border: 0 !important;
+    margin: 0;
+    padding: 0;
+}
+#previous,#next{
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: var(--origin) !important;;
+
+}
+#playpause{
+    width: 3rem;
+    height: 3rem;
+    background-color: #82c13fe0;
+}
+#add-local-song{
+    border-width: 0px;
+    scale: .7;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: #000 ;
+    /* background-image: url(imgs/add.png); */
+    /* background-size:  109% 100%;;
+    -webkit-background-size :109% 100%; */
+}
+#previous img,#next img{
+    background-color: var(--origin) ;
+    width: 2.0rem;
+    height: 2.0rem;
+    border-radius: 50%;
+}
+#add-local-song img{
+    width: 2.0rem;
+    height: 2.0rem;
+    border-radius: 50%;
+    background-color: #000 ;
+}
+#playpause img{
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    background-color: #82c13fe0;
+}
+#playpause img.pause{
+    display: none;
+}
+.playing img.play{
+    display: none !important;
+}
+
+.playing img.pause{
+    display: block !important;
+}
+
+.player-controls #previous::before, .player-controls #next::before{
+    display: none;
+}
+.player-controls button{
+    margin: 0 10px;
+}

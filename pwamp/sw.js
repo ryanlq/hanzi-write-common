@@ -55,7 +55,11 @@ let INITIAL_CACHED_RESOURCES = [
   "./imgs/14.jpg",
   "./imgs/15.jpg",
   "./imgs/16.jpg",
-  "./imgs/add.png"
+  "./imgs/add.svg",
+  "./imgs/play.svg",
+  "./imgs/pause.svg",
+  "./imgs/prev.svg",
+  "./imgs/next.svg",
 ];
 // Add a cache-busting query string to the pre-cached resources.
 // This is to avoid loading these resources from the disk cache.

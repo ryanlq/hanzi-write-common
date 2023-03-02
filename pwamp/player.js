@@ -71,6 +71,9 @@ export class Player extends EventTarget {
   }
 
   play(song) {
+    try {
+      
+
     let newSongWasLoaded = false;
 
     if (!songs.length) {
@@ -90,8 +93,12 @@ export class Player extends EventTarget {
       this.load(songs[0]);
       newSongWasLoaded = true;
     }
-
-    this.audio.play();
+try {
+  this.audio.play();
+  
+} catch (error) {
+  console.log(error)
+}
     this.isPlaying = true;
 
     currentIndex = songs.indexOf(this.song);
@@ -99,6 +106,10 @@ export class Player extends EventTarget {
     if (!newSongWasLoaded) {
       this.dispatchEvent(new Event('canplay'));
     }
+
+  } catch (error) {
+      console.log(error)
+  }
   }
 
   playPrevious() {
@@ -126,7 +137,7 @@ export class Player extends EventTarget {
   }
 
   getBuffersize(){
-    return this.audio.buffered.end(xPlayer.audio.buffered-1)
+    return this.audio.buffered.end(this.audio.buffered-1)
   }
   isBuffered(){
     return this.audio.duration == this.getBuffersize()
