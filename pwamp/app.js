@@ -314,10 +314,15 @@ player.addEventListener("playing", () => {
 addSongsButton.addEventListener("click", async () => {
   const files = await openFilesFromDisk();
 
-  createLoadingSongPlaceholders(playlistSongsContainer, files.length);
-  await importSongsFromFiles(files);
+  try {
+    
+    createLoadingSongPlaceholders(playlistSongsContainer, files.length);
+    await importSongsFromFiles(files);
 
-  await startApp();
+    await startApp();
+  } catch (error) {
+    console.log(error)
+  }
 });
 
 // Manage the song actions.
