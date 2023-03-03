@@ -600,10 +600,15 @@ function loadLyric(){
   if(cur && cur.id){
     const lyric_songid = lyricPanel.getAttribute("songid")
     if(cur.id !== lyric_songid){
-      const pictureid = parseInt(Math.random() * 16)
       let dir = "./imgs/"
-      if(document.querySelector("html").offsetWidth<800)  dir ="./imgs/mobile/"
+      let count = 16
       
+      if(document.querySelector("html").offsetWidth<800){
+        count =20
+        dir ="./imgs/mobile/"
+      }  
+      
+      let pictureid = parseInt(Math.random() * count)
       document.body.style.backgroundImage= 'url("'+dir+pictureid+'.jpg")'
       lyricPanel.setAttribute("songid",cur.id)
       if(MYSONGS[cur.id].hasOwnProperty("lyric") && MYSONGS[cur.id]["lyric"]){
