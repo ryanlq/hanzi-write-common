@@ -12,22 +12,55 @@
     <link rel="icon" href="./icon/favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="manifest.json" />
     <meta name="theme-color" content="#181c25" />
-    <link rel="preload" href="./skins/preload.css" />
+    <!-- <link rel="preload" href="./skins/preload.css" /> -->
     <link rel="stylesheet" href="about.css" />
     <link rel="stylesheet" href="my.css" />
     <link rel="stylesheet" href="skins/default.css" id="default-stylesheet" />
     <meta http-equiv="origin-trial" content="Anis2Rwm4wMgVdj20cDZtpc3+ICrimlJA0dKFx4wqdERgdHKwE4EHTH3misGpnEhGJSnaVlaeAi92b6KSgCGXYAAAAB0eyJvcmlnaW4iOiJodHRwczovL21pY3Jvc29mdGVkZ2UuZ2l0aHViLmlvOjQ0MyIsImlzU3ViZG9tYWluIjpmYWxzZSwiZmVhdHVyZSI6Im1zV2ViQXBwV2lkZ2V0cyIsImV4cGlyeSI6MTY4NTU3NzYwMH0=">
   </head>
   <body style="background-size:cover !important;" class="loading">
-    
+    <style>
+      .lds-preload {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+  }
+  .lds-preload div {
+    display: inline-block;
+    position: absolute;
+    left: 8px;
+    width: 16px;
+    background: #fff;
+    animation: lds-preload 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+  }
+  .lds-preload div:nth-child(1) {
+    left: 8px;
+    animation-delay: -0.24s;
+  }
+  .lds-preload div:nth-child(2) {
+    left: 32px;
+    animation-delay: -0.12s;
+  }
+  .lds-preload div:nth-child(3) {
+    left: 56px;
+    animation-delay: 0;
+  }
+  @keyframes lds-preload {
+    0% {
+      top: 8px;
+      height: 64px;
+    }
+    50%, 100% {
+      top: 24px;
+      height: 32px;
+    }
+  }
+
+    </style>
     <div id="load-view">
       <div class="lds-preload"><div></div><div></div><div></div></div>
     </div>
-    <script>
-      document.addEventListener('DOMContentLoaded', (event) => {
-        document.body.classList.remove("loading")
-      });
-    </script>
     <div
       id="wco-drag"
       style="
@@ -222,6 +255,11 @@
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("./sw.js");
       }
+      
+      window.addEventListener('load', (event) => {
+        document.body.classList.remove("loading")
+      });
     </script>
+
   </body>
 </html>
