@@ -1,6 +1,13 @@
-html,body{
+html{
+    width: 100%;
+    height: 100%;
+}
+body{
     height: 100vh !important;
     width: 100vh !important;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 :root {
     --safe-top: 0px;
@@ -170,63 +177,27 @@ body {
     background-color: #000;
 }
 
-.lds-facebook {
-    display: inline-block;
-    position: relative;
-    width: 80px;
-    height: 80px;
-  }
-  .lds-facebook div {
-    display: inline-block;
-    position: absolute;
-    left: 8px;
-    width: 16px;
-    background: #fff;
-    animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
-  }
-  .lds-facebook div:nth-child(1) {
-    left: 8px;
-    animation-delay: -0.24s;
-  }
-  .lds-facebook div:nth-child(2) {
-    left: 32px;
-    animation-delay: -0.12s;
-  }
-  .lds-facebook div:nth-child(3) {
-    left: 56px;
-    animation-delay: 0;
-  }
-  @keyframes lds-facebook {
-    0% {
-      top: 8px;
-      height: 64px;
-    }
-    50%, 100% {
-      top: 24px;
-      height: 32px;
-    }
-  }
+
 
   @keyframes color {
-    0%   { background: #c13f3fe0; }
-    20%  { background: #3f4ac1; }
-    40%  { background: #c1733f; }
-    50%  { background: #c1483f; }
-    60%  { background: #b617b6; }
-    80%  { background: #c13f91; }
-    100%   { background: #c13f3fe0; }
+    0%  { background: #f5de16dc; }
+    25%  { background: #f5df1661; }
+    50%  { background: #97f008cb; }
+    75%  { background: #97f0086a; }
+    100%   { background: #f5de16dc; }
   }
   
   .playlist-song.playing {
-    background: #c13f3fe0;
-    animation: color 9s infinite linear;
+    color:#000;
+    background: #f5de16dc;
+    animation: color 5s infinite linear;
   }
 
 .visualizing.playing #playpause,.visualizing.playing #playpause img{
-    background: #c13f3fe0;
+    background: #f5de16dc;
     border-width: 1px;
     border-color: #000;
-    animation: color 9s infinite linear;
+    animation: color 5s infinite ease-in-out;
   }
 #add-local-song,#previous,#next,#playpause{
     display: flex !important;

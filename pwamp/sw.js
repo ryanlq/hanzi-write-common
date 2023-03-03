@@ -1,5 +1,5 @@
 
-const VERSION = "v43";
+const VERSION = "v44";
 const CACHE_NAME = `pwamp-${VERSION}`;
 
 // Those are all the resources our app needs to work.
@@ -8,6 +8,7 @@ let INITIAL_CACHED_RESOURCES = [
   "./",
   "./index.html",
   "./skins/default.css",
+  "./skins/preload.css",
   "./about.css",
   "./my.css",
   "./album-art-placeholder.png",
@@ -55,6 +56,23 @@ let INITIAL_CACHED_RESOURCES = [
   "./imgs/14.jpg",
   "./imgs/15.jpg",
   "./imgs/16.jpg",
+  "./imgs/0.jpg",
+  "./imgs/mobile/1.jpg",
+  "./imgs/mobile/2.jpg",
+  "./imgs/mobile/3.jpg",
+  "./imgs/mobile/4.jpg",
+  "./imgs/mobile/5.jpg",
+  "./imgs/mobile/6.jpg",
+  "./imgs/mobile/7.jpg",
+  "./imgs/mobile/8.jpg",
+  "./imgs/mobile/9.jpg",
+  "./imgs/mobile/10.jpg",
+  "./imgs/mobile/11.jpg",
+  "./imgs/mobile/12.jpg",
+  "./imgs/mobile/13.jpg",
+  "./imgs/mobile/14.jpg",
+  "./imgs/mobile/15.jpg",
+  "./imgs/mobile/16.jpg",
   "./imgs/add.svg",
   "./imgs/play.svg",
   "./imgs/pause.svg",
