@@ -16,7 +16,7 @@ export class Lyric{
             if(pairs.length < 2 || !pairs[1]) return;
             const sd = pairs[0].match(/(\d\d):(\d\d).*/)
             if(sd) {
-                let r = parseInt(sd[2])-1
+                let r = parseInt(sd[2])
                 r = r < 0 ? 0 : r
                 if(r<10) r = "0"+r
 
