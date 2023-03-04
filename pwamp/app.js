@@ -158,7 +158,6 @@ export async function startApp() {
     const playlistSongEl = createSongUI(playlistSongsContainer, song, true);// stateless = true
 
     playlistSongEl.addEventListener('play-song', () => {
-      console.log("play-song")
       player.pause();
       player.play(song);
       currentSongEl = playlistSongEl;

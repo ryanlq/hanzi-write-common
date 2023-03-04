@@ -397,3 +397,6 @@ body {
 *::-webkit-scrollbar-thumb {
     background: #00000000; 
 }
+.base .play{
+    display: none;
+}

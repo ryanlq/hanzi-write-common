@@ -111,7 +111,6 @@ export function createSongUI(playlistSongsContainer, song, stateLess) {
 
   if(stateLess){
     item.addEventListener('click', () => {
-      console.log("click")
       playButton.dispatchEvent(new CustomEvent("play-song", { bubbles: true }));
     });
   }
