@@ -396,18 +396,18 @@ html {
     overflow: -moz-hidden-unscrollable;
     height: 100%;
 }
-.playlist::-webkit-scrollbar {
+.playlist::-webkit-scrollbar,.playlist .songs::-webkit-scrollbar {
 display: none;
 }
 
-.playlist {
+.playlist, .playlist .songs{
 -ms-overflow-style: none;
 height: 100%;
 width: calc(100vw + 18px);
 overflow: auto;
 }
 
-.playlist::-webkit-scrollbar{
+.playlist::-webkit-scrollbar ,.playlist .songs::-webkit-scrollbar{
     width:0px;
 }
 *::-webkit-scrollbar-thumb {
