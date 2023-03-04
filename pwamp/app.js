@@ -1,4 +1,4 @@
-import { getSongs, getSong, editSong, setVolume, getVolume, deleteSong, deleteAllSongs, addLocalFileSong, setArtwork, wasStoreEmpty, sortSongsBy } from "./store.js";
+import { getSongs, getSong, editSong,editSongTags, setVolume, getVolume, deleteSong, deleteAllSongs, addLocalFileSong, setArtwork, wasStoreEmpty, sortSongsBy } from "./store.js";
 import { Player } from "./player.js";
 import { Lyric } from "./lyric.js";
 import { formatTime, openFilesFromDisk, getFormattedDate, canShare, analyzeDataTransfer, getImageAsDataURI } from "./utils.js";
@@ -62,6 +62,9 @@ const aboutDialog = document.getElementById("about-dialog");
 const installButton = document.getElementById("install-button");
 const currentSongSection = document.querySelector('.current-song');
 const lyricPanel = document.querySelector('#lyric-panel');
+const Manager = document.querySelector('#managerbtn');
+const TagMenusContainer = document.querySelector('#header ul');
+const TagMenus = document.querySelectorAll('#header ul li');
 
 let currentSongEl = null;
 
@@ -155,6 +158,7 @@ export async function startApp() {
     const playlistSongEl = createSongUI(playlistSongsContainer, song, true);// stateless = true
 
     playlistSongEl.addEventListener('play-song', () => {
+      console.log("play-song")
       player.pause();
       player.play(song);
       currentSongEl = playlistSongEl;
@@ -705,9 +709,74 @@ function add_local_song(){
   })
 }
 
+async function updateTags(){
+  //取得修改信息
+  //editSong(id, title, artist, album, lyric,picture,extra)
+  const changed_items = playlistSongsContainer.querySelectorAll(".playlist-song.changed")
+  await changed_items.forEach(async item=>{
+    const tags = item.getAttribute("data-tags")
+    const id = item.id;
+    // const song = MYSONGS[id] 
+    // song.extra["tags"] = tags
+    await editSongTags(id,tags)
+  })
+  
+}
+function manageSongs(){
+  Manager.addEventListener("click",async e=>{
+    const currentsongs = playlistSongsContainer.querySelectorAll(".playlist-song:not(.hide)")
+    if(currentsongs.length == 0) return;
+    if(Manager.classList.contains("edit")){
+      console.log(MYSONGS)
+      //todo update store
+      await updateTags()
+      Manager.classList.remove("edit")
+      playlistSongsContainer.classList.remove("edit")
+      Manager.innerText = "管理"
 
+    } else {
+      Manager.classList.add("edit")
+      playlistSongsContainer.classList.add("edit")
+      Manager.innerText = "完成"
+    }
+  })
+}
+
+function handle_tag(){
+  TagMenus.forEach(el => {
+    el.addEventListener("click",e=>{
+      if(!el.classList.contains("select")){
+        const selected = TagMenusContainer.querySelector(".select")
+        selected.classList.remove("select")
+        el.classList.add("select")
+        const _type = el.innerText
+        if(_type == "全部"){
+          const hidesongs = playlistSongsContainer.querySelectorAll(".playlist-song.hide")
+          hidesongs.forEach(song=>{
+            song.classList.remove("hide")
+          })
+        }else {
+          const songs = playlistSongsContainer.querySelectorAll(".playlist-song")
+
+          songs.forEach(song=>{
+            const t = song.getAttribute("data-tags")
+            if(t.includes(_type)){
+              song.classList.remove("hide")
+            } else {
+              song.classList.add("hide")
+  
+            }
+          })
+        }
+      }
+    })
+  });
+}
 
 window.onload = ()=>{
   add_local_song()
   preload()
+  manageSongs()
+  handle_tag()
+  
 }

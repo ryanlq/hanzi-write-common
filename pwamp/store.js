@@ -67,8 +67,8 @@ export async function hasRemoteURLSong(url) {
 /**
  * Add a new remote song to the list of songs in IDB.
  */
-export async function addRemoteURLSong(url, title, artist, album, duration) {
-  await addSong('url', url, title, artist, album, duration);
+export async function addRemoteURLSong(url, title, artist, album, duration,extra={}) {
+  await addSong('url', url, title, artist, album, duration,extra);
 }
 
 /**
@@ -77,10 +77,10 @@ export async function addRemoteURLSong(url, title, artist, album, duration) {
  * Add a new file song to the list of songs in IDB.
  * The song is expected to be passed as a File object.
  */
-export async function addLocalFileSong(file, title, artist, album, duration,picture=false) {
+export async function addLocalFileSong(file, title, artist, album, duration,picture=false,extra={}) {
   const id = getUniqueId();
-  if(picture) await addSong('file', id, title, artist, album, duration, file,picture);
-  else await addSong('file', id, title, artist, album, duration, file);
+  if(picture) await addSong('file', id, title, artist, album, duration, file,picture,extra);
+  else await addSong('file', id, title, artist, album, duration, file,extra);
   
 }
 
@@ -99,7 +99,8 @@ export async function addMultipleLocalFileSongs(fileSongs) {
       id: getUniqueId(),
       lyric: fileSong.lyric,
       dateAdded: Date.now(),
-      picture:fileSong.picture
+      picture:fileSong.picture,
+      extra:{}
     }
   });
 
@@ -111,7 +112,7 @@ export async function addMultipleLocalFileSongs(fileSongs) {
 /**
  * Private implementation of addSong.
  */
-async function addSong(type, id, title, artist, album, duration, data = null,picture=null) {
+async function addSong(type, id, title, artist, album, duration, data = null,picture=null,extra=null) {
   const song = {
     type,
     id,
@@ -121,7 +122,8 @@ async function addSong(type, id, title, artist, album, duration, data = null,pic
     duration,
     dateAdded: Date.now(),
     data,
-    picture
+    picture,
+    extra
   };
 
   let songs = await getSongs();
@@ -132,23 +134,33 @@ async function addSong(type, id, title, artist, album, duration, data = null,pic
 /**
  * Given the unique ID to an existing song, edit its title, artist and album.
  */
-export async function editSong(id, title, artist, album, lyric,picture) {
+export async function editSong(id, title, artist, album, lyric,picture,extra) {
   const songs = await getSongs();
   const song = songs.find(s => s.id === id);
   if (!song) {
     throw new Error(`Could not find song with id ${id}`);
   }
 
-  song.title = title;
-  song.artist = artist;
-  song.album = album;
-  song.lyric = lyric;
-  song.picture = picture;
-
+  title && (song.title = title);
+  artist && (song.artist = artist);
+  album && (song.album = album);
+  lyric && (song.lyric = lyric);
+  picture && (song.picture = picture);
+  extra && (song.extra = extra);
 
   await set('pwamp-songs', songs);
 }
-
+export async function editSongTags(id, tags="") {
+  const songs = await getSongs();
+  const song = songs.find(s => s.id === id);
+  if (!song) {
+    throw new Error(`Could not find song with id ${id}`);
+  }
+  if(!song.hasOwnProperty('extra')) song["extra"] = {}
+  song["extra"]["tags"] = tags
+  
+  await set('pwamp-songs', songs);
+}
 /**
  * Given the unique ID to an existing song, delete it from IDB.
  */

@@ -20,7 +20,7 @@
   </head>
   <body style="background-size:cover !important;" class="loading">
     <style>
-      .lds-preload {
+  .lds-preload {
     display: inline-block;
     position: relative;
     width: 80px;
@@ -72,13 +72,21 @@
         -webkit-app-region: drag;
       "
     ></div>
-
+    <div id="header">
+      <ul>
+        <li class="select">全部</li>
+        <li>歌曲</li>
+        <li>戏曲</li>
+        <li>收藏</li>
+      </ul>
+      <button id="managerbtn">管理</button>
+    </div>
+    
     <div class="main-view">
       <section id="lyric-panel">
         加载中……
       </section>
       <section class="playlist">
-        
         <p class="empty-playlist">
           点击 <strong>+</strong> 添加歌曲
         </p>

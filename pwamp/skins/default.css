@@ -699,9 +699,10 @@ html:not(.visualizing) #waveform {
 .playlist-song {
   display: flex;
   width: 100%;
-  align-items: center;
-  justify-content: space-between;
-  padding-right: 10px;
+  /* align-items: center;
+  justify-content: space-between; */
+  /* padding-right: 10px; */
+  flex-direction: column;
 }
 .playlist-song.playing{
   background-color: var(--primary);

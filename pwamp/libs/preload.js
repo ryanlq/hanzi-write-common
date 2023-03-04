@@ -16,7 +16,6 @@ const  images = [
     "./imgs/14.jpg",
     "./imgs/15.jpg",
     "./imgs/16.jpg",
-    "./imgs/add.png"
   ]
 
 async function loadImage(url) {

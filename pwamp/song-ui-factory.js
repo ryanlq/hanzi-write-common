@@ -4,23 +4,58 @@ export function removeAllSongs(playlistSongsContainer) {
   playlistSongsContainer.innerHTML = '';
 }
 
+function tagstr_add(tagstr,item){
+  let ret =tagstr
+  if(tagstr == "") ret = item
+  else {
+    let tags = tagstr.split(",")
+    const index = tags.indexOf(item)
+    if(index == -1) {
+      tags.push(item)
+      ret = tags.join(",")
+    }
+  }
+  return ret
+  
+}
+function tagstr_remove(tagstr,item){
+  let ret = tagstr
+  if(tagstr == "") return tagstr
+  else {
+    let tags = tagstr.split(",")
+    const index = tags.indexOf(item)
+    if(index > -1) {
+      tags = [].concat(tags.slice(0,index),tags.slice(index+1))
+      ret = tags.join(",")
+    }
+  }
+  return ret
+}
+
 export function createSongUI(playlistSongsContainer, song, stateLess) {
-  const li = document.createElement(stateLess ? "p" : "li");
-  li.classList.add('playlist-song');
-  li.classList.add(song.type === 'file' ? 'file' : 'remote');
-  li.id = song.id;
+  const item = document.createElement(stateLess ? "p" : "li");
+  item.classList.add('playlist-song');
+  item.classList.add(song.type === 'file' ? 'file' : 'remote');
+  item.id = song.id;
+  item.setAttribute("data-tags","")
+  const li = document.createElement("div")
+  const tags = document.createElement("ul")
+  li.classList.add("row1")
+  tags.classList.add("row2")
+  if(song.extra&&song.extra.tags){
+    item.setAttribute("data-tags",song.extra.tags)
+  }
 
   const baseInfo = document.createElement("div");
   baseInfo.classList.add("base")
   // Play button
-  if (!stateLess) {
-    let playButton = null;
+  let playButton = null;
     playButton = document.createElement("button");
     playButton.classList.add('play');
     playButton.setAttribute('title', 'Play this song');
     playButton.innerHTML = '<span>Play</span>';
     baseInfo.appendChild(playButton);
-  }
+  
 
   // Album artwork
   const albumArt = document.createElement("img");
@@ -75,8 +110,9 @@ export function createSongUI(playlistSongsContainer, song, stateLess) {
   li.appendChild(durationLabel);
 
   if(stateLess){
-    li.addEventListener('click', () => {
-      li.dispatchEvent(new CustomEvent("play-song", { bubbles: true }));
+    item.addEventListener('click', () => {
+      console.log("click")
+      playButton.dispatchEvent(new CustomEvent("play-song", { bubbles: true }));
     });
   }
   // Actions button
@@ -89,8 +125,8 @@ export function createSongUI(playlistSongsContainer, song, stateLess) {
     li.appendChild(actionsButton);
 
   // Play button event listener
-    playButton.addEventListener('click', () => {
-      li.dispatchEvent(new CustomEvent("play-song", { bubbles: true }));
+    item.addEventListener('click', () => {
+      item.dispatchEvent(new CustomEvent("play-song", { bubbles: true }));
     });
     // Auto-select text on focus
     function focusText() {
@@ -131,8 +167,52 @@ export function createSongUI(playlistSongsContainer, song, stateLess) {
     });
   }
 
-  playlistSongsContainer.appendChild(li);
+  const tag = document.createElement("li")
+  tag.classList.add("tag")
+  //todo tags store 存取 读取
+  // alltags = ["歌曲","戏曲","收藏"]
+  const alltags = ["歌曲","戏曲","收藏"]
+  const hastags = song.extra&&song.extra.tags?song.extra.tags.split(","):[]
+  const tagnodes = alltags.map(t=>{
+    const _tag = tag.cloneNode(true)
+    if(hastags.includes(t)){
+      _tag.classList.add("has")
+    }
+    _tag.innerText = t
+    _tag.addEventListener("click",e=>{
+        const datas = item.getAttribute("data-tags")
+        const text = _tag.innerText
+        if(_tag.classList.contains("has")){
+            if(_tag.classList.contains("changed")){
+              _tag.classList.remove("changed")
+              item.setAttribute("data-tags",tagstr_add(datas,text))
+            }else{
+              _tag.classList.add("changed")
+              item.setAttribute("data-tags",tagstr_remove(datas,text))
+            }
+        }else {
 
+          if(_tag.classList.contains("changed")){
+            _tag.classList.remove("changed")
+            item.setAttribute("data-tags",tagstr_remove(datas,text))
+          }else{
+            _tag.classList.add("changed")
+            item.setAttribute("data-tags",tagstr_add(datas,text))
+          }
+        }
+        const changeditems = item.querySelectorAll(".changed")
+        if(changeditems.length == 0) {
+          item.classList.remove("changed")
+        } else {
+          item.classList.add("changed")
+        }
+    })
+    return _tag
+  })
+  tags.append(...tagnodes)
+  item.appendChild(li)
+  item.appendChild(tags)
+  playlistSongsContainer.appendChild(item);
   return li;
 }
 
