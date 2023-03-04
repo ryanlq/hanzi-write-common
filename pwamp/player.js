@@ -72,44 +72,41 @@ export class Player extends EventTarget {
 
   play(song) {
     try {
-      
+      let newSongWasLoaded = false;
+      if (!songs.length) {
+        return;
+      }
 
-    let newSongWasLoaded = false;
+      // If a specific song is passed, load it first.
+      if (song) {
+        this.load(song);
+        newSongWasLoaded = true;
+      }
 
-    if (!songs.length) {
-      return;
+      // Otherwise just play the current song.
+      // Although if none was loaded, then that's the default
+      // state, and we should load the first song.
+      if (!this.song) {
+        this.load(songs[0]);
+        newSongWasLoaded = true;
+      }
+      try {
+        this.audio.play();
+        
+      } catch (error) {
+        console.log(error)
+      }
+      this.isPlaying = true;
+
+      currentIndex = songs.indexOf(this.song);
+
+      if (!newSongWasLoaded) {
+        this.dispatchEvent(new Event('canplay'));
+      }
+
+    } catch (error) {
+        console.log(error)
     }
-
-    // If a specific song is passed, load it first.
-    if (song) {
-      this.load(song);
-      newSongWasLoaded = true;
-    }
-
-    // Otherwise just play the current song.
-    // Although if none was loaded, then that's the default
-    // state, and we should load the first song.
-    if (!this.song) {
-      this.load(songs[0]);
-      newSongWasLoaded = true;
-    }
-try {
-  this.audio.play();
-  
-} catch (error) {
-  console.log(error)
-}
-    this.isPlaying = true;
-
-    currentIndex = songs.indexOf(this.song);
-
-    if (!newSongWasLoaded) {
-      this.dispatchEvent(new Event('canplay'));
-    }
-
-  } catch (error) {
-      console.log(error)
-  }
   }
 
   playPrevious() {
@@ -137,7 +134,8 @@ try {
   }
 
   getBuffersize(){
-    return this.audio.buffered.end(this.audio.buffered-1)
+    if(this.audio.buffered.length > 0) return this.audio.buffered.end(this.audio.buffered-1)
+    else return 0
   }
   isBuffered(){
     return this.audio.duration == this.getBuffersize()

@@ -686,7 +686,10 @@ player.addEventListener('timeupdated', (e) => {
     
     if(!document.querySelector(".lyric-item.playing[data-time='"+tag+"']")){
       const curplay = document.querySelector(".lyric-item.playing")
+      const lastplay = document.querySelector(".lyric-item.last-playing")
+      lastplay&&lastplay.classList.remove("last-playing")
       curplay && curplay.classList.remove("playing")
+      curplay && curplay.classList.add("last-playing")
       const _t = document.querySelector(".lyric-item[data-time='"+tag+"']")
       const _h = _t.clientHeight
       _t.classList.add("playing")
