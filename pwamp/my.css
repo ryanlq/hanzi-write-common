@@ -344,6 +344,7 @@ body {
     display: flex;
     /* height: 100%; */
     flex-grow: 1;
+    margin-left: 20px;
 }
 
 #header li{
@@ -355,7 +356,6 @@ body {
     align-items: center ;
     margin-right: 10px;
     border-radius: 50%;
-    border:1px solid #a9a9a9
 
 }
 #managerbtn{
@@ -391,7 +391,23 @@ body {
     height: 100%;
     margin-top: 120px;
 }
-.songs::-webkit-scrollbar{
+
+html {
+    overflow: -moz-hidden-unscrollable;
+    height: 100%;
+}
+.playlist::-webkit-scrollbar {
+display: none;
+}
+
+.playlist {
+-ms-overflow-style: none;
+height: 100%;
+width: calc(100vw + 18px);
+overflow: auto;
+}
+
+.playlist::-webkit-scrollbar{
     width:0px;
 }
 *::-webkit-scrollbar-thumb {

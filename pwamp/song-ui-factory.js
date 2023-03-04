@@ -125,7 +125,9 @@ export function createSongUI(playlistSongsContainer, song, stateLess) {
 
   // Play button event listener
     item.addEventListener('click', () => {
-      item.dispatchEvent(new CustomEvent("play-song", { bubbles: true }));
+      if(!playlistSongsContainer.classList.contains("edit")){
+        item.dispatchEvent(new CustomEvent("play-song", { bubbles: true }));
+      }
     });
     // Auto-select text on focus
     function focusText() {
@@ -205,7 +207,7 @@ export function createSongUI(playlistSongsContainer, song, stateLess) {
         } else {
           item.classList.add("changed")
         }
-    })
+    },false)
     return _tag
   })
   tags.append(...tagnodes)

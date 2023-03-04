@@ -726,7 +726,6 @@ function manageSongs(){
     const currentsongs = playlistSongsContainer.querySelectorAll(".playlist-song:not(.hide)")
     if(currentsongs.length == 0) return;
     if(Manager.classList.contains("edit")){
-      console.log(MYSONGS)
       //todo update store
       await updateTags()
       Manager.classList.remove("edit")
@@ -737,6 +736,7 @@ function manageSongs(){
       Manager.classList.add("edit")
       playlistSongsContainer.classList.add("edit")
       Manager.innerText = "完成"
+      startApp()
     }
   })
 }
