@@ -3,8 +3,8 @@ html{
     height: 100%;
 }
 body{
-    height: 100vh !important;
-    width: 100vh !important;
+    height: 100% !important;
+    width: 100% !important;
     max-width: 100%;
     position: fixed;
     top: 0;
@@ -68,6 +68,10 @@ html.playing .lyric-item{
 }
 .lyric-item:hover{
     color: #92ff8c;
+    font-weight: bold;
+}
+html:not(.playing) .lyric-item:hover{
+    background-color: #000;
 }
 html:not(.playing) .lyric-item:hover::after{
     content:" [讲述人]";
@@ -92,6 +96,10 @@ html.playing  .lyric-item.playing,.lyric-item.playing{
 .lyric-item.playing ~ .lyric-item{
     color: #8bff8d;
     font-size: 22px;
+}
+.lyric-item.playing + .lyric-item{
+    background: #000000c7;
+    margin-top: 12px;
 }
 
   /* 针对Chrome和Safari浏览器 */
@@ -371,9 +379,11 @@ body {
     background-color: var(--origin);
     color: #000;
 }
-
+#managerbtn.edit{
+    background-color: #ffff00;
+}
 #header li,#managerbtn{
-    border: 1px solid #000;
+    cursor: pointer;
 }
 .playlist-song .duration{
     margin-right: 10px;
