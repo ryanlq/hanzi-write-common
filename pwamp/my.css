@@ -363,6 +363,7 @@ body {
     background-color: var(--origin);
     color: #000;
     margin-right: 20px;
+    border-radius: 5px;
     /* height: 100%; */
 }
 #header li.select{
@@ -404,7 +405,8 @@ display: none;
 -ms-overflow-style: none;
 height: 100%;
 width: calc(100vw + 18px);
-overflow: auto;
+overflow-y: auto;
+overflow-x: hidden;
 }
 
 .playlist::-webkit-scrollbar ,.playlist .songs::-webkit-scrollbar{
