@@ -146,21 +146,37 @@ export async function editSong(id, title, artist, album, lyric,picture,extra) {
   album && (song.album = album);
   lyric && (song.lyric = lyric);
   picture && (song.picture = picture);
-  extra && (song.extra = extra);
 
   await set('pwamp-songs', songs);
 }
-export async function editSongTags(id, tags="") {
-  const songs = await getSongs();
-  const song = songs.find(s => s.id === id);
-  if (!song) {
-    throw new Error(`Could not find song with id ${id}`);
-  }
-  if(!song.hasOwnProperty('extra')) song["extra"] = {}
-  song["extra"]["tags"] = tags
+export async function editSongTags(updatetags) {
+  let alltags = await getTags();
+  if(!updatetags || updatetags.length==0) return;
+  if (!alltags){
+    await setTags({})
+    alltags = await getTags();
+  } 
   
-  await set('pwamp-songs', songs);
+  await updatetags.forEach(t => {
+    alltags[t[0]] = t[1]
+  });
+  await set('pwamp-tags', alltags);
+
 }
+export async function appendDuration(extra_infos) {
+  let allExtras = await getExtra();
+  if(!extra_infos || extra_infos.length==0) return;
+  if (!allExtras){
+    await setExtra({})
+    allExtras = await getExtra();
+  } 
+  
+  await updatetags.forEach(t => {
+    allExtras[t[0]] = t[1]
+  });
+  await set('pwamp-tags', allExtras);
+}
+
 /**
  * Given the unique ID to an existing song, delete it from IDB.
  */
@@ -242,3 +258,18 @@ export async function setArtwork(artist, album, image) {
 export async function getArtworks() {
   return await get('pwamp-artworks') || {};
 }
+export async function setTags(tags) {
+  await set('pwamp-tags', tags);
+}
+
+export async function getTags() {
+  return await get('pwamp-tags');
+}
+export async function setExtra(tags) {
+  await set('pwamp-extra', tags);
+}
+
+export async function getExtra() {
+  return await get('pwamp-extra');
+}
+

@@ -62,14 +62,13 @@ body{
 }
 .lyric-item.last-playing{
     
-    background: #000000c7;
+    background: #00000099;
     margin-bottom: 12px;
 }
 html.playing .lyric-item{
     color: #ffd5d5;
     font-size: 20px;
     transition-property: all;
-
 }
 .lyric-item:hover{
     color: #92ff8c;
@@ -103,7 +102,7 @@ html.playing  .lyric-item.playing,.lyric-item.playing{
     font-size: 22px;
 }
 .lyric-item.playing + .lyric-item{
-    background: #000000c7;
+    background: #00000099;
     margin-top: 12px;
 }
 

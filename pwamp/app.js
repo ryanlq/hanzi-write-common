@@ -1,4 +1,4 @@
-import { getSongs, getSong, editSong,editSongTags, setVolume, getVolume, deleteSong, deleteAllSongs, addLocalFileSong, setArtwork, wasStoreEmpty, sortSongsBy } from "./store.js";
+import { getSongs, getSong, getTags,editSong,editSongTags, setVolume, getVolume, deleteSong, deleteAllSongs, addLocalFileSong, setArtwork, wasStoreEmpty, sortSongsBy } from "./store.js";
 import { Player } from "./player.js";
 import { Lyric } from "./lyric.js";
 import { formatTime, openFilesFromDisk, getFormattedDate, canShare, analyzeDataTransfer, getImageAsDataURI } from "./utils.js";
@@ -90,11 +90,12 @@ let updateLoop = null;
 // The update loop.
 function updateUI() {
   // Reset the play states in the playlist. We'll update the current one below.
-  playlistSongsContainer.querySelectorAll(".playing").forEach(el => el.classList.remove('playing'));
+  const playitem = playlistSongsContainer.querySelector(".playing")
   playButton.classList.remove('playing');
   playButtonLabel.textContent = 'Play';
   playButton.title = 'Play (space)';
   document.documentElement.classList.toggle('playing', false);
+  playitem && playitem.classList.toggle('playing', false);
 
   if (!player.song) {
     // No song is loaded. Show the default UI.
@@ -120,11 +121,12 @@ function updateUI() {
     playButtonLabel.textContent = 'Pause';
     playButton.title = 'Pause (space)';
     document.documentElement.classList.toggle('playing', true);
+    const currentSong = playlistSongsContainer.querySelector(`[id="${player.song.id}"]`);
+    currentSong && currentSong.classList.toggle('playing',true);
   }
 
   // Update the play state in the playlist.
-  const currentSong = playlistSongsContainer.querySelector(`[id="${player.song.id}"]`);
-  currentSong && currentSong.classList.add('playing');
+
   loadLyric()
   // lyricPanel.scrollTo(0,0)
 }
@@ -133,7 +135,8 @@ function updateUI() {
 // If the store is changed, you can call this function again to reload the app.
 export async function startApp() {
   clearInterval(updateLoop);
-  const _songs = await getSongs()
+  let _songs = await getSongs()
+  const Tags = await getTags()
   _songs.forEach(song=>{
     if(!song) return
     MYSONGS[song.id.toString()] = song
@@ -153,11 +156,13 @@ export async function startApp() {
 
   // Populate the playlist UI.
   removeAllSongs(playlistSongsContainer);
+
   for (const song of songs) {
     // const playlistSongEl = createSongUI(playlistSongsContainer, song);
-    const playlistSongEl = createSongUI(playlistSongsContainer, song, true);// stateless = true
+    const playlistSongEl = createSongUI(playlistSongsContainer, song, true,Tags[song.id]);// stateless = true
 
     playlistSongEl.addEventListener('play-song', () => {
+      console.log("play-song")
       player.pause();
       player.play(song);
       currentSongEl = playlistSongEl;
@@ -206,6 +211,8 @@ export async function startApp() {
 playButton.addEventListener("click", () => {
   if (player.isPlaying) {
     player.pause();
+    const playingitem = document.querySelector(".playlist-song.playing")
+    playingitem && playingitem.classList.remove("playing")
   } else {   
     player.play();
   }
@@ -285,7 +292,7 @@ player.addEventListener("canplay", async () => {
 
 player.addEventListener("paused", () => {
   isVisualizing() && visualizer.stop();
-
+console.log("paused")
   // Also tell the SW we're paused.
   sendMessageToSW({ action: 'paused' });
 });
@@ -403,7 +410,7 @@ function toggleVisualizer() {
 
   // If we're asked to visualize but no song is playing, start the first song.
   if (!isVis && !player.isPlaying) {
-    player.play();
+    player.play()
   }
 
   const label = isVis ? 'Show visualizer (V)' : 'Stop visualizer (V)';
@@ -412,14 +419,11 @@ function toggleVisualizer() {
 
   document.documentElement.classList.toggle('visualizing');
 
+
   if(isVis){
     visualizer.stop()
   } else {
     visualizer.start()
-    if(!document.querySelector(".playlist-song.playing")){
-      const _s = document.querySelector(".playlist-song")
-      _s.classList.add("playing")
-    }
   }
 
 
@@ -606,7 +610,7 @@ function loadLyric(){
       let dir = "./imgs/"
       let count = 16
       
-      if(document.querySelector("html").offsetWidth<800){
+      if(document.documentElement.offsetWidth<800){
         count =20
         dir ="./imgs/mobile/"
       }  
@@ -636,7 +640,7 @@ function setLyricPanel(isEmpty=false){
     new_node.setAttribute("data-time",s)
     new_node.innerText = lyric.lyric[s]
     new_node.addEventListener("click",function(e){
-      if(document.querySelector("html").classList.contains("playing")){
+      if(document.documentElement.classList.contains("playing")){
         const _time = new_node.getAttribute("data-time")
         const _currentTime = parseInt(_time.slice(0,2)) * 60 + parseInt(_time.slice(3,5))
         if(player.isBuffered()){
@@ -715,13 +719,14 @@ async function updateTags(){
   //取得修改信息
   //editSong(id, title, artist, album, lyric,picture,extra)
   const changed_items = playlistSongsContainer.querySelectorAll(".playlist-song.changed")
-  await changed_items.forEach(async item=>{
+  let updatetags = []
+  await changed_items.forEach(item=>{
     const tags = item.getAttribute("data-tags")
     const id = item.id;
-    // const song = MYSONGS[id] 
-    // song.extra["tags"] = tags
-    await editSongTags(id,tags)
+    updatetags.push([id,tags])
+    
   })
+  await editSongTags(updatetags)
   
 }
 function manageSongs(){
@@ -733,11 +738,17 @@ function manageSongs(){
       await updateTags()
       Manager.classList.remove("edit")
       playlistSongsContainer.classList.remove("edit")
+      document.documentElement.classList.remove("edit")
       Manager.innerText = "管理"
 
     } else {
+      if(document.documentElement.classList.contains("playing")){
+        playButton.click()
+        
+      }
       Manager.classList.add("edit")
       playlistSongsContainer.classList.add("edit")
+      document.documentElement.classList.add("edit")
       Manager.innerText = "完成"
       startApp()
     }

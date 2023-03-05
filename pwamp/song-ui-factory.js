@@ -32,7 +32,7 @@ function tagstr_remove(tagstr,item){
   return ret
 }
 
-export function createSongUI(playlistSongsContainer, song, stateLess) {
+export function createSongUI(playlistSongsContainer, song, stateLess,tagstr="") {
   const item = document.createElement(stateLess ? "p" : "li");
   item.classList.add('playlist-song');
   item.classList.add(song.type === 'file' ? 'file' : 'remote');
@@ -42,9 +42,11 @@ export function createSongUI(playlistSongsContainer, song, stateLess) {
   const tags = document.createElement("ul")
   li.classList.add("row1")
   tags.classList.add("row2")
-  if(song.extra&&song.extra.tags){
-    item.setAttribute("data-tags",song.extra.tags)
-  }
+  console.log(tagstr)
+  item.setAttribute("data-tags",tagstr || "")
+  // if(song.extra&&song.extra.tags){
+  //   item.setAttribute("data-tags",song.extra.tags)
+  // }
 
   const baseInfo = document.createElement("div");
   baseInfo.classList.add("base")
@@ -109,11 +111,14 @@ export function createSongUI(playlistSongsContainer, song, stateLess) {
   durationLabel.textContent = song.duration;
   li.appendChild(durationLabel);
 
-  if(stateLess){
+
     item.addEventListener('click', () => {
-      playButton.dispatchEvent(new CustomEvent("play-song", { bubbles: true }));
+      if(!document.documentElement.classList.contains("edit")){
+        playButton.dispatchEvent(new CustomEvent("play-song", { bubbles: true }));
+      }
+      
     });
-  }
+
   // Actions button
   if (!stateLess) {
 
@@ -173,7 +178,7 @@ export function createSongUI(playlistSongsContainer, song, stateLess) {
   //todo tags store 存取 读取
   // alltags = ["歌曲","戏曲","收藏"]
   const alltags = ["歌曲","戏曲","收藏"]
-  const hastags = song.extra&&song.extra.tags?song.extra.tags.split(","):[]
+  const hastags = tagstr?tagstr.split(","):[]
   const tagnodes = alltags.map(t=>{
     const _tag = tag.cloneNode(true)
     if(hastags.includes(t)){
