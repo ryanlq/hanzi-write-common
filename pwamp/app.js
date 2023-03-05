@@ -1,4 +1,4 @@
-import { getSongs, getSong, getTags,editSong,editSongTags, setVolume, getVolume, deleteSong, deleteAllSongs, addLocalFileSong, setArtwork, wasStoreEmpty, sortSongsBy } from "./store.js";
+import { getSongs, getSong, getTags,getExtra,updateExtra ,editSong,editSongTags, setVolume, getVolume, deleteSong, deleteAllSongs, addLocalFileSong, setArtwork, wasStoreEmpty, sortSongsBy } from "./store.js";
 import { Player } from "./player.js";
 import { Lyric } from "./lyric.js";
 import { formatTime, openFilesFromDisk, getFormattedDate, canShare, analyzeDataTransfer, getImageAsDataURI } from "./utils.js";
@@ -13,6 +13,7 @@ import { initKeyboardShortcuts } from "./keys.js";
 import { Speaker } from "./libs/Speaker.js";
 import { LyricParser } from "./libs/LyricParser.js"
 import { preload } from "./libs/preload.js"
+import { toast } from "./libs/toast.js"
 
 // Whether the app is running in the Microsoft Edge sidebar.
 const isSidebarPWA = (() => {
@@ -26,8 +27,7 @@ const isSidebarPWA = (() => {
 })();
 
 // Whether we are running as an installed PWA or not.
-const isInstalledPWA = window.matchMedia('(display-mode: window-controls-overlay)').matches ||
-                       window.matchMedia('(display-mode: standalone)').matches;
+const isInstalledPWA = window.matchMedia('(display-mode: window-controls-overlay)').matches || window.matchMedia('(display-mode: standalone)').matches;
 
 // All of the UI DOM elements we need.
 const playButton = document.getElementById("playpause");
@@ -69,14 +69,14 @@ const TagMenus = document.querySelectorAll('#header ul li');
 let currentSongEl = null;
 
 let isFirstUse = true;
-let MYSONGS = {};
 
 // Instantiate the player object. It will be used to play/pause/seek/... songs. 
 const player = new Player();
-window.xPlayer = player;
+window._player = player; //for test
 
 // Instantiate the player object. It will be used to play/pause/seek/... songs. 
 const lyric = new Lyric();
+let Extrainfos = null;
 
 // Initialize the media session.
 initMediaSession(player);
@@ -128,19 +128,15 @@ function updateUI() {
   // Update the play state in the playlist.
 
   loadLyric()
-  // lyricPanel.scrollTo(0,0)
 }
 
 // Calling this function starts (or reloads) the app.
 // If the store is changed, you can call this function again to reload the app.
 export async function startApp() {
   clearInterval(updateLoop);
-  let _songs = await getSongs()
   const Tags = await getTags()
-  _songs.forEach(song=>{
-    if(!song) return
-    MYSONGS[song.id.toString()] = song
-  })
+  Extrainfos = await getExtra()
+ 
   removeLoadingSongPlaceholders(playlistSongsContainer);
 
   // Restore the volume from the store.
@@ -159,7 +155,8 @@ export async function startApp() {
 
   for (const song of songs) {
     // const playlistSongEl = createSongUI(playlistSongsContainer, song);
-    const playlistSongEl = createSongUI(playlistSongsContainer, song, true,Tags[song.id]);// stateless = true
+    let _tstr = Tags?Tags[song.id]:""
+    const playlistSongEl = createSongUI(playlistSongsContainer, song, true,_tstr);// stateless = true
 
     playlistSongEl.addEventListener('play-song', () => {
       console.log("play-song")
@@ -211,9 +208,8 @@ export async function startApp() {
 playButton.addEventListener("click", () => {
   if (player.isPlaying) {
     player.pause();
-    const playingitem = document.querySelector(".playlist-song.playing")
-    playingitem && playingitem.classList.remove("playing")
   } else {   
+    
     player.play();
   }
 });
@@ -603,10 +599,9 @@ sendMessageToSW({ action: 'paused' });
 initKeyboardShortcuts(player, toggleVisualizer);
 const speak = Speaker()
 function loadLyric(){
-  const cur = document.querySelector(".playlist-song.playing")
-  if(cur && cur.id){
+  if(player.song && player.song.id){
     const lyric_songid = lyricPanel.getAttribute("songid")
-    if(cur.id !== lyric_songid){
+    if(player.song.id !== lyric_songid){
       let dir = "./imgs/"
       let count = 16
       
@@ -617,61 +612,78 @@ function loadLyric(){
       
       let pictureid = parseInt(Math.random() * count)
       document.body.style.backgroundImage= 'url("'+dir+pictureid+'.jpg")'
-      lyricPanel.setAttribute("songid",cur.id)
-      if(MYSONGS[cur.id].hasOwnProperty("lyric") && MYSONGS[cur.id]["lyric"]){
-        lyric.load(MYSONGS[cur.id]["lyric"])
+      lyricPanel.setAttribute("songid",player.song.id)
+      let text = ""
+      const extra = Extrainfos ? Extrainfos[player.song.id] : null
+      text = extra? extra["lyric"] : player.song.lyric
+      if(text){
+        lyric.load( text)
         setLyricPanel()
-      } else {
-        lyric.load("[00:03.000] 暂无歌词")
+      }else {
+        lyric.load("")
         setLyricPanel(true)
       }
+        
       lyricPanel.scrollTo(0,0)
     }
   }
 }
 
-function setLyricPanel(isEmpty=false){
-  if(lyric.symbols.length==0) return;
+async function setLyricPanel(isEmpty=false){
+  //updateExtra
   
-  let item_node = document.createElement("div")
-  item_node.classList.add("lyric-item")
-  let nodes = lyric.symbols.map(s=>{
-    let new_node = item_node.cloneNode(true)
-    new_node.setAttribute("data-time",s)
-    new_node.innerText = lyric.lyric[s]
-    new_node.addEventListener("click",function(e){
-      if(document.documentElement.classList.contains("playing")){
-        const _time = new_node.getAttribute("data-time")
-        const _currentTime = parseInt(_time.slice(0,2)) * 60 + parseInt(_time.slice(3,5))
-        if(player.isBuffered()){
-          player.currentTime = _currentTime
-        } else {
-          console.log("未缓冲完成")
-        }
-      } else {
-        speak(e.target.innerText,false)
-      }
-
-    })
-    return new_node
-  })
   lyricPanel.innerHTML = ""
   if(isEmpty){
-    const find_lyric_btn = document.createElement("button")
-    find_lyric_btn.id = "find_lyric_btn"
-    find_lyric_btn.addEventListener("click",async e=>{
-      const palying = document.querySelector(".playlist-song.playing")
-      let _song = await getSong(palying.id)
+
+      let _song = await getSong(player.song.id)
       const lyric = await LyricParser(_song.title+" - "+_song.artist)
       
       if(lyric){
-        await editSong(_song.id,_song.title,_song.artist,_song.album,lyric)
+        const extrainfos = await getExtra()
+        let new_extra = null
+        if(!extrainfos || !extrainfos[player.song.id]){
+          new_extra = {lyric}
+        } else {
+          new_extra = extrainfos[player.song.id]
+          new_extra["lyric"] = lyric
+        }
+        await updateExtra(_song.id,new_extra)
         await startApp()
       } 
-    })
   }
 
-  lyricPanel.append(...nodes)
+  let item_node = document.createElement("div")
+  item_node.classList.add("lyric-item")
+  if(lyric.symbols.length == 0){
+    lyricPanel.innerHTML = "暂无歌词"
+  } else {
+    let nodes = lyric.symbols.map(s=>{
+      let new_node = item_node.cloneNode(true)
+      new_node.setAttribute("data-time",s)
+      new_node.innerText = lyric.lyric[s]
+      new_node.addEventListener("click",function(e){
+        if(document.documentElement.classList.contains("playing")){
+          const _time = new_node.getAttribute("data-time")
+          const _currentTime = parseInt(_time.slice(0,2)) * 60 + parseInt(_time.slice(3,5))
+          if(player.isBuffered()){
+            player.currentTime = _currentTime
+          } else {
+            console.log("未缓冲完成")
+          }
+        } else {
+          speak(e.target.innerText,false)
+        }
+  
+      })
+      return new_node
+    })
+    
+    lyricPanel.innerHTML = ""
+    lyricPanel.append(...nodes)
+
+  }
+
+
 }
 
 
@@ -740,6 +752,8 @@ function manageSongs(){
       playlistSongsContainer.classList.remove("edit")
       document.documentElement.classList.remove("edit")
       Manager.innerText = "管理"
+      
+      toast("修改完成")
 
     } else {
       if(document.documentElement.classList.contains("playing")){

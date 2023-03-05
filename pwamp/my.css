@@ -384,7 +384,10 @@ body {
     color: #000;
 }
 #managerbtn.edit{
-    background-color: #ffff00;
+    color:#000;
+    background: #f5de16dc;
+    border-color:  #f5de16dc;
+    animation: color 5s infinite linear;
 }
 #header li,#managerbtn{
     cursor: pointer;

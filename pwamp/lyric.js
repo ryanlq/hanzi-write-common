@@ -6,6 +6,8 @@ export class Lyric{
     }
     load(text){
         if(!text) {
+            this.lyric = "";
+            this.symbols = []
             return false;
         };
         let textlist = text.split("[")

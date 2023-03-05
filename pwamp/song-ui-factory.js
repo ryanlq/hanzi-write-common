@@ -42,7 +42,6 @@ export function createSongUI(playlistSongsContainer, song, stateLess,tagstr="") 
   const tags = document.createElement("ul")
   li.classList.add("row1")
   tags.classList.add("row2")
-  console.log(tagstr)
   item.setAttribute("data-tags",tagstr || "")
   // if(song.extra&&song.extra.tags){
   //   item.setAttribute("data-tags",song.extra.tags)
@@ -64,7 +63,7 @@ export function createSongUI(playlistSongsContainer, song, stateLess,tagstr="") 
   albumArt.classList.add('artwork');
   albumArt.setAttribute('loading', 'lazy');
   albumArt.alt = ""
-  let picurl = './album-art-placeholder.png'
+  let picurl = './imgs/default.svg'
   if(song.hasOwnProperty("picture") && (song["picture"] instanceof  Blob)){
     picurl = URL.createObjectURL(song.picture)
   }
