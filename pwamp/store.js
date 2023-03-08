@@ -180,8 +180,14 @@ export async function updateExtra(id,extra) {
  */
 export async function deleteSong(id) {
   let songs = await getSongs();
+  let tags = await getTags();
+  let extras = await getExtra();
   songs = songs.filter(song => song.id !== id);
+  delete tags[id]
+  delete extras[id]
   await set('pwamp-songs', songs);
+  await set('pwamp-tags', tags);
+  await set('pwamp-extra', extras);
 }
 
 /**

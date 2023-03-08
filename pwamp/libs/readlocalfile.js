@@ -23,7 +23,7 @@ async function saveLyric(id,file){
     const buffer = await file.arrayBuffer()
     const lyric = texter.decode(buffer)
     const match = lyric && lyric.match(/^\[\d\d:\d\d/)
-    if(match.length == 0) toast("文件格式错误！")
+    if(match.length == 0) toast({msg:"文件格式错误！"})
     else {
         if(!extra) await updateExtra(id,{"lyric":lyric})
         else {

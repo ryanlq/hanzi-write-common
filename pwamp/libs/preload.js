@@ -30,6 +30,5 @@ async function loadImage(url) {
 export function preload(){
     images.forEach(async img=>{
         await loadImage(img);
-        console.log(img + ":已经缓存")
     })
 }

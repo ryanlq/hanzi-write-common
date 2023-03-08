@@ -13,7 +13,7 @@ import { initKeyboardShortcuts } from "./keys.js";
 import { Speaker } from "./libs/Speaker.js";
 import { LyricParser } from "./libs/LyricParser.js"
 import { preload } from "./libs/preload.js"
-import { toast } from "./libs/toast.js"
+import { toast,closeToast } from "./libs/toast.js"
 import { fileReader } from "./libs/readlocalfile.js"
 
 // Whether the app is running in the Microsoft Edge sidebar.
@@ -160,7 +160,6 @@ export async function startApp() {
     const playlistSongEl = createSongUI(playlistSongsContainer, song, true,_tstr);// stateless = true
 
     playlistSongEl.addEventListener('play-song', () => {
-      console.log("play-song")
       player.pause();
       player.play(song);
       currentSongEl = playlistSongEl;
@@ -289,7 +288,6 @@ player.addEventListener("canplay", async () => {
 
 player.addEventListener("paused", () => {
   isVisualizing() && visualizer.stop();
-console.log("paused")
   // Also tell the SW we're paused.
   sendMessageToSW({ action: 'paused' });
 });
@@ -679,7 +677,7 @@ async function setLyricPanel(isEmpty=false){
           if(player.isBuffered()){
             player.currentTime = _currentTime
           } else {
-            console.log("未缓冲完成")
+            toast({msg:"未缓冲完成"})
           }
         } else {
           speak(e.target.innerText,false)
@@ -749,7 +747,13 @@ async function updateTags(){
     updatetags.push([id,tags])
     
   })
-  await editSongTags(updatetags)
+  if(updatetags.length>0) {
+    await editSongTags(updatetags)
+    return true;
+  } else {
+    return false;
+  }
+  
   
 }
 function manageSongs(){
@@ -758,13 +762,16 @@ function manageSongs(){
     if(currentsongs.length == 0) return;
     if(Manager.classList.contains("edit")){
       //todo update store
-      await updateTags()
+      const result = await updateTags()
       Manager.classList.remove("edit")
       playlistSongsContainer.classList.remove("edit")
       document.documentElement.classList.remove("edit")
       Manager.innerText = "管理"
       
-      toast("修改完成")
+      if(result) {
+        toast({msg:"修改完成"})
+      }
+      
 
     } else {
       if(document.documentElement.classList.contains("playing")){
@@ -810,6 +817,30 @@ function handle_tag(){
     })
   });
 }
+
+function delete_song_confirm_options(id){
+  const del = document.createElement("div")
+  const cancel = document.createElement("div")
+  del.innerText = "确认删除"
+  del.classList.add("primary-button")
+  cancel.innerText = "取消"
+  cancel.classList.add("cancel-button")
+  del.addEventListener("click",async e=>{
+    await deleteSong(id);
+    await startApp();
+    toast({msg:"已经删除"})
+  })
+  cancel.addEventListener("click",e=>{
+    closeToast()
+  })
+
+  return [del,cancel]
+}
+addEventListener('delete-song', async(e) => {
+  if(e.detail){
+    toast({msg:"确定要删除此歌曲吗？",options:delete_song_confirm_options(e.detail)},true)
+  }
+});
 
 window.onload = ()=>{
   add_local_song()

@@ -83,41 +83,72 @@ export function createSongUI(playlistSongsContainer, song, stateLess,tagstr="") 
   li.appendChild(baseInfo)
 
   // Artist name
-  const artistInput = document.createElement("span");
-  artistInput.classList.add('artist');
-  artistInput.setAttribute('title', 'Artist');
-  artistInput.textContent = song.artist;
-  if (!stateLess) {
-    artistInput.setAttribute('contenteditable', true);
-    artistInput.setAttribute('spellcheck', false);
-  }
-  li.appendChild(artistInput);
+  // const artistInput = document.createElement("span");
+  // artistInput.classList.add('artist');
+  // artistInput.setAttribute('title', 'Artist');
+  // artistInput.textContent = song.artist;
+  // if (!stateLess) {
+  //   artistInput.setAttribute('contenteditable', true);
+  //   artistInput.setAttribute('spellcheck', false);
+  // }
+  // li.appendChild(artistInput);
 
   // Album name
-  const albumInput = document.createElement("span");
-  albumInput.classList.add('album');
-  albumInput.setAttribute('title', 'Album');
-  albumInput.textContent = song.album;
-  if (!stateLess) {
-    albumInput.setAttribute('contenteditable', true);
-    albumInput.setAttribute('spellcheck', false);
-  }
-  li.appendChild(albumInput);
+  // const albumInput = document.createElement("span");
+  // albumInput.classList.add('album');
+  // albumInput.setAttribute('title', 'Album');
+  // albumInput.textContent = song.album;
+  // if (!stateLess) {
+  //   albumInput.setAttribute('contenteditable', true);
+  //   albumInput.setAttribute('spellcheck', false);
+  // }
+  // li.appendChild(albumInput);
+  song.album && item.setAttribute("album",song.album)
+  song.artist && item.setAttribute("album",song.artist)
 
   // Duration label
   const durationLabel = document.createElement("time");
   durationLabel.classList.add('duration');
   durationLabel.textContent = song.duration;
   li.appendChild(durationLabel);
-
-
-    item.addEventListener('click', () => {
+  // delete button
+  const deletebtn = document.createElement("div");
+  deletebtn.classList.add('delete-song');
+  deletebtn.textContent = "删除";
+  li.appendChild(deletebtn);
+  
+  //Events
+  deletebtn.addEventListener("click",e=>{
+    deletebtn.dispatchEvent(new CustomEvent("delete-song", { bubbles: true,detail:item.id }));
+  },false)
+  item.addEventListener('click', (e) => {
+      if(e.target.classList.contains("delete-song")) return false
       if(!document.documentElement.classList.contains("edit")){
         playButton.dispatchEvent(new CustomEvent("play-song", { bubbles: true }));
       }
       
-    });
-
+  });
+  item.addEventListener('swiped-left',function(e){
+    const {detail} =  e
+    if((detail.xStart - detail.xEnd) > item.clientWidth*0.34) {
+      item.classList.add("delete")
+    }
+  })
+  item.addEventListener('swiped-right',function(e){
+    const {detail} =  e
+    if((detail.xStart - detail.xEnd) < -50) {
+      item.classList.remove("delete")
+    }
+  })
+  document.addEventListener("click",e=>{
+    const t = e.target
+    if(!item.classList.contains("delete")) return false;
+    if(t.classList.contains("delete-song") || (t.classList.contains("delete-song") &&t.classList.contains("confirm")  )){
+      return false;
+    } else {
+      item.classList.remove("delete")
+    }
+  },false)
   // Actions button
   if (!stateLess) {
 
@@ -130,7 +161,7 @@ export function createSongUI(playlistSongsContainer, song, stateLess,tagstr="") 
   // Play button event listener
     item.addEventListener('click', () => {
       if(!playlistSongsContainer.classList.contains("edit")){
-        item.dispatchEvent(new CustomEvent("play-song", { bubbles: true }));
+        playButton.dispatchEvent(new CustomEvent("play-song", { bubbles: true }));
       }
     });
     // Auto-select text on focus
