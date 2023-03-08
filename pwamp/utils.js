@@ -109,12 +109,20 @@ export function getSongNameFromURL(url) {
 
 function guessSongInfoFromString(str) {
   // Test for the following pattern: 04 - artist - title
-  const match = str.match(/[0-9]+\s*-\s*([^-]+)\s*-\s*(.+)/);
-  if (match && match.length === 3) {
-    return {
-      artist: match[1],
-      title: match[2]
-    }
+  // const match = str.match(/[0-9]+\s*-\s*([^-]+)\s*-\s*(.+)/);
+  // const match = str.match(/([^-]+)\s*-\s*(.+)/);
+  // if (match && match.length === 3) {
+  //   return {
+  //     title: match[1],
+  //     artist: match[2]
+  //   }
+  // }
+  const match = str.split(" - ")
+  if(match && match.length==2){
+    return  {
+          title: match[0],
+          artist: match[1]
+        }
   }
 
   return { title: str };
@@ -173,6 +181,7 @@ export async function guessSongInfo(file) {
   // Next parse the audio metadata.
   const fromMetadata = await guessSongInfoFromFile(file);
 
+  console.log(fromFileName,fromMetadata)
   // If anything is missing from the metadata, complete it from the file name.
   return {
     album: fromMetadata.album || fromFileName.album || '单曲',

@@ -636,7 +636,7 @@ async function setLyricPanel(isEmpty=false){
   if(isEmpty){
 
       let _song = await getSong(player.song.id)
-      const lyric = await LyricParser(_song.title+" - "+_song.artist)
+      const lyric = await LyricParser(_song.title,_song.artist)
       
       if(lyric){
         const extrainfos = await getExtra()

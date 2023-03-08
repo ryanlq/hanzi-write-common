@@ -65,10 +65,10 @@ export async function importSongsFromFiles(files) {
     const duration = await getSongDuration(url);
     let _data = { title, artist, album, duration: formatTime(duration), file,picture }
     _data["lyric"] = ""
-    // if(lyrics[title]) _data["lyric"] = lyrics[title]
-    // else{
-    //   _data["lyric"] = await LyricParser(title+" - "+artist)
-    // }
+    if(lyrics[title]) _data["lyric"] = lyrics[title]
+    else{
+      _data["lyric"] = await LyricParser(title,artist)
+    }
     songs.push(_data);
   }));
 

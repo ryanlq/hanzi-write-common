@@ -59,6 +59,7 @@ body{
 .lyric-item{
     padding: 5px;
     cursor: pointer;
+    text-align: center;
 }
 .lyric-item.last-playing{
     
@@ -92,9 +93,7 @@ html:not(.playing) .lyric-item:hover::after{
 
 html.playing  .lyric-item.playing,.lyric-item.playing{
     color: #82ff7b;
-    font-weight: bold;
     background: #000c;
-    padding: 0 20px;
     /*transform: scale(1.7);*/
     font-size: 30px;
     max-width: 100%;
