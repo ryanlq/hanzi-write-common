@@ -444,6 +444,7 @@ player.addEventListener('timeupdated', (e) => {
 function add_local_song(){
   const btn = document.querySelector("#add-local-song")
   btn.addEventListener("click",async function(e){
+    console.log(e)
     const files = await openFilesFromDisk();
 
     try {
