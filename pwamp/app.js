@@ -118,7 +118,7 @@ function updateUI() {
 // Calling this function starts (or reloads) the app.
 // If the store is changed, you can call this function again to reload the app.
 export async function startApp() {
-  // clearInterval(updateLoop);
+  clearInterval(updateLoop);
   const Tags = await getTags()
   Extrainfos = await getExtra()
  
@@ -146,7 +146,6 @@ export async function startApp() {
     playlistSongEl.addEventListener('play-song', () => {
       player.pause();
       player.play(song);
-      updateUI()
       currentSongEl = playlistSongEl;
     });
   }
@@ -158,7 +157,7 @@ export async function startApp() {
   
 
   // Start the update loop.
-  updateUI()
+  updateLoop = setInterval(updateUI, 500);
 }
 
 // Below are the event handlers for the UI.
@@ -166,7 +165,6 @@ export async function startApp() {
 // Manage the play button.
 playButton.addEventListener("click", () => {
   
-  updateUI()
   if (player.isPlaying) {
     player.pause();
   } else {   
@@ -177,16 +175,12 @@ playButton.addEventListener("click", () => {
 
 // Seek on playhead input.
 playHeadInput.addEventListener("input", () => {
-  
-  updateUI()
-  player.currentTime = playHeadInput.value;
+    player.currentTime = playHeadInput.value;
 });
 
 // Manage the volume input
 volumeInput.addEventListener("input", () => {
-  
-  updateUI()
-  player.volume = volumeInput.value / 10;
+    player.volume = volumeInput.value / 10;
   setVolume(player.volume);
 });
 
@@ -205,18 +199,15 @@ function goPrevious() {
 }
 
 previousButton.addEventListener("click", () => {
-  updateUI()
   goPrevious();
 });
 
 nextButton.addEventListener("click", () => {
-  updateUI()
   player.playNext();
 });
 
 // Also go to the next or previous songs if the SW asks us to do so.
 navigator.serviceWorker.addEventListener('message', (event) => {
-  updateUI()
   switch (event.data.action) {
     case 'play':
       player.play();
@@ -234,7 +225,6 @@ navigator.serviceWorker.addEventListener('message', (event) => {
 
 
 player.addEventListener("paused", () => {
-  updateUI()
   isVisualizing() && visualizer.stop();
   // Also tell the SW we're paused.
   sendMessageToSW({ action: 'paused' });
@@ -249,19 +239,16 @@ async function sendMessageToSW(data) {
 
 // Listen to beforeunload to clean things up.
 addEventListener('beforeunload', () => {
-  updateUI()
   sendMessageToSW({ action: 'paused' });
 });
 
 // Listen to song errors to let the user know they can't play remote songs while offline.
 player.addEventListener("error", () => {
-  updateUI()
   if (currentSongEl) {
     currentSongEl.classList.add('error');
   }
 });
 player.addEventListener("playing", () => {
-  updateUI()
   if (currentSongEl) {
     currentSongEl.classList.remove('error');
   }
