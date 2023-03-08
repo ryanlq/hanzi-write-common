@@ -132,9 +132,10 @@ html.playing  .lyric-item.playing,.lyric-item.playing{
 }
 
 .playlist-song{
-    background-color: #e0d0d00f;
+    background-color: #261e1e4d;
     overflow: hidden;
     height: 50px;
+    color: #fff;
 }
 .edit .playlist-song{
     height: auto;

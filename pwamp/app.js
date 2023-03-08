@@ -4,9 +4,9 @@ import { Lyric } from "./lyric.js";
 import { formatTime, openFilesFromDisk, getFormattedDate, canShare, analyzeDataTransfer, getImageAsDataURI } from "./utils.js";
 import { importSongsFromFiles } from "./importer.js";
 import { Visualizer } from "./visualizer.js";
-import { exportSongToFile } from "./exporter.js";
+// import { exportSongToFile } from "./exporter.js";
 import { loadCustomOrResetSkin, reloadStoredCustomSkin } from "./skin.js";
-import { startRecordingAudio, stopRecordingAudio } from "./recorder.js";
+// import { startRecordingAudio, stopRecordingAudio } from "./recorder.js";
 import { createSongUI, removeAllSongs, createLoadingSongPlaceholders, removeLoadingSongPlaceholders } from "./song-ui-factory.js";
 import { initMediaSession } from "./media-session.js";
 import { initKeyboardShortcuts } from "./keys.js";
@@ -44,22 +44,7 @@ const durationLabel = document.getElementById("duration");
 const playlistEl = document.querySelector(".playlist");
 export const playlistSongsContainer = document.querySelector(".playlist .songs");
 const addSongsButton = document.getElementById("add-songs");
-const songActionsPopover = document.getElementById("song-actions-popover");
-const songActionDelete = document.getElementById("song-action-delete");
-const songActionCopyUri = document.getElementById("song-action-copy-uri");
-const songActionExport = document.getElementById("song-action-export");
-const songActionShare = document.getElementById("song-action-share");
-const playlistActionsButton = document.getElementById("playlist-actions");
-const playlistActionsPopover = document.getElementById("playlist-actions-popover");
-const playlistActionDeleteAll = document.getElementById("playlist-action-delete");
-const playlistActionExportAll = document.getElementById("playlist-action-export");
-const playlistActionAbout = document.getElementById("playlist-action-about");
-const playlistActionSortByArtist = document.getElementById("playlist-action-sortbyartist");
-const playlistActionSortByAlbum = document.getElementById("playlist-action-sortbyalbum");
-const playlistActionSortByDateAdded = document.getElementById("playlist-action-sortbydateadded");
-const loadCustomSkinButton = document.getElementById("load-custom-skin");
-const recordAudioButton = document.getElementById("record-audio");
-const aboutDialog = document.getElementById("about-dialog");
+
 const installButton = document.getElementById("install-button");
 const currentSongSection = document.querySelector('.current-song');
 const lyricPanel = document.querySelector('#lyric-panel');
@@ -94,7 +79,6 @@ function updateUI() {
   const playitem = playlistSongsContainer.querySelector(".playing")
   playButton.classList.remove('playing');
   playButtonLabel.textContent = 'Play';
-  playButton.title = 'Play (space)';
   document.documentElement.classList.toggle('playing', false);
   playitem && playitem.classList.toggle('playing', false);
 
@@ -134,7 +118,7 @@ function updateUI() {
 // Calling this function starts (or reloads) the app.
 // If the store is changed, you can call this function again to reload the app.
 export async function startApp() {
-  clearInterval(updateLoop);
+  // clearInterval(updateLoop);
   const Tags = await getTags()
   Extrainfos = await getExtra()
  
@@ -146,7 +130,7 @@ export async function startApp() {
   volumeInput.value = player.volume * 10;
 
   // Restore the skin from the store.
-  await reloadStoredCustomSkin();
+  // await reloadStoredCustomSkin();
 
   // Reload the playlist from the store.
   const songs = await player.loadPlaylist();
@@ -162,27 +146,8 @@ export async function startApp() {
     playlistSongEl.addEventListener('play-song', () => {
       player.pause();
       player.play(song);
+      updateUI()
       currentSongEl = playlistSongEl;
-    });
-
-    playlistSongEl.addEventListener('edit-song', e => {
-      editSong(song.id, e.detail.title, e.detail.artist, e.detail.album);
-    });
-
-    playlistSongEl.addEventListener('show-actions', e => {
-      songActionsPopover.showPopover();
-
-      // TODO: anchoring is not yet supported. Once it is, use the ID passed in the event.
-      // This is the ID for the button that was clicked.
-      // songActionsPopover.setAttribute('anchor', e.detail.id);
-      // In the meantime, anchor manually.
-      songActionsPopover.style.left = `${e.detail.x - songActionsPopover.offsetWidth}px`;
-      songActionsPopover.style.top = `${e.detail.y - playlistEl.scrollTop}px`;
-
-      songActionsPopover.currentSong = song;
-
-      songActionShare.disabled = !canShare(song);
-      songActionCopyUri.disabled = song.type !== 'url';
     });
   }
   if(songs.length > 0){
@@ -193,19 +158,18 @@ export async function startApp() {
   
 
   // Start the update loop.
-  updateLoop = setInterval(updateUI, 500);
+  updateUI()
+  // updateLoop = setInterval(updateUI, 500);
 
-  // Show the about dialog if this is the first time the app is started.
-  if (wasStoreEmpty && isFirstUse && !isInstalledPWA && !isSidebarPWA) {
-    aboutDialog.showModal();
-    isFirstUse = false;
-  }
+
 }
 
 // Below are the event handlers for the UI.
 
 // Manage the play button.
 playButton.addEventListener("click", () => {
+  
+  updateUI()
   if (player.isPlaying) {
     player.pause();
   } else {   
@@ -216,11 +180,15 @@ playButton.addEventListener("click", () => {
 
 // Seek on playhead input.
 playHeadInput.addEventListener("input", () => {
+  
+  updateUI()
   player.currentTime = playHeadInput.value;
 });
 
 // Manage the volume input
 volumeInput.addEventListener("input", () => {
+  
+  updateUI()
   player.volume = volumeInput.value / 10;
   setVolume(player.volume);
 });
@@ -240,15 +208,18 @@ function goPrevious() {
 }
 
 previousButton.addEventListener("click", () => {
+  updateUI()
   goPrevious();
 });
 
 nextButton.addEventListener("click", () => {
+  updateUI()
   player.playNext();
 });
 
 // Also go to the next or previous songs if the SW asks us to do so.
 navigator.serviceWorker.addEventListener('message', (event) => {
+  updateUI()
   switch (event.data.action) {
     case 'play':
       player.play();
@@ -264,29 +235,9 @@ navigator.serviceWorker.addEventListener('message', (event) => {
   
 });
 
-// Listen to player playing/paused status to update the visualizer.
-player.addEventListener("canplay", async () => {
-  isVisualizing() && visualizer.start();
-
-  // Also tell the SW we're playing.
-  const artworkUrl = player.song.artworkUrl
-    ? await getImageAsDataURI(player.song.artworkUrl)
-    : 'https://microsoftedge.github.io/Demos/pwamp/album-art-placeholder.png';
-
-  await sendMessageToSW({
-    action: 'playing',
-    song: player.song.title,
-    artist: player.song.artist,
-    playing: true,
-    artworkUrl
-  });
-
-  // Update the current song section.
-  currentSongSection.innerHTML = '';
-  createSongUI(currentSongSection, player.song, true);
-});
 
 player.addEventListener("paused", () => {
+  updateUI()
   isVisualizing() && visualizer.stop();
   // Also tell the SW we're paused.
   sendMessageToSW({ action: 'paused' });
@@ -301,16 +252,19 @@ async function sendMessageToSW(data) {
 
 // Listen to beforeunload to clean things up.
 addEventListener('beforeunload', () => {
+  updateUI()
   sendMessageToSW({ action: 'paused' });
 });
 
 // Listen to song errors to let the user know they can't play remote songs while offline.
 player.addEventListener("error", () => {
+  updateUI()
   if (currentSongEl) {
     currentSongEl.classList.add('error');
   }
 });
 player.addEventListener("playing", () => {
+  updateUI()
   if (currentSongEl) {
     currentSongEl.classList.remove('error');
   }
@@ -321,7 +275,6 @@ addSongsButton.addEventListener("click", async () => {
   const files = await openFilesFromDisk();
 
   try {
-    
     createLoadingSongPlaceholders(playlistSongsContainer, files.length);
     await importSongsFromFiles(files);
 
@@ -331,67 +284,7 @@ addSongsButton.addEventListener("click", async () => {
   }
 });
 
-// Manage the song actions.
-songActionDelete.addEventListener("click", async () => {
-  const song = songActionsPopover.currentSong;
-  if (!song) {
-    return;
-  }
 
-  songActionsPopover.currentSong = null;
-  songActionsPopover.hidePopover();
-
-  await deleteSong(song.id);
-  await startApp();
-});
-
-songActionExport.addEventListener("click", async () => {
-  const song = songActionsPopover.currentSong;
-  if (!song) {
-    return;
-  }
-
-  songActionsPopover.currentSong = null;
-  songActionsPopover.hidePopover();
-
-  await exportSongToFile(song);
-});
-
-songActionShare.addEventListener("click", async () => {
-  const song = songActionsPopover.currentSong;
-  if (!song || !canShare(song.data)) {
-    return;
-  }
-
-  songActionsPopover.currentSong = null;
-  songActionsPopover.hidePopover();
-
-  navigator.share({
-    title: song.title,
-    files: [song.data]
-  });
-});
-
-songActionCopyUri.addEventListener("click", async () => {
-  const song = songActionsPopover.currentSong;
-  if (!song || song.type !== 'url') {
-    return;
-  }
-
-  songActionsPopover.currentSong = null;
-  songActionsPopover.hidePopover();
-
-  // The current song is a remote one. Let's create a web+amp link for it.
-  const url = `web+amp:remote-song:${song.id}`;
-
-  // And put it into the clipboard.
-  await navigator.clipboard.writeText(url);
-});
-
-// Manage the custom skin button.
-loadCustomSkinButton.addEventListener('click', async () => {
-  await loadCustomOrResetSkin();
-});
 
 function isVisualizing() {
   return document.documentElement.classList.contains('visualizing');
@@ -408,185 +301,26 @@ function toggleVisualizer() {
     player.play()
   }
 
-  const label = isVis ? 'Show visualizer (V)' : 'Stop visualizer (V)';
-  visualizerButton.title = label;
-  visualizerButton.querySelector('span').textContent = label;
+
 
   document.documentElement.classList.toggle('visualizing');
 
 
-  if(isVis){
-    visualizer.stop()
-  } else {
-    visualizer.start()
-  }
-
-
+  // if(isVis){
+  //   visualizer.stop()
+  // } else {
+  //   visualizer.start()
+  // }
 }
-
-// Manage the record audio button.
-recordAudioButton.addEventListener('click', async () => {
-  const isRecording = recordAudioButton.classList.contains('recording');
-
-  recordAudioButton.classList.toggle('recording', !isRecording);
-  const label = !isRecording ? 'Stop recording' : 'Record an audio clip';
-  recordAudioButton.title = label;
-  recordAudioButton.querySelector('span').textContent = label;
-
-  if (isRecording) {
-    const { blob, duration } = await stopRecordingAudio();
-    // Because audio recordings come with a duration already, no need to call
-    // importSongFromFile, we can go straight to addLocalFileSong.
-    await addLocalFileSong(blob, getFormattedDate(), 'Me', 'Audio recordings', formatTime(duration));
-    await startApp();
-  } else {
-    await startRecordingAudio();
-  }
-});
-
-// Manage the more tools button.
-playlistActionsButton.addEventListener('click', () => {
-  playlistActionsPopover.showPopover();
-  playlistActionsPopover.style.left = `${playlistActionsButton.offsetLeft + (playlistActionsButton.offsetWidth / 2) - (playlistActionsPopover.offsetWidth / 2)}px`;
-  playlistActionsPopover.style.top = `calc(${playlistActionsButton.offsetTop - playlistActionsPopover.offsetHeight}px - 1rem)`;
-});
-
-playlistActionDeleteAll.addEventListener('click', async () => {
-  await deleteAllSongs();
-  playlistActionsPopover.hidePopover();
-  await startApp();
-});
-
-playlistActionSortByArtist.addEventListener('click', async () => {
-  await sortSongsBy('artist');
-  playlistActionsPopover.hidePopover();
-  await startApp();
-});
-
-playlistActionSortByAlbum.addEventListener('click', async () => {
-  await sortSongsBy('album');
-  playlistActionsPopover.hidePopover();
-  await startApp();
-});
-
-playlistActionSortByDateAdded.addEventListener('click', async () => {
-  await sortSongsBy('dateAdded');
-  playlistActionsPopover.hidePopover();
-  await startApp();
-});
-
-playlistActionExportAll.addEventListener('click', async () => {
-  const songs = await getSongs();
-  await Promise.all(songs.map(song => exportSongToFile(song)));
-  playlistActionsPopover.hidePopover();
-});
-
-playlistActionAbout.addEventListener('click', () => {
-  if (typeof aboutDialog.showModal === "function") {
-    aboutDialog.showModal();
-  }
-});
 
 if (!isInstalledPWA && !isSidebarPWA) {
   window.addEventListener('beforeinstallprompt', e => {
     // Don't let the default prompt go.
     e.preventDefault();
-
-    // Instead, wait for the user to click the install button.
-    aboutDialog.addEventListener('close', () => {
-      if (aboutDialog.returnValue === "install") {
-        e.prompt();
-      }
-    });
   });
 } else {
   installButton.disabled = true;
 }
-
-addEventListener('appinstalled', () => {
-  aboutDialog.close();
-});
-
-// Manage drag/dropping songs from explorer to playlist.
-addEventListener('dragover', e => {
-  e.preventDefault();
-
-  // If we're visualizing, don't allow dropping.
-  if (document.documentElement.classList.contains('visualizing')) {
-    return;
-  }
-
-  // If both songs and images are being dragged, or if other file types are being dragged, don't allow dropping.
-  const { containsImages, containsSongs, containsOthers } = analyzeDataTransfer(e);
-  if (containsOthers || (containsImages && containsSongs)) {
-    return;
-  }
-
-  if (containsImages) {
-    document.documentElement.classList.add('dropping-artwork');
-  } else if (containsSongs) {
-    document.documentElement.classList.add('dropping-songs');
-  }
-});
-
-addEventListener('dragleave', e => {
-  e.preventDefault();
-
-  // If we're visualizing, don't allow dropping.
-  if (document.documentElement.classList.contains('visualizing')) {
-    return;
-  }
-
-  // If both songs and images are being dragged, or if other file types are being dragged, don't allow dropping.
-  const { containsImages, containsSongs, containsOthers } = analyzeDataTransfer(e);
-  if (containsOthers || (containsImages && containsSongs)) {
-    return;
-  }
-
-  document.documentElement.classList.remove('dropping-songs');
-  document.documentElement.classList.remove('dropping-artwork');
-});
-
-addEventListener('drop', async (e) => {
-  e.preventDefault();
-
-  // If we're visualizing, don't allow dropping.
-  if (document.documentElement.classList.contains('visualizing')) {
-    return;
-  }
-
-  // If both songs and images are being dragged, or if other file types are being dragged, don't allow dropping.
-  const { containsImages, containsSongs, containsOthers, files } = analyzeDataTransfer(e);
-  if (containsOthers || (containsImages && containsSongs)) {
-    return;
-  }
-
-  if (containsSongs) {
-    document.documentElement.classList.remove('dropping-songs');
-
-    createLoadingSongPlaceholders(playlistSongsContainer, files.length);
-
-    await importSongsFromFiles(files);
-
-    await startApp();
-  } else if (containsImages) {
-    document.documentElement.classList.remove('dropping-artwork');
-
-    // Only the first artwork is imported.
-    const image = files[0];
-
-    const targetSong = e.target.closest('.playlist-song');
-    if (targetSong) {
-      const song = await getSong(targetSong.id);
-      if (song) {
-        await setArtwork(song.artist, song.album, image);
-        
-      }
-    }
-
-    await startApp();
-  }
-});
 
 // Start the app.
 startApp();
@@ -689,10 +423,7 @@ async function setLyricPanel(isEmpty=false){
     
     lyricPanel.innerHTML = ""
     lyricPanel.append(...nodes)
-
   }
-
-
 }
 
 

@@ -160,97 +160,13 @@
       >
         <span>Add new songs</span>
       </button>
-      <button
-        class="main-button"
-        id="load-custom-skin"
-        title="Apply a custom skin"
-      >
-        <span>Apply a custom skin</span>
-      </button>
-      <button
-        class="main-button"
-        id="record-audio"
-        title="Record an audio clip"
-      >
-        <span>Record an audio clip</span>
-      </button>
-      <button class="main-button" id="playlist-actions" title="More tools...">
-        <span>More tools...</span>
-      </button>
+
     </section>
 
 
     <canvas id="waveform"></canvas>
 
-    <!-- <div id="song-actions-popover" popover> -->
-    <div id="song-actions-popover">
-      <button class="popover-item song-action" id="song-action-copy-uri">
-        Copy link
-      </button>
-      <button class="popover-item song-action" id="song-action-export">
-        Export...
-      </button>
-      <button class="popover-item song-action" id="song-action-share">
-        Share...
-      </button>
-      <button class="popover-item song-action" id="song-action-delete">
-        Delete
-      </button>
-    </div>
 
-    <div id="playlist-actions-popover">
-      <!-- <div id="playlist-actions-popover" popover> -->
-        <button
-        class="popover-item playlist-action"
-        id="playlist-action-sortbyartist"
-      >
-        Sort by artist
-      </button>
-      <button
-        class="popover-item playlist-action"
-        id="playlist-action-sortbyalbum"
-      >
-        Sort by album
-      </button>
-      <button
-        class="popover-item playlist-action"
-        id="playlist-action-sortbydateadded"
-      >
-        Sort by most recent
-      </button>
-      <button class="popover-item playlist-action" id="playlist-action-delete">
-        Delete all
-      </button>
-      <button class="popover-item playlist-action" id="playlist-action-export">
-        Export all...
-      </button>
-      <button class="popover-item playlist-action" id="playlist-action-about">
-        About...
-      </button>
-    </div>
-
-    <dialog id="about-dialog" style="display:none;">
-      <div class="screenshot"></div>
-      <img class="logo" src="./icon/favicon.png" alt="The PWAmp logo" />
-      <section class="about">
-        <h1>PWAmp</h1>
-        <h2>The Progressive Web Amp</h2>
-        <p>
-          Listen to your favorite local song files, play online songs, share
-          with friends, customize the app, and more...
-        </p>
-        <p>
-          PWAmp is a simple audio player app for the web, and desktop operating
-          systems. It is built with HTML, CSS, JavaScript, and Progressive Web
-          App features.
-        </p>
-      </section>
-      <form class="actions" method="dialog">
-        <button value="cancel">Close</button>
-        <button value="install" id="install-button">Install app</button>
-      </form>
-    </dialog>
-   
 
     <script src="./libs/swiped-events.min.js"></script>
     <script src="popup-polyfill.js"></script>
