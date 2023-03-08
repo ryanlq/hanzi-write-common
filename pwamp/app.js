@@ -43,7 +43,7 @@ const currentTimeLabel = document.getElementById("currenttime");
 const durationLabel = document.getElementById("duration");
 const playlistEl = document.querySelector(".playlist");
 export const playlistSongsContainer = document.querySelector(".playlist .songs");
-const addSongsButton = document.getElementById("add-songs");
+// const addSongsButton = document.getElementById("add-songs");
 
 const installButton = document.getElementById("install-button");
 const currentSongSection = document.querySelector('.current-song');
@@ -267,20 +267,6 @@ player.addEventListener("playing", () => {
   }
 });
 
-// Manage the add song button.
-addSongsButton.addEventListener("click", async () => {
-  const files = await openFilesFromDisk();
-
-  try {
-    createLoadingSongPlaceholders(playlistSongsContainer, files.length);
-    await importSongsFromFiles(files);
-
-    await startApp();
-  } catch (error) {
-    console.log(error)
-  }
-});
-
 
 
 function isVisualizing() {
@@ -458,9 +444,17 @@ player.addEventListener('timeupdated', (e) => {
 
 function add_local_song(){
   const btn = document.querySelector("#add-local-song")
-  btn.addEventListener("click",function(e){
-    toast({msg:"add_local_song"},true)
-    document.querySelector("#add-songs").click()
+  btn.addEventListener("click",async function(e){
+    const files = await openFilesFromDisk();
+
+    try {
+      createLoadingSongPlaceholders(playlistSongsContainer, files.length);
+      await importSongsFromFiles(files);
+  
+      await startApp();
+    } catch (error) {
+      console.log(error)
+    }
   })
 }
 
