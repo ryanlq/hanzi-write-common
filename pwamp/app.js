@@ -300,8 +300,6 @@ if (!isInstalledPWA && !isSidebarPWA) {
     // Don't let the default prompt go.
     e.preventDefault();
   });
-} else {
-  installButton.disabled = true;
 }
 
 // Start the app.
