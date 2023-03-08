@@ -1,5 +1,5 @@
 
-const VERSION = "v56";
+const VERSION = "v57";
 const CACHE_NAME = `pwamp-${VERSION}`;
 
 // Those are all the resources our app needs to work.
@@ -38,6 +38,7 @@ let INITIAL_CACHED_RESOURCES = [
   "./widgets/mini-player-data.json",
   "./libs/Speaker.js",
   "./libs/LyricParser.js",
+  "./libs/readlocalfile.js",
   "./idb-keyval.js",
   "./imgs/0.jpg",
   "./imgs/1.jpg",
