@@ -159,9 +159,6 @@ export async function startApp() {
 
   // Start the update loop.
   updateUI()
-  // updateLoop = setInterval(updateUI, 500);
-
-
 }
 
 // Below are the event handlers for the UI.
@@ -452,7 +449,6 @@ player.addEventListener('timeupdated', (e) => {
       const _offset = lyricPanel.clientHeight - _t.offsetTop;
       const startpos = lyricPanel.clientHeight/2
       if(_offset < startpos){
-
         lyricPanel.scrollTo(0,lyricPanel.scrollTop + _h)
       }
     } 
@@ -463,6 +459,7 @@ player.addEventListener('timeupdated', (e) => {
 function add_local_song(){
   const btn = document.querySelector("#add-local-song")
   btn.addEventListener("click",function(e){
+    toast({msg:"add_local_song"},true)
     document.querySelector("#add-songs").click()
   })
 }
