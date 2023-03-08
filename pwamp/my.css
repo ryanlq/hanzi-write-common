@@ -293,6 +293,7 @@ body {
     height: 3rem;
     border-radius: 50%;
     background-color: #000 ;
+    cursor: pointer;
     /* background-image: url(imgs/add.png); */
     /* background-size:  109% 100%;;
     -webkit-background-size :109% 100%; */
