@@ -267,7 +267,15 @@ export async function setExtra(tags) {
   await set('pwamp-extra', tags);
 }
 
-export async function getExtra() {
+export async function getExtra(id=null) {
   return await get('pwamp-extra');
 }
 
+export async function getExtraByID(id=null) {
+  const extras = await getExtra()
+  if(!extras || !id) return false;
+  else {
+    return extras && extras["id"]
+  }
+  
+}

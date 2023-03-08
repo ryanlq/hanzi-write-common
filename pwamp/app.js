@@ -14,6 +14,7 @@ import { Speaker } from "./libs/Speaker.js";
 import { LyricParser } from "./libs/LyricParser.js"
 import { preload } from "./libs/preload.js"
 import { toast } from "./libs/toast.js"
+import { fileReader } from "./libs/readlocalfile.js"
 
 // Whether the app is running in the Microsoft Edge sidebar.
 const isSidebarPWA = (() => {
@@ -655,7 +656,17 @@ async function setLyricPanel(isEmpty=false){
   let item_node = document.createElement("div")
   item_node.classList.add("lyric-item")
   if(lyric.symbols.length == 0){
-    lyricPanel.innerHTML = "暂无歌词"
+    lyricPanel.innerHTML = "暂无在线歌词"
+    const wrapper = document.createElement("p")
+    const addbtn = document.createElement("button")
+    addbtn.innerText = " + "
+    addbtn.style = "color:var(--origin);cursor:pointer; background-color:#000;border: 1px solid var(--origin);border-radius: 50%;"
+    addbtn.addEventListener("click",function (e) { 
+      fileReader("lyric",player.song.id)
+    })
+    wrapper.innerHTML = "点击" + "添加本地歌词"
+    wrapper.appendChild(addbtn)
+    lyricPanel.appendChild(wrapper)
   } else {
     let nodes = lyric.symbols.map(s=>{
       let new_node = item_node.cloneNode(true)
