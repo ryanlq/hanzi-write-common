@@ -8,16 +8,16 @@ export function initMediaSession(player) {
   function updateMediaSessionState() {
     navigator.mediaSession.playbackState = player.audio.paused ? 'paused' : 'playing';
     navigator.mediaSession.setPositionState({
-      duration: player.audio.duration,
-      position: player.audio.currentTime,
-      playbackRate: player.audio.playbackRate
+      duration: player.audio.duration || 0,
+      position: player.audio.currentTime || 0,
+      playbackRate: player.audio.playbackRate || 1
     });
   }
 
   async function updateMediaSessionMetadata() {
     const artworkUrl = player.song.artworkUrl
     ? await getImageAsDataURI(player.song.artworkUrl)
-    : 'https://microsoftedge.github.io/Demos/pwamp/album-art-placeholder.png';
+    : './imgs/default.png';
 
     const artwork = {
       src: artworkUrl,
