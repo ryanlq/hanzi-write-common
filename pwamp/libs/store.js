@@ -53,6 +53,7 @@ export async function getSongs() {
  */
 export async function getSong(id) {
   const songs = await getSongs();
+  console.log(songs)
   return songs.find(song => song.id === id);
 }
 
@@ -207,13 +208,14 @@ export async function sortSongsBy(field) {
   let songs = await getSongs();
 
   songs = songs.sort((a, b) => {
-    if (a[field] < b[field]) {
-      return field === 'dateAdded' ? 1 : -1;
-    } else if (a[field] > b[field]) {
-      return field === 'dateAdded' ? -1 : 1;
-    } else {
-      return 0;
-    }
+    return a[field].localeCompare(b[field],'zh-CN')
+    // if (a[field] < b[field]) {
+    //   return field === 'dateAdded' ? 1 : -1;
+    // } else if (a[field] > b[field]) {
+    //   return field === 'dateAdded' ? -1 : 1;
+    // } else {
+    //   return 0;
+    // }
   });
   await set('pwamp-songs', songs);
 }
@@ -286,4 +288,21 @@ export async function getExtraByID(id=null) {
     return extras && extras["id"]
   }
   
+}
+
+export async function setVariants(datas) {
+  let variants = await getVariants()
+  if(!variants) variants = {}
+  datas.forEach(data=>{
+    variants[data[0]] = data[1]
+  })
+  await set('dict-variants', variants);
+}
+
+export async function getVariants(id=null) {
+  const variants = await get('dict-variants');
+  if(variants && id){
+    return variants[id];
+  }
+  return variants;
 }
